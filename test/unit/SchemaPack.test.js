@@ -46,7 +46,7 @@ describe('SchemaPack convert unit test  HAR file', function() {
 });
 
 
-describe('SchemaPack get metadat unit test  HAR file', function() {
+describe('SchemaPack get metadata unit test  HAR file', function() {
   it('Should get the metadata from a valid input file and take the name from the file', function () {
     const
       VALID_PATH = validHAREntriesFolder + '/queryParams.har',
