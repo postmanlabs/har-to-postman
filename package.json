@@ -1,0 +1,42 @@
+{
+  "name": "har-to-postman-collection",
+  "version": "1.0.0",
+  "description": "Convert a har specification file (1.2) to a Postman Collection",
+  "main": "index.js",
+  "scripts": {
+    "test": "./scripts/test.sh",
+    "lint": "eslint ./lib/** ./test/**/*.js",
+    "unit-tests": "./node_modules/mocha/bin/mocha \"test/unit/**/**.test.js\"",
+    "coverage": "nyc --reporter=text npm run unit-tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wizeline/har2poscol.git"
+  },
+  "keywords": [
+    "har",
+    "postman"
+  ],
+  "author": "Postman Labs <help@getpostman.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/wizeline/har2poscol/issues"
+  },
+  "homepage": "https://github.com/wizeline/har2poscol#readme",
+  "devDependencies": {
+    "eslint": "7.19.0",
+    "eslint-plugin-jsdoc": "31.6.1",
+    "eslint-plugin-mocha": "8.0.0",
+    "eslint-plugin-security": "1.4.0",
+    "mocha": "8.2.0",
+    "chai": "4.3.0",
+    "nyc": "15.1.0",
+    "async": "3.2.0"
+  },
+  "engines": {
+    "node": ">=8"
+  },
+  "dependencies": {
+    "postman-collection": "3.6.9"
+  }
+}

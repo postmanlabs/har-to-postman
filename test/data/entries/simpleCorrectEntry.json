@@ -1,0 +1,350 @@
+{
+  "_initiator": {
+    "type": "script",
+    "stack": {
+      "callFrames": [
+        {
+          "functionName": "executeRpcCall",
+          "scriptId": "7913",
+          "url": "webpack-internal:///../../node_modules/@blitzjs/core/dist/blitzjs-core.esm.js",
+          "lineNumber": 1121,
+          "columnNumber": 23
+        },
+        {
+          "functionName": "resolverRpc",
+          "scriptId": "7913",
+          "url": "webpack-internal:///../../node_modules/@blitzjs/core/dist/blitzjs-core.esm.js",
+          "lineNumber": 1273,
+          "columnNumber": 13
+        },
+        {
+          "functionName": "_useReactQuery.queryFn",
+          "scriptId": "7913",
+          "url": "webpack-internal:///../../node_modules/@blitzjs/core/dist/blitzjs-core.esm.js",
+          "lineNumber": 977,
+          "columnNumber": 13
+        },
+        {
+          "functionName": "fetchFn",
+          "scriptId": "7957",
+          "url": "webpack-internal:///../../node_modules/react-query/es/core/query.js",
+          "lineNumber": 272,
+          "columnNumber": 53
+        },
+        {
+          "functionName": "run",
+          "scriptId": "7948",
+          "url": "webpack-internal:///../../node_modules/react-query/es/core/retryer.js",
+          "lineNumber": 99,
+          "columnNumber": 30
+        },
+        {
+          "functionName": "Retryer",
+          "scriptId": "7948",
+          "url": "webpack-internal:///../../node_modules/react-query/es/core/retryer.js",
+          "lineNumber": 159,
+          "columnNumber": 2
+        },
+        {
+          "functionName": "fetch",
+          "scriptId": "7957",
+          "url": "webpack-internal:///../../node_modules/react-query/es/core/query.js",
+          "lineNumber": 303,
+          "columnNumber": 19
+        },
+        {
+          "functionName": "executeFetch",
+          "scriptId": "7964",
+          "url": "webpack-internal:///../../node_modules/react-query/es/core/queryObserver.js",
+          "lineNumber": 196,
+          "columnNumber": 36
+        },
+        {
+          "functionName": "fetch",
+          "scriptId": "7964",
+          "url": "webpack-internal:///../../node_modules/react-query/es/core/queryObserver.js",
+          "lineNumber": 185,
+          "columnNumber": 16
+        },
+        {
+          "functionName": "refetch",
+          "scriptId": "7964",
+          "url": "webpack-internal:///../../node_modules/react-query/es/core/queryObserver.js",
+          "lineNumber": 169,
+          "columnNumber": 16
+        },
+        {
+          "functionName": "onFocus",
+          "scriptId": "7957",
+          "url": "webpack-internal:///../../node_modules/react-query/es/core/query.js",
+          "lineNumber": 149,
+          "columnNumber": 15
+        },
+        {
+          "functionName": "eval",
+          "scriptId": "7956",
+          "url": "webpack-internal:///../../node_modules/react-query/es/core/queryCache.js",
+          "lineNumber": 138,
+          "columnNumber": 14
+        },
+        {
+          "functionName": "eval",
+          "scriptId": "7956",
+          "url": "webpack-internal:///../../node_modules/react-query/es/core/queryCache.js",
+          "lineNumber": 137,
+          "columnNumber": 21
+        },
+        {
+          "functionName": "batch",
+          "scriptId": "7958",
+          "url": "webpack-internal:///../../node_modules/react-query/es/core/notifyManager.js",
+          "lineNumber": 26,
+          "columnNumber": 17
+        },
+        {
+          "functionName": "onFocus",
+          "scriptId": "7956",
+          "url": "webpack-internal:///../../node_modules/react-query/es/core/queryCache.js",
+          "lineNumber": 136,
+          "columnNumber": 62
+        },
+        {
+          "functionName": "eval",
+          "scriptId": "7960",
+          "url": "webpack-internal:///../../node_modules/react-query/es/core/queryClient.js",
+          "lineNumber": 44,
+          "columnNumber": 25
+        },
+        {
+          "functionName": "eval",
+          "scriptId": "7949",
+          "url": "webpack-internal:///../../node_modules/react-query/es/core/focusManager.js",
+          "lineNumber": 52,
+          "columnNumber": 6
+        },
+        {
+          "functionName": "onFocus",
+          "scriptId": "7949",
+          "url": "webpack-internal:///../../node_modules/react-query/es/core/focusManager.js",
+          "lineNumber": 51,
+          "columnNumber": 19
+        },
+        {
+          "functionName": "eval",
+          "scriptId": "7949",
+          "url": "webpack-internal:///../../node_modules/react-query/es/core/focusManager.js",
+          "lineNumber": 37,
+          "columnNumber": 14
+        },
+        {
+          "functionName": "listener",
+          "scriptId": "7949",
+          "url": "webpack-internal:///../../node_modules/react-query/es/core/focusManager.js",
+          "lineNumber": 75,
+          "columnNumber": 17
+        }
+      ]
+    }
+  },
+  "_priority": "High",
+  "_resourceType": "fetch",
+  "cache": {},
+  "connection": "166037",
+  "pageref": "page_12",
+  "request": {
+    "method": "POST",
+    "url": "http://localhost:3000/api/users/queries/getCurrentUser",
+    "httpVersion": "HTTP/1.1",
+    "headers": [
+      {
+        "name": "Host",
+        "value": "localhost:3000"
+      },
+      {
+        "name": "Connection",
+        "value": "keep-alive"
+      },
+      {
+        "name": "Content-Length",
+        "value": "25"
+      },
+      {
+        "name": "sec-ch-ua",
+        "value": "\"Chromium\";v=\"94\", \"Google Chrome\";v=\"94\", \";Not A Brand\";v=\"99\""
+      },
+      {
+        "name": "Content-Type",
+        "value": "application/json"
+      },
+      {
+        "name": "sec-ch-ua-mobile",
+        "value": "?0"
+      },
+      {
+        "name": "User-Agent",
+        "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36"
+      },
+      {
+        "name": "anti-csrf",
+        "value": "bMBNEsvnocdYBmF8YVzA9-tCXHyvHhpq"
+      },
+      {
+        "name": "sec-ch-ua-platform",
+        "value": "\"macOS\""
+      },
+      {
+        "name": "Accept",
+        "value": "*/*"
+      },
+      {
+        "name": "Origin",
+        "value": "http://localhost:3000"
+      },
+      {
+        "name": "Sec-Fetch-Site",
+        "value": "same-origin"
+      },
+      {
+        "name": "Sec-Fetch-Mode",
+        "value": "cors"
+      },
+      {
+        "name": "Sec-Fetch-Dest",
+        "value": "empty"
+      },
+      {
+        "name": "Referer",
+        "value": "http://localhost:3000/projects/full/full"
+      },
+      {
+        "name": "Accept-Encoding",
+        "value": "gzip, deflate, br"
+      },
+      {
+        "name": "Accept-Language",
+        "value": "en-US,en;q=0.9"
+      },
+      {
+        "name": "Cookie",
+        "value": "proposalHunt_sSessionToken=ZVZQRDI1c09wZEJkQi1ZWHpDWndIMUkwUTdnT2NjY1A6b3RzOzV6VlBiVjlMZXJ2ei1HUnhRZ0tRZDdTTjhZUTJhb1lrOzcxNDY3Njg4OTc1ZTdmMGVmZGZjZDM2MTVkNDFiNjgxODIzZWMzYWVhNDAwZjJiNjNhZjcwZGZmZGNjNDI0MDE7djA%3D; proposalHunt_sAntiCsrfToken=bMBNEsvnocdYBmF8YVzA9-tCXHyvHhpq; proposalHunt_sPublicDataToken=eyJ1c2VySWQiOjEsInByb2ZpbGVJZCI6IjMwY2Y3M2FhLTUyN2UtNGIwYy1iMDdhLWJmN2I4MzgyODI0NiIsInJvbGVzIjpbIlVTRVIiXSwic291cmNlIjoiYXV0aDAifQ%3D%3D; express:sess=eyJhdXRoUGFyYW1zIjp7InNjb3BlIjoib3BlbmlkIGVtYWlsIHByb2ZpbGUiLCJub25jZSI6IjRmZmZmMDMyMTg4NjBiYTZlYjQ1NWE5MTk2M2RhNTI3In19; express:sess.sig=uL8C4WneWd3LfQhDurtnQwAyDfc"
+      }
+    ],
+    "queryString": [],
+    "cookies": [
+      {
+        "name": "proposalHunt_sSessionToken",
+        "value": "ZVZQRDI1c09wZEJkQi1ZWHpDWndIMUkwUTdnT2NjY1A6b3RzOzV6VlBiVjlMZXJ2ei1HUnhRZ0tRZDdTTjhZUTJhb1lrOzcxNDY3Njg4OTc1ZTdmMGVmZGZjZDM2MTVkNDFiNjgxODIzZWMzYWVhNDAwZjJiNjNhZjcwZGZmZGNjNDI0MDE7djA%3D",
+        "path": "/",
+        "domain": "localhost",
+        "expires": "2021-11-17T22:06:19.927Z",
+        "httpOnly": true,
+        "secure": false,
+        "sameSite": "Lax"
+      },
+      {
+        "name": "proposalHunt_sAntiCsrfToken",
+        "value": "bMBNEsvnocdYBmF8YVzA9-tCXHyvHhpq",
+        "path": "/",
+        "domain": "localhost",
+        "expires": "2021-11-17T22:06:19.927Z",
+        "httpOnly": false,
+        "secure": false,
+        "sameSite": "Lax"
+      },
+      {
+        "name": "proposalHunt_sPublicDataToken",
+        "value": "eyJ1c2VySWQiOjEsInByb2ZpbGVJZCI6IjMwY2Y3M2FhLTUyN2UtNGIwYy1iMDdhLWJmN2I4MzgyODI0NiIsInJvbGVzIjpbIlVTRVIiXSwic291cmNlIjoiYXV0aDAifQ%3D%3D",
+        "path": "/",
+        "domain": "localhost",
+        "expires": "2021-11-17T22:06:19.927Z",
+        "httpOnly": false,
+        "secure": false,
+        "sameSite": "Lax"
+      },
+      {
+        "name": "express:sess",
+        "value": "eyJhdXRoUGFyYW1zIjp7InNjb3BlIjoib3BlbmlkIGVtYWlsIHByb2ZpbGUiLCJub25jZSI6IjRmZmZmMDMyMTg4NjBiYTZlYjQ1NWE5MTk2M2RhNTI3In19",
+        "path": "/",
+        "domain": "localhost",
+        "expires": "1969-12-31T23:59:59.000Z",
+        "httpOnly": true,
+        "secure": false
+      },
+      {
+        "name": "express:sess.sig",
+        "value": "uL8C4WneWd3LfQhDurtnQwAyDfc",
+        "path": "/",
+        "domain": "localhost",
+        "expires": "1969-12-31T23:59:59.000Z",
+        "httpOnly": true,
+        "secure": false
+      }
+    ],
+    "headersSize": 1326,
+    "bodySize": 25,
+    "postData": {
+      "mimeType": "application/json",
+      "text": "{\"params\":null,\"meta\":{}}"
+    }
+  },
+  "response": {
+    "status": 200,
+    "statusText": "OK",
+    "httpVersion": "HTTP/1.1",
+    "headers": [
+      {
+        "name": "Content-Type",
+        "value": "application/json; charset=utf-8"
+      },
+      {
+        "name": "ETag",
+        "value": "\"78-7pOusd4k3iSLQFwfx9fcOLy+j0s\""
+      },
+      {
+        "name": "Content-Length",
+        "value": "120"
+      },
+      {
+        "name": "Vary",
+        "value": "Accept-Encoding"
+      },
+      {
+        "name": "Date",
+        "value": "Mon, 18 Oct 2021 22:08:14 GMT"
+      },
+      {
+        "name": "Connection",
+        "value": "keep-alive"
+      },
+      {
+        "name": "Keep-Alive",
+        "value": "timeout=5"
+      }
+    ],
+    "cookies": [],
+    "content": {
+      "size": 120,
+      "mimeType": "application/json",
+      "compression": 0,
+      "text": "{\"result\":{\"id\":1,\"name\":\"Luis Tejeda Sanchez\",\"email\":\"luis.tejeda@wizeline.com\",\"role\":\"USER\"},\"error\":null,\"meta\":{}}"
+    },
+    "redirectURL": "",
+    "headersSize": 234,
+    "bodySize": 120,
+    "_transferSize": 354,
+    "_error": null
+  },
+  "serverIPAddress": "127.0.0.1",
+  "startedDateTime": "2021-10-18T22:08:14.379Z",
+  "time": 80.26299997131899,
+  "timings": {
+    "blocked": 65.65399999848381,
+    "dns": 0.009000000000000008,
+    "ssl": -1,
+    "connect": 0.31699999999999995,
+    "send": 0.20800000000000007,
+    "wait": 13.590000005096197,
+    "receive": 0.484999967738986,
+    "_blocked_queueing": 65.3969999984838
+  }
+}
