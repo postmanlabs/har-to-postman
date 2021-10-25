@@ -11,4 +11,4 @@ node_modules
 # - Mac OS files
 .DS_Store
 # - Do not allow package-lock.json to be uploaded
-
+package-lock.json
