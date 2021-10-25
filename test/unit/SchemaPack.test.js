@@ -44,3 +44,38 @@ describe('SchemaPack convert unit test  HAR file', function() {
 
   });
 });
+
+
+describe('SchemaPack get metadat unit test  HAR file', function() {
+  it('Should get the metadata from a valid input file and take the name from the file', function () {
+    const
+      VALID_PATH = validHAREntriesFolder + '/queryParams.har',
+      schemaPack = new SchemaPack({
+        data: VALID_PATH,
+        type: 'file'
+      }, {});
+    schemaPack.getMetaData((error, result) => {
+      expect(error).to.be.null;
+      expect(result).to.be.an('object');
+      expect(result.name).to.equal('queryParams.har');
+      expect(result.output[0].name).to.equal('queryParams.har');
+      expect(result.output[0].type).to.equal('collection');
+    });
+
+  });
+
+  it('Should get the metadata from a valid input file and take the name from the page', function () {
+    let fileContent = fs.readFileSync(validHAREntriesFolder + '/onePostJson.har', 'utf8');
+    const schemaPack = new SchemaPack({
+      data: fileContent,
+      type: 'string'
+    }, {});
+    schemaPack.getMetaData((error, result) => {
+      expect(error).to.be.null;
+      expect(result).to.be.an('object');
+      expect(result.name).to.equal('localhost:3000/projects');
+      expect(result.output[0].name).to.equal('localhost:3000/projects');
+      expect(result.output[0].type).to.equal('collection');
+    });
+  });
+});
