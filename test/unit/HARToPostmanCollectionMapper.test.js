@@ -191,6 +191,11 @@ describe('HARToPostmanCollectionMapper getItemName', function () {
     const result = getItemName({ url: 'https://i.ytimg.com/vi/nmXMgqjQzls/mqdefault.jpg' });
     expect(result).to.eq('i.ytimg.com/vi/nmXMgqjQzls/mqdefault.jpg');
   });
+
+  it('Should get same string when entry is not a valid url', function () {
+    const result = getItemName({ url: 'invalid url' });
+    expect(result).to.eq('invalid url');
+  });
 });
 
 describe('HARToPostmanCollectionMapper getBody', function () {
