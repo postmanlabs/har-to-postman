@@ -20,10 +20,7 @@ const { expect } = require('chai'),
     getCollectionPossibleNameFromPages,
     DEFAULT_COLLECTION_NAME,
     DEFAULT_COLLECTION_DESCRIPTION,
-    DEFAULT_ITEM_NAME,
-    NO_PATHNAME_ITEM_NAME,
-    NO_METHOD_ITEM_NAME,
-    DEFAULT_ITEM_RESPONSE_NAME
+    DEFAULT_ITEM_NAME
   } = require('../../lib/HARToPostmanCollectionMapper'),
   validHAREntriesFolder = 'test/data/entries';
 
@@ -187,19 +184,13 @@ describe('HARToPostmanCollectionMapper getItemName', function () {
 
   it('Should get an object when empty harRequestURL is sent', function () {
     const result = getItemName({ method: 'GET' });
-    expect(result.includes(NO_PATHNAME_ITEM_NAME)).to.be.true;
-  });
-
-  it('Should get an object when undefined harRequest is sent', function () {
-    const result = getItemName(undefined, { pathname: 'api/users/queries/getCurrentUser' });
-    expect(result.includes(NO_METHOD_ITEM_NAME)).to.be.true;
+    expect(result.includes(DEFAULT_ITEM_NAME)).to.be.true;
   });
 
   it('Should get an object when harRequest and path info is sent', function () {
-    const result = getItemName({ method: 'GET' }, { pathname: 'api/users/queries/getCurrentUser' });
-    expect(result).to.eq('api/users/queries/getCurrentUser GET');
+    const result = getItemName({ url: 'https://i.ytimg.com/vi/nmXMgqjQzls/mqdefault.jpg' });
+    expect(result).to.eq('i.ytimg.com/vi/nmXMgqjQzls/mqdefault.jpg');
   });
-
 });
 
 describe('HARToPostmanCollectionMapper getBody', function () {
@@ -437,23 +428,23 @@ describe('HARToPostmanCollectionMapper responseCodeToString', function () {
 describe('HARToPostmanCollectionMapper getItemResponseName', function () {
 
   it('Should return the correct name for response', function () {
-    let result = getItemResponseName('item name', 200);
-    expect(result).to.equal('item name successfully');
+    let result = getItemResponseName(200);
+    expect(result).to.equal('successfully / 200');
   });
 
-  it('Should return the correct name for response empty item name', function () {
-    let result = getItemResponseName('', 200);
-    expect(result).to.equal('successfully');
-  });
-
-  it('Should return the correct name for empty item name no code', function () {
+  it('Should return the correct name for empty code', function () {
     let result = getItemResponseName('');
-    expect(result).to.equal(DEFAULT_ITEM_RESPONSE_NAME);
+    expect(result).to.equal('no response code found');
+  });
+
+  it('Should return the correct name for no code', function () {
+    let result = getItemResponseName();
+    expect(result).to.equal('no response code found');
   });
 
   it('Should return the correct name for response no code', function () {
-    let result = getItemResponseName('item name');
-    expect(result).to.equal('item name no response code found');
+    let result = getItemResponseName(900);
+    expect(result).to.equal(' / 900');
   });
 
 });
@@ -557,7 +548,7 @@ describe('HARToPostmanCollectionMapper generateItemResponse', function () {
         }
       });
     expect(itemResponse[0]).to.not.be.undefined;
-    expect(itemResponse[0].name).to.equal('item name successfully');
+    expect(itemResponse[0].name).to.equal('successfully / 200');
     expect(itemResponse[0].status).to.equal('OK');
     expect(itemResponse[0]._postman_previewlanguage).to.equal('json');
     expect(itemResponse[0].body).to.equal(responsePayload);
@@ -648,10 +639,10 @@ describe('HARToPostmanCollectionMapper generateItem', function () {
       logEntry = JSON.parse(fileContent),
       item = generateItem(logEntry);
     expect(item).to.not.be.undefined;
-    expect(item.name).to.equal('/api/users/queries/getCurrentUser POST');
+    expect(item.name).to.equal('localhost:3000/api/users/queries/getCurrentUser');
     expect(item.request.method).to.equal('POST');
     expect(item.request.body.raw).to.equal('{"params":null,"meta":{}}');
-    expect(item.response[0].name).to.equal('/api/users/queries/getCurrentUser POST successfully');
+    expect(item.response[0].name).to.equal('successfully / 200');
     expect(item.response[0].body)
       .to.equal('{\"result\":{\"id\":1,\"name\":\"Luis Tejeda Sanchez\",\"email\":\"luis.tejeda@wizeline.com\",' +
         '\"role\":\"USER\"},\"error\":null,\"meta\":{}}');
@@ -755,24 +746,24 @@ describe('HARToPostmanCollectionMapper generateItem', function () {
 
 describe('HARToPostmanCollectionMapper generateItems', function () {
 
-  it('Should generate an item for simple entry', function () {
+  it('Should generate items for simple entry', function () {
     const fileContent = fs.readFileSync(validHAREntriesFolder + '/multipleCorrectEntries.json', 'utf8'),
       logEntries = JSON.parse(fileContent),
       items = generateItems(logEntries);
     expect(items).to.not.be.undefined;
     expect(items.length).to.equal(12);
-    expect(items[0].name).to.equal('/api/users/queries/getCurrentUser POST');
-    expect(items[1].name).to.equal('/api/categories/queries/getCategories POST');
-    expect(items[2].name).to.equal('/api/skills/queries/getSkills POST');
-    expect(items[3].name).to.equal('/api/labels/queries/getLabels POST');
-    expect(items[4].name).to.equal('/api/profiles/queries/searchProfiles POST');
-    expect(items[5].name).to.equal('/api/projects/mutations/createProject POST');
-    expect(items[6].name).to.equal('/_next/static/chunks/pages/projects/%5BprojectId%5D.js GET');
-    expect(items[7].name).to.equal('/_next/static/webpack/283c808214c965e442e6.hot-update.json GET');
-    expect(items[8].name).to.equal('/_next/static/webpack/webpack.283c808214c965e442e6.hot-update.js GET');
-    expect(items[9].name).to.equal('/api/projects/queries/getProject POST');
-    expect(items[10].name).to.equal('/edit.svg GET');
-    expect(items[11].name).to.equal('/api/users/queries/getCurrentUser POST');
+    expect(items[0].name).to.equal('localhost:3000/api/users/queries/getCurrentUser');
+    expect(items[1].name).to.equal('localhost:3000/api/categories/queries/getCategories');
+    expect(items[2].name).to.equal('localhost:3000/api/skills/queries/getSkills');
+    expect(items[3].name).to.equal('localhost:3000/api/labels/queries/getLabels');
+    expect(items[4].name).to.equal('localhost:3000/api/profiles/queries/searchProfiles');
+    expect(items[5].name).to.equal('localhost:3000/api/projects/mutations/createProject');
+    expect(items[6].name).to.equal('localhost:3000/_next/static/chunks/pages/projects/%5BprojectId%5D.js');
+    expect(items[7].name).to.equal('localhost:3000/_next/static/webpack/283c808214c965e442e6.hot-update.json');
+    expect(items[8].name).to.equal('localhost:3000/_next/static/webpack/webpack.283c808214c965e442e6.hot-update.js');
+    expect(items[9].name).to.equal('localhost:3000/api/projects/queries/getProject');
+    expect(items[10].name).to.equal('localhost:3000/edit.svg');
+    expect(items[11].name).to.equal('localhost:3000/api/users/queries/getCurrentUser');
 
   });
 });
