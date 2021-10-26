@@ -27,7 +27,7 @@ describe('Validator', function () {
       }
       catch (error) {
         expect(error.message).to.equal('Invalid syntax provided for HAR content');
-        expect(error.data[0].message).to.equal('should have required property \'log\'');
+        expect(error.data[0].message).to.equal('must have required property \'log\'');
       }
     });
 
