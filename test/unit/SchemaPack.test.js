@@ -4,7 +4,8 @@ const expect = require('chai').expect,
   } = require('../../lib/SchemaPack'),
   fs = require('fs'),
   async = require('async'),
-  validHAREntriesFolder = './test/data/validHARFiles';
+  validHAREntriesFolder = './test/data/validHARFiles',
+  inValidHAREntriesFolder = './test/data/invalidHARFiles';
 
 describe('SchemaPack convert unit test  HAR file', function() {
   var validHARsFolder = fs.readdirSync(validHAREntriesFolder);
@@ -79,3 +80,19 @@ describe('SchemaPack get metadata unit test  HAR file', function() {
     });
   });
 });
+
+describe('SchemaPack validate invalid HAR file', function() {
+  var validHARsFolder = fs.readdirSync(inValidHAREntriesFolder);
+  async.each(validHARsFolder, function (file) {
+    it('Should get an object representing PM Collection from ' + file, function() {
+      let fileContent = fs.readFileSync(inValidHAREntriesFolder + '/' + file, 'utf8');
+      const schemaPack = new SchemaPack({
+        data: fileContent,
+        type: 'string'
+      }, {});
+
+      expect(schemaPack.validationResult.result).to.be.false;
+    });
+  });
+});
+

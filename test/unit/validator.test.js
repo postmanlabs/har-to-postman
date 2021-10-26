@@ -1,3 +1,5 @@
+const InputError = require('../../lib/InputError');
+
 const expect = require('chai').expect,
   fs = require('fs'),
   {
@@ -47,4 +49,42 @@ describe('Validator', function () {
     });
 
   });
+});
+
+describe('validateStructure', function () {
+  it('Should format a message with the first error element', function () {
+    const validator = new Validator(),
+      errorMessage = validator.formatMessageFromInputError(new InputError(
+        'Invalid syntax provided for HAR content',
+        [{ message: 'error message' }]
+      ));
+    expect(errorMessage).to.equal('Invalid syntax provided for HAR content error message');
+  });
+
+  it('Should format a message with no aditional data', function () {
+    const validator = new Validator(),
+      errorMessage = validator.formatMessageFromInputError(new InputError(
+        'Invalid syntax provided for HAR content'
+      ));
+    expect(errorMessage).to.equal('Invalid syntax provided for HAR content');
+  });
+
+  it('Should format a message with no aditional data message', function () {
+    const validator = new Validator(),
+      errorMessage = validator.formatMessageFromInputError(new InputError(
+        'Invalid syntax provided for HAR content',
+        []
+      ));
+    expect(errorMessage).to.equal('Invalid syntax provided for HAR content');
+  });
+
+  it('Should format a message with empty object', function () {
+    const validator = new Validator(),
+      errorMessage = validator.formatMessageFromInputError(new InputError(
+        'Invalid syntax provided for HAR content',
+        [{}]
+      ));
+    expect(errorMessage).to.equal('Invalid syntax provided for HAR content');
+  });
+
 });
