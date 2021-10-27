@@ -50,7 +50,7 @@ describe('har2postman ', function () {
       });
   });
 
-  it('should print to  with options', function (done) {
+  it('should print to file with options', function (done) {
     exec('./bin/har2postman.js -s test/data/validHARFiles/multipleGetsPost.har -o tempOutput.json' +
       ' -O indentCharacter=tab',
     function (err) {
@@ -64,11 +64,11 @@ describe('har2postman ', function () {
     });
   });
 
-  // it('should show appropriate messages for invalid input', function (done) {
-  //   exec('./bin/har2postman.js -s test/data/invalidHARFiles/invalidHAR.har', function (err, stdout) {
-  //     expect(err).to.be.null;
-  //     expect(stdout).to.include('Provided document is not a valid HAR specification');
-  //     done();
-  //   });
-  // });
+  it('should show appropriate messages for invalid input', function (done) {
+    exec('./bin/har2postman.js -s test/data/invalidHARFiles/invalidHAR.har', function (err, stdout) {
+      expect(err).to.be.null;
+      expect(stdout).to.include('Invalid syntax provided for HAR content must have required property \'log\'');
+      done();
+    });
+  });
 });
