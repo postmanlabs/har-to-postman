@@ -201,12 +201,12 @@ describe('HARToPostmanCollectionMapper getItemName', function () {
 describe('HARToPostmanCollectionMapper getBody', function () {
 
   it('Should get body with raw and json type', function () {
-    const harRequest = { bodySize: 25, postData: { text: '{some:value}', mimeType: 'application/json' } },
+    const harRequest = { bodySize: 25, postData: { text: '{"some":"value"}', mimeType: 'application/json' } },
       result = getBody(harRequest);
     expect(result).to.not.be.undefined;
     expect(result.mode).to.equal('raw');
     expect(result.options.raw.language).to.equal('json');
-    expect(result.raw).to.equal('{some:value}');
+    expect(result.raw).to.equal('{\n "some": "value"\n}');
   });
 });
 
@@ -360,7 +360,7 @@ describe('HARToPostmanCollectionMapper generateItemRequest', function () {
         bodySize: 23,
         postData: {
           mimeType: 'application/json',
-          text: '{\'params\':{},\'meta\':{}}'
+          text: '{"params":{},"meta":{}}'
         }
       },
       itemRequest = generateItemRequest(request);
@@ -368,7 +368,7 @@ describe('HARToPostmanCollectionMapper generateItemRequest', function () {
     expect(itemRequest.url).to.equal('http://localhost:3000/api/categories/queries/getCategories');
     expect(itemRequest.method).to.equal('POST');
     expect(itemRequest.body).to.not.be.undefined;
-    expect(itemRequest.body.raw).to.equal('{\'params\':{},\'meta\':{}}');
+    expect(itemRequest.body.raw).to.equal('{\n "params": {},\n "meta": {}\n}');
     expect(itemRequest.body.options.raw.language).to.equal('json');
     expect(itemRequest.header.length).to.equal(9);
 
@@ -397,7 +397,7 @@ describe('HARToPostmanCollectionMapper generateItemRequest', function () {
         bodySize: 23,
         postData: {
           mimeType: 'application/json',
-          text: '{\'params\':{},\'meta\':{}}'
+          text: '{"params":{},"meta":{}}'
         }
       },
       itemRequest = generateItemRequest(request);
@@ -405,7 +405,7 @@ describe('HARToPostmanCollectionMapper generateItemRequest', function () {
     expect(itemRequest.url).to.equal('http://localhost:3000/api/categories/queries/getCategories');
     expect(itemRequest.method).to.equal('POST');
     expect(itemRequest.body).to.not.be.undefined;
-    expect(itemRequest.body.raw).to.equal('{\'params\':{},\'meta\':{}}');
+    expect(itemRequest.body.raw).to.equal('{\n "params": {},\n "meta": {}\n}');
     expect(itemRequest.body.options.raw.language).to.equal('json');
     expect(Object.keys(itemRequest).find((property) => { return property === 'header'; })).to.be.undefined;
 
@@ -488,8 +488,11 @@ describe('HARToPostmanCollectionMapper getItemResponseHeaders', function () {
 describe('HARToPostmanCollectionMapper generateItemResponse', function () {
 
   it('Should generate a simple response with only one get element', function () {
-    const responsePayload = '{\'result\':[{\'name\':\'Business Enabler\'},{\'name\':\'Experiment\'},' +
-      '{\'name\':\'Strategic Differentiator\'},{\'name\':\'Value Creator\'}],\'error\':null,\'meta\':{}}',
+    const responsePayload = '{"result":[{"name":"Business Enabler"},{"name":"Experiment"},' +
+      '{"name":"Strategic Differentiator"},{"name":"Value Creator"}],"error":null,"meta":{}}',
+      formatedPayload = '{\n \"result\": [\n  {\n   \"name\": \"Business Enabler\"\n  },\n  {\n ' +
+    '  \"name\": \"Experiment\"\n  },\n  {\n   \"name\": \"Strategic Differentiator\"\n  },\n  {\n' +
+    '   \"name\": \"Value Creator\"\n  }\n ],\n \"error\": null,\n \"meta\": {}\n}',
       harResponse = {
         status: 200,
         statusText: 'OK',
@@ -543,7 +546,7 @@ describe('HARToPostmanCollectionMapper generateItemResponse', function () {
           ],
           body: {
             mode: 'raw',
-            raw: '{\'params\':{},\'meta\':{}}',
+            raw: '{"params":{},"meta":{}}',
             options: {
               raw: {
                 language: 'json'
@@ -556,7 +559,7 @@ describe('HARToPostmanCollectionMapper generateItemResponse', function () {
     expect(itemResponse[0].name).to.equal('successfully / 200');
     expect(itemResponse[0].status).to.equal('OK');
     expect(itemResponse[0]._postman_previewlanguage).to.equal('json');
-    expect(itemResponse[0].body).to.equal(responsePayload);
+    expect(itemResponse[0].body).to.equal(formatedPayload);
     expect(itemResponse[0].headers.members.length).to.equal(4);
 
   });
@@ -621,7 +624,7 @@ describe('HARToPostmanCollectionMapper generateItemResponse', function () {
         bodySize: 23,
         postData: {
           mimeType: 'application/json',
-          text: '{\'params\':{},\'meta\':{}}'
+          text: '{"params":{},"meta":{}}'
         }
       },
       itemRequest = generateItemRequest(request);
@@ -629,7 +632,7 @@ describe('HARToPostmanCollectionMapper generateItemResponse', function () {
     expect(itemRequest.url).to.equal('http://localhost:3000/api/categories/queries/getCategories');
     expect(itemRequest.method).to.equal('POST');
     expect(itemRequest.body).to.not.be.undefined;
-    expect(itemRequest.body.raw).to.equal('{\'params\':{},\'meta\':{}}');
+    expect(itemRequest.body.raw).to.equal('{\n "params": {},\n "meta": {}\n}');
     expect(itemRequest.body.options.raw.language).to.equal('json');
     expect(itemRequest.header.length).to.equal(9);
 
@@ -646,107 +649,13 @@ describe('HARToPostmanCollectionMapper generateItem', function () {
     expect(item).to.not.be.undefined;
     expect(item.name).to.equal('localhost:3000/api/users/queries/getCurrentUser');
     expect(item.request.method).to.equal('POST');
-    expect(item.request.body.raw).to.equal('{"params":null,"meta":{}}');
+    expect(item.request.body.raw).to.equal('{\n "params": null,\n "meta": {}\n}');
     expect(item.response[0].name).to.equal('successfully / 200');
     expect(item.response[0].body)
-      .to.equal('{\"result\":{\"id\":1,\"name\":\"Luis Tejeda Sanchez\",\"email\":\"luis.tejeda@wizeline.com\",' +
-        '\"role\":\"USER\"},\"error\":null,\"meta\":{}}');
-    expect(item.response[0].originalRequest.body.raw).to.equal('{"params":null,"meta":{}}');
+      .to.equal('{\n \"result\": {\n  \"id\": 1,\n  \"name\": \"Luis Tejeda Sanchez\",\n' +
+      '  \"email\": \"luis.tejeda@wizeline.com\",\n  \"role\": \"USER\"\n },\n \"error\": null,\n \"meta\": {}\n}');
+    expect(item.response[0].originalRequest.body.raw).to.equal('{\n "params": null,\n "meta": {}\n}');
   });
-
-  // it('should generate an item for simple entry', function () {
-  //   const variables = [
-  //     {
-  //       key: '0BaseUrl',
-  //       value: 'http://localhost:3000',
-  //       urlData: {
-  //         index: 0,
-  //         url: 'http://localhost:3000/some?param1=2&param2=3',
-  //       },
-  //     },
-  //   ],
-  //   logEntry = {
-  //     _initiator: {
-  //       type: 'other'
-  //     },
-  //     _priority: 'VeryHigh',
-  //     _resourceType: 'document',
-  //     cache: {},
-  //     request: {
-  //       method: 'GET',
-  //       url: 'http://localhost:3000/some?param1=2&param2=3',
-  //       httpVersion: '',
-  //       headers: [
-  //         {
-  //           name: 'sec-ch-ua',
-  //           value: '\'Chromium\';v=\'94\', \'Google Chrome\';v=\'94\', \';Not A Brand\';v=\'99\''
-  //         },
-  //         {
-  //           name: 'sec-ch-ua-mobile',
-  //           value: '?0'
-  //         },
-  //         {
-  //           name: 'sec-ch-ua-platform',
-  //           value: '\'macOS\''
-  //         },
-  //         {
-  //           name: 'Upgrade-Insecure-Requests',
-  //           value: '1'
-  //         },
-  //         {
-  //           name: 'User-Agent',
-  //           value: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)
-  //  Chrome/94.0.4606.81 Safari/537.36'
-  //         }
-  //       ],
-  //       queryString: [
-  //         {
-  //           name: 'param1',
-  //           value: '2'
-  //         },
-  //         {
-  //           name: 'param2',
-  //           value: '3'
-  //         }
-  //       ],
-  //       cookies: [],
-  //       headersSize: -1,
-  //       bodySize: 0
-  //     },
-  //     response: {
-  //       status: 0,
-  //       statusText: '',
-  //       httpVersion: '',
-  //       headers: [],
-  //       cookies: [],
-  //       content: {
-  //         size: 0,
-  //         mimeType: 'x-unknown'
-  //       },
-  //       redirectURL: '',
-  //       headersSize: -1,
-  //       bodySize: -1,
-  //       _transferSize: 0,
-  //       _error: 'net::ERR_CONNECTION_REFUSED'
-  //     },
-  //     serverIPAddress: '',
-  //     startedDateTime: '2021-10-21T15:55:58.305Z',
-  //     time: 6.194000001414679,
-  //     timings: {
-  //       blocked: 6.194000001414679,
-  //       dns: -1,
-  //       ssl: -1,
-  //       connect: -1,
-  //       send: 0,
-  //       wait: 0,
-  //       receive: 0,
-  //       _blocked_queueing: -1
-  //     }
-  //   },
-  //     item = generateItem(logEntry, variables);
-  //   expect(item).to.not.be.undefined;
-
-  // });
 });
 
 describe('HARToPostmanCollectionMapper generateItems', function () {
