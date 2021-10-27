@@ -49,6 +49,19 @@ describe('HARToPostmanCollectionBodyMapper mapBodyFromJson', function () {
     expect(result.raw).to.equal(expectedOutput);
   });
 
+  it('should get json string with indentation as spaces', function () {
+    const options = getOptions({ usage: ['CONVERSION'] }),
+      indentCharacter = options.find((option) => { return option.id === 'indentCharacter'; }),
+      harRequest = { postData: { text: '{"some":"value"}' } },
+      expectedOutput = '{\n\   "some": "value"\n}';
+    let result,
+      processOptions = {};
+    processOptions[`${indentCharacter.id}`] = '   ';
+    result = mapBodyFromJson(harRequest, processOptions);
+    expect(result.raw).to.be.an('string');
+    expect(result.raw).to.equal(expectedOutput);
+  });
+
 });
 
 describe('HARToPostmanCollectionBodyMapper mapBody', function () {
@@ -110,6 +123,19 @@ describe('HARToPostmanCollectionBodyMapper mapBodyFromJsonResponse', function ()
     let result,
       processOptions = {};
     processOptions[`${indentCharacter.id}`] = 'Tab';
+    result = mapBodyFromJsonResponse(harResponse, processOptions);
+    expect(result.body).to.be.an('string');
+    expect(result.body).to.equal(expectedOutput);
+  });
+
+  it('should get json string with indentation as spaces', function () {
+    const options = getOptions({ usage: ['CONVERSION'] }),
+      indentCharacter = options.find((option) => { return option.id === 'indentCharacter'; }),
+      harResponse = { content: { text: '{"some":"value"}' } },
+      expectedOutput = '{\n\   "some": "value"\n}';
+    let result,
+      processOptions = {};
+    processOptions[`${indentCharacter.id}`] = '   ';
     result = mapBodyFromJsonResponse(harResponse, processOptions);
     expect(result.body).to.be.an('string');
     expect(result.body).to.equal(expectedOutput);
