@@ -71,4 +71,28 @@ describe('har2postman ', function () {
       done();
     });
   });
+
+  it('should show appropriate messages for input with no entries', function (done) {
+    exec('./bin/har2postman.js -s test/data/invalidHARFiles/noEntries.har', function (err, stdout) {
+      expect(err).to.be.null;
+      expect(stdout).to.include('Invalid syntax provided for HAR content must have required property \'entries\'');
+      done();
+    });
+  });
+
+  it('should show appropriate messages for input with no log', function (done) {
+    exec('./bin/har2postman.js -s test/data/invalidHARFiles/noLog.har', function (err, stdout) {
+      expect(err).to.be.null;
+      expect(stdout).to.include('Invalid syntax provided for HAR content must have required property \'log\'');
+      done();
+    });
+  });
+
+  it('should show appropriate messages for input with no request', function (done) {
+    exec('./bin/har2postman.js -s test/data/invalidHARFiles/noRequest.har', function (err, stdout) {
+      expect(err).to.be.null;
+      expect(stdout).to.include('Invalid syntax provided for HAR content must have required property \'request\'');
+      done();
+    });
+  });
 });
