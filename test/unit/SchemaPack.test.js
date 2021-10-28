@@ -46,7 +46,6 @@ describe('SchemaPack convert unit test  HAR file', function() {
   });
 });
 
-
 describe('SchemaPack get metadata unit test  HAR file', function() {
   it('Should get the metadata from a valid input file and take the name from the file', function () {
     const
@@ -96,3 +95,10 @@ describe('SchemaPack validate invalid HAR file', function() {
   });
 });
 
+
+describe('SchemaPack get options  ', function () {
+  it('Should get options statically', function () {
+    const options = SchemaPack.getOptions();
+    expect(Object.keys(options).length > 0).to.equal(true);
+  });
+});
