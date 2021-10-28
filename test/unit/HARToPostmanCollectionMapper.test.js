@@ -18,6 +18,8 @@ const { expect } = require('chai'),
     generateItems,
     getItemResponseHeaders,
     getCollectionPossibleNameFromPages,
+    getUrlDataFromEntries,
+    getVariablesFromUrlDataList,
     DEFAULT_COLLECTION_NAME,
     DEFAULT_COLLECTION_DESCRIPTION,
     DEFAULT_ITEM_NAME
@@ -145,6 +147,7 @@ describe('HARToPostmanCollectionMapper generateMappingObject', function () {
     expect(mappingObj).to.not.be.undefined;
     expect(mappingObj.item.length).to.equal(12);
     expect(mappingObj.info).to.not.be.undefined;
+    expect(mappingObj.variable.length).to.equal(1);
   });
 
 });
@@ -171,6 +174,7 @@ describe('HARToPostmanCollectionMapper map', function () {
     expect(mappingObj).to.not.be.undefined;
     expect(mappingObj.items.members.length).to.equal(12);
     expect(mappingObj.name).equal('localhost:3000/projects');
+    expect(mappingObj.variables.members.length).to.equal(1);
   });
 
 
@@ -245,9 +249,20 @@ describe('HARToPostmanCollectionMapper getItemRequestHeaders', function () {
 describe('HARToPostmanCollectionMapper generateItemRequestUrl', function () {
 
   it('Should replace the variables from the url', function () {
-    const url = generateItemRequestUrl({ url: 'http://localhost:3000/some?param1=2&param2=3' });
-    expect(url).to.not.be.undefined;
-    expect(url).to.equal('http://localhost:3000/some?param1=2&param2=3');
+
+    const variables = [
+        {
+          key: '0BaseUrl',
+          value: 'http://localhost:3000',
+          urlData: {
+            index: 0,
+            url: 'http://localhost:3000/some?param1=2&param2=3'
+          }
+        }
+      ],
+      replaced = generateItemRequestUrl({ url: 'http://localhost:3000/some?param1=2&param2=3' }, variables);
+    expect(replaced).to.not.be.undefined;
+    expect(replaced).to.equal('{{0BaseUrl}}/some?param1=2&param2=3');
 
   });
 });
@@ -255,7 +270,17 @@ describe('HARToPostmanCollectionMapper generateItemRequestUrl', function () {
 describe('HARToPostmanCollectionMapper generateItemRequest', function () {
 
   it('Should generate a simple request only one get element', function () {
-    const request = {
+    const variables = [
+        {
+          key: '0BaseUrl',
+          value: 'http://localhost:3000',
+          urlData: {
+            index: 0,
+            url: 'http://localhost:3000/some?param1=2&param2=3'
+          }
+        }
+      ],
+      request = {
         method: 'GET',
         url: 'http://localhost:3000/some?param1=2&param2=3',
         httpVersion: '',
@@ -291,9 +316,9 @@ describe('HARToPostmanCollectionMapper generateItemRequest', function () {
         'headersSize': -1,
         'bodySize': 0
       },
-      itemRequest = generateItemRequest(request);
+      itemRequest = generateItemRequest(request, variables);
     expect(itemRequest).to.not.be.undefined;
-    expect(itemRequest.url).to.equal('http://localhost:3000/some?param1=2&param2=3');
+    expect(itemRequest.url).to.equal('{{0BaseUrl}}/some?param1=2&param2=3');
     expect(itemRequest.method).to.equal('GET');
     expect(itemRequest.body).to.be.undefined;
     expect(itemRequest.header.length).to.equal(4);
@@ -301,7 +326,17 @@ describe('HARToPostmanCollectionMapper generateItemRequest', function () {
   });
 
   it('Should generate a simple request with only one POST element', function () {
-    const request = {
+    const variables = [
+        {
+          key: '0BaseUrl',
+          value: 'http://localhost:3000',
+          urlData: {
+            index: 0,
+            url: 'http://localhost:3000/some?param1=2&param2=3'
+          }
+        }
+      ],
+      request = {
         method: 'POST',
         url: 'http://localhost:3000/api/categories/queries/getCategories',
         httpVersion: 'HTTP/1.1',
@@ -363,9 +398,9 @@ describe('HARToPostmanCollectionMapper generateItemRequest', function () {
           text: '{"params":{},"meta":{}}'
         }
       },
-      itemRequest = generateItemRequest(request);
+      itemRequest = generateItemRequest(request, variables);
     expect(itemRequest).to.not.be.undefined;
-    expect(itemRequest.url).to.equal('http://localhost:3000/api/categories/queries/getCategories');
+    expect(itemRequest.url).to.equal('{{0BaseUrl}}/api/categories/queries/getCategories');
     expect(itemRequest.method).to.equal('POST');
     expect(itemRequest.body).to.not.be.undefined;
     expect(itemRequest.body.raw).to.equal('{\n "params": {},\n "meta": {}\n}');
@@ -375,7 +410,17 @@ describe('HARToPostmanCollectionMapper generateItemRequest', function () {
   });
 
   it('should generate a simple request no headers', function () {
-    const request = {
+    const variables = [
+        {
+          key: '0BaseUrl',
+          value: 'http://localhost:3000',
+          urlData: {
+            index: 0,
+            url: 'http://localhost:3000/some?param1=2&param2=3'
+          }
+        }
+      ],
+      request = {
         method: 'POST',
         url: 'http://localhost:3000/api/categories/queries/getCategories',
         httpVersion: 'HTTP/1.1',
@@ -400,9 +445,9 @@ describe('HARToPostmanCollectionMapper generateItemRequest', function () {
           text: '{"params":{},"meta":{}}'
         }
       },
-      itemRequest = generateItemRequest(request);
+      itemRequest = generateItemRequest(request, variables);
     expect(itemRequest).to.not.be.undefined;
-    expect(itemRequest.url).to.equal('http://localhost:3000/api/categories/queries/getCategories');
+    expect(itemRequest.url).to.equal('{{0BaseUrl}}/api/categories/queries/getCategories');
     expect(itemRequest.method).to.equal('POST');
     expect(itemRequest.body).to.not.be.undefined;
     expect(itemRequest.body.raw).to.equal('{\n "params": {},\n "meta": {}\n}');
@@ -532,6 +577,74 @@ describe('HARToPostmanCollectionMapper generateItemResponse', function () {
         name: 'item name',
         request: {
           description: '""',
+          method: 'GET',
+          url: '{{0BaseUrl}}/api/categories/queries/getCategories',
+          header: [
+            {
+              key: 'Host',
+              value: 'localhost:3000'
+            },
+            {
+              key: 'Connection',
+              value: 'keep-alive'
+            }
+          ]
+        }
+      });
+    expect(itemResponse[0]).to.not.be.undefined;
+    expect(itemResponse[0].name).to.equal('successfully / 200');
+    expect(itemResponse[0].status).to.equal('OK');
+    expect(itemResponse[0]._postman_previewlanguage).to.equal('json');
+    expect(itemResponse[0].body).to.equal(formatedPayload);
+    expect(itemResponse[0].headers.members.length).to.equal(4);
+
+  });
+
+  it('Should generate a simple response with only one Post element', function () {
+    const responsePayload = '{"result":[{"name":"Business Enabler"},{"name":"Experiment"},' +
+    '{"name":"Strategic Differentiator"},{"name":"Value Creator"}],"error":null,"meta":{}}',
+      formatedPayload = '{\n \"result\": [\n  {\n   \"name\": \"Business Enabler\"\n  },\n  {\n ' +
+    '  \"name\": \"Experiment\"\n  },\n  {\n   \"name\": \"Strategic Differentiator\"\n  },\n  {\n' +
+    '   \"name\": \"Value Creator\"\n  }\n ],\n \"error\": null,\n \"meta\": {}\n}',
+      harResponse = {
+        status: 200,
+        statusText: 'OK',
+        httpVersion: 'HTTP/1.1',
+        headers: [
+          {
+            name: 'Content-Type',
+            value: 'application/json; charset=utf-8'
+          },
+          {
+            name: 'ETag',
+            value: '\'92-M/UJ1IZ/ZaHU2DQuX7f6xpOxTaQ\''
+          },
+          {
+            name: 'Content-Length',
+            value: '146'
+          },
+          {
+            name: 'Vary',
+            value: 'Accept-Encoding'
+          }
+        ],
+        cookies: [],
+        content: {
+          size: 146,
+          mimeType: 'application/json',
+          compression: 0,
+          text: responsePayload
+        },
+        redirectURL: '',
+        headersSize: 234,
+        bodySize: 146,
+        _transferSize: 380,
+        _error: null
+      },
+      itemResponse = generateItemResponse(harResponse, {
+        name: 'item name',
+        request: {
+          description: '""',
           method: 'POST',
           url: '{{0BaseUrl}}/api/categories/queries/getCategories',
           header: [
@@ -563,89 +676,25 @@ describe('HARToPostmanCollectionMapper generateItemResponse', function () {
     expect(itemResponse[0].headers.members.length).to.equal(4);
 
   });
-
-  it('Should generate a simple response with only one Post element', function () {
-    const request = {
-        method: 'POST',
-        url: 'http://localhost:3000/api/categories/queries/getCategories',
-        httpVersion: 'HTTP/1.1',
-        headers: [
-          {
-            name: 'Host',
-            value: 'localhost:3000'
-          },
-          {
-            name: 'Connection',
-            value: 'keep-alive'
-          },
-          {
-            name: 'Content-Length',
-            value: '23'
-          },
-          {
-            name: 'Sec-Fetch-Mode',
-            value: 'cors'
-          },
-          {
-            name: 'Sec-Fetch-Dest',
-            value: 'empty'
-          },
-          {
-            name: 'Referer',
-            value: 'http://localhost:3000/projects/full/full'
-          },
-          {
-            name: 'Accept-Encoding',
-            value: 'gzip, deflate, br'
-          },
-          {
-            name: 'Accept-Language',
-            value: 'en-US,en;q=0.9'
-          },
-          {
-            name: 'Cookie',
-            value: 'value'
-          }
-        ],
-        queryString: [],
-        cookies: [
-          {
-            name: 'proposalHunt_sSessionToken',
-            value: '%3D',
-            path: '/',
-            domain: 'localhost',
-            expires: '2021-11-17T22:06:19.927Z',
-            httpOnly: true,
-            secure: false,
-            sameSite: 'Lax'
-          }
-        ],
-        headersSize: 1330,
-        bodySize: 23,
-        postData: {
-          mimeType: 'application/json',
-          text: '{"params":{},"meta":{}}'
-        }
-      },
-      itemRequest = generateItemRequest(request);
-    expect(itemRequest).to.not.be.undefined;
-    expect(itemRequest.url).to.equal('http://localhost:3000/api/categories/queries/getCategories');
-    expect(itemRequest.method).to.equal('POST');
-    expect(itemRequest.body).to.not.be.undefined;
-    expect(itemRequest.body.raw).to.equal('{\n "params": {},\n "meta": {}\n}');
-    expect(itemRequest.body.options.raw.language).to.equal('json');
-    expect(itemRequest.header.length).to.equal(9);
-
-  });
 });
 
 
 describe('HARToPostmanCollectionMapper generateItem', function () {
 
   it('Should generate an item for simple entry', function () {
-    const fileContent = fs.readFileSync(validHAREntriesFolder + '/simpleCorrectEntry.json', 'utf8'),
+    const variables = [
+        {
+          key: '0BaseUrl',
+          value: 'http://localhost:3000',
+          urlData: {
+            index: 0,
+            url: 'http://localhost:3000/some?param1=2&param2=3'
+          }
+        }
+      ],
+      fileContent = fs.readFileSync(validHAREntriesFolder + '/simpleCorrectEntry.json', 'utf8'),
       logEntry = JSON.parse(fileContent),
-      item = generateItem(logEntry);
+      item = generateItem(logEntry, variables);
     expect(item).to.not.be.undefined;
     expect(item.name).to.equal('localhost:3000/api/users/queries/getCurrentUser');
     expect(item.request.method).to.equal('POST');
@@ -661,9 +710,19 @@ describe('HARToPostmanCollectionMapper generateItem', function () {
 describe('HARToPostmanCollectionMapper generateItems', function () {
 
   it('Should generate items for simple entry', function () {
-    const fileContent = fs.readFileSync(validHAREntriesFolder + '/multipleCorrectEntries.json', 'utf8'),
+    const variables = [
+        {
+          key: '0BaseUrl',
+          value: 'http://localhost:3000',
+          urlData: {
+            index: 0,
+            url: 'http://localhost:3000/some?param1=2&param2=3'
+          }
+        }
+      ],
+      fileContent = fs.readFileSync(validHAREntriesFolder + '/multipleCorrectEntries.json', 'utf8'),
       logEntries = JSON.parse(fileContent),
-      items = generateItems(logEntries);
+      items = generateItems(logEntries, variables);
     expect(items).to.not.be.undefined;
     expect(items.length).to.equal(12);
     expect(items[0].name).to.equal('localhost:3000/api/users/queries/getCurrentUser');
@@ -680,4 +739,153 @@ describe('HARToPostmanCollectionMapper generateItems', function () {
     expect(items[11].name).to.equal('localhost:3000/api/users/queries/getCurrentUser');
 
   });
+});
+
+
+describe('HARToPostmanCollectionMapper getUrlDataFromEntries', function () {
+
+  it('Should get only one diff url when 2 sent are equal', function () {
+    const parsedHAR = {
+        log: {
+          entries: [
+            {
+              request:
+              {
+                url: 'http://localhost:3000/api/categories/queries/getCategories'
+              }
+            },
+            {
+              request:
+              {
+                url: 'http://localhost:3000/api/categories/queries/getCategories'
+              }
+            }
+          ]
+        }
+      },
+      result = getUrlDataFromEntries(parsedHAR);
+    expect(Array.isArray(result)).to.equal(true);
+    expect(result.length).to.equal(1);
+    expect(result[0].url).to.equal('http://localhost:3000/api/categories/queries/getCategories');
+
+  });
+
+  it('Should get 2 diff url when 2 sent are diff', function () {
+    const parsedHAR = {
+        log: {
+          entries: [
+            {
+              request:
+              {
+                url: 'http://localhost:3000/api/categories/queries/getCategories'
+              }
+            },
+            {
+              request:
+              {
+                url: 'http://localhost:3000/api/categories/queries/getCategories2'
+              }
+            }
+          ]
+        }
+      },
+      result = getUrlDataFromEntries(parsedHAR);
+    expect(Array.isArray(result)).to.equal(true);
+    expect(result.length).to.equal(2);
+    expect(result[0].url).to.equal('http://localhost:3000/api/categories/queries/getCategories');
+    expect(result[1].url).to.equal('http://localhost:3000/api/categories/queries/getCategories2');
+
+  });
+
+  it('Should get empty array when no parsedHar is passed', function () {
+    const result = getUrlDataFromEntries();
+    expect(Array.isArray(result)).to.equal(true);
+    expect(result.length).to.equal(0);
+  });
+
+
+  it('Should get empty array when no log is passed', function () {
+    const result = getUrlDataFromEntries({});
+    expect(Array.isArray(result)).to.equal(true);
+    expect(result.length).to.equal(0);
+  });
+
+  it('Should get empty array when no entries are passed', function () {
+    const result = getUrlDataFromEntries({ log: undefined });
+    expect(Array.isArray(result)).to.equal(true);
+    expect(result.length).to.equal(0);
+  });
+
+});
+
+describe('HARToPostmanCollectionMapper getVariablesFromUrlDataList', function () {
+
+  it('should return 2 variables for 2 diff urls', function () {
+    const parsedHAR = {
+        log: {
+          entries: [
+            {
+              request:
+              {
+                url: 'http://localhost:3000/api/categories/queries/getCategories'
+              }
+            },
+            {
+              request:
+              {
+                url: 'http://localhost:3000/api/categories/queries/getCategories2'
+              }
+            }
+          ]
+        }
+      },
+      urlData = getUrlDataFromEntries(parsedHAR),
+      variables = getVariablesFromUrlDataList(urlData);
+    expect(variables).to.not.be.undefined;
+    expect(variables.length).to.equal(1);
+    expect(variables[0].key).to.equal('baseUrl 0');
+    expect(variables[0].value).to.equal('http://localhost:3000');
+  });
+
+  it('should return 1 variables for 2 equal urls', function () {
+    const parsedHAR = {
+        log: {
+          entries: [
+            {
+              request:
+              {
+                url: 'http://localhost:3000/api/categories/queries/getCategories'
+              }
+            },
+            {
+              request:
+              {
+                url: 'http://localhost:5000/api/categories/queries/getCategories'
+              }
+            }
+          ]
+        }
+      },
+      urlData = getUrlDataFromEntries(parsedHAR),
+      variables = getVariablesFromUrlDataList(urlData);
+    expect(variables).to.not.be.undefined;
+    expect(variables.length).to.equal(2);
+    expect(variables[0].key).to.equal('baseUrl 0');
+    expect(variables[0].value).to.equal('http://localhost:3000');
+    expect(variables[1].key).to.equal('baseUrl 1');
+    expect(variables[1].value).to.equal('http://localhost:5000');
+  });
+
+  it('should return 0 variables when url data list is empty', function () {
+    const variables = getVariablesFromUrlDataList([]);
+    expect(variables).to.not.be.undefined;
+    expect(variables.length).to.equal(0);
+  });
+
+  it('should return 0 variables when url data list is undefined', function () {
+    const variables = getVariablesFromUrlDataList();
+    expect(variables).to.not.be.undefined;
+    expect(variables.length).to.equal(0);
+  });
+
 });
