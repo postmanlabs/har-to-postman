@@ -30,3 +30,6 @@ npm run lint
 
 # run unit tests
 npm run unit-tests
+
+# run merge convert validation tests
+npm run system-tests

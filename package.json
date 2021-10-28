@@ -10,7 +10,8 @@
     "test": "./scripts/test.sh",
     "lint": "eslint ./lib/** ./test/**/*.js",
     "unit-tests": "./node_modules/mocha/bin/mocha \"test/unit/**/**.test.js\"",
-    "coverage": "nyc --reporter=text npm run unit-tests"
+    "coverage": "nyc --reporter=text npm run unit-tests",
+    "system-tests": "./node_modules/mocha/bin/mocha test/system/**.test.js --timeout 5000"
   },
   "repository": {
     "type": "git",
