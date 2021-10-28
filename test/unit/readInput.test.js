@@ -2,7 +2,8 @@ const expect = require('chai').expect,
   fs = require('fs'),
   {
     readInput,
-    getCollectionNameFromFileOrEmpty
+    getCollectionNameFromFileOrEmpty,
+    sortEntries
   } = require('../../lib/utils/readInput');
 
 describe('readInput utility', function () {
@@ -185,6 +186,46 @@ describe('readInput utility', function () {
         expect(inputError.message).to.equal(errorExpectedMessage);
       }
     });
+  });
+});
+
+describe('sortEntries utility', function() {
+  it('Should sort a not ordered array of entries', function() {
+    const entriesDateMock = [
+        { startedDateTime: '2021-10-18T22:06:46.351Z' },
+        { startedDateTime: '2021-10-18T22:06:46.350Z' },
+        { startedDateTime: '2021-10-18T22:06:46.288Z' },
+        { startedDateTime: '2021-10-18T22:06:46.350Z' },
+        { startedDateTime: '2021-10-18T22:06:46.351Z' },
+        { startedDateTime: '2021-10-18T22:06:46.351Z' },
+        { startedDateTime: '2021-10-18T22:06:46.409Z' },
+        { startedDateTime: '2021-10-18T22:06:46.408Z' },
+        { startedDateTime: '2021-10-18T22:06:46.351Z' },
+        { startedDateTime: '2021-10-18T22:06:46.351Z' },
+        { startedDateTime: '2021-10-18T22:06:46.408Z' },
+        { startedDateTime: '2021-10-18T22:06:46.351Z' },
+        { startedDateTime: '2021-10-18T22:06:46.409Z' },
+        { startedDateTime: '2021-10-18T22:06:46.408Z' }
+      ],
+      expectedOrder = [
+        { startedDateTime: '2021-10-18T22:06:46.288Z' },
+        { startedDateTime: '2021-10-18T22:06:46.350Z' },
+        { startedDateTime: '2021-10-18T22:06:46.350Z' },
+        { startedDateTime: '2021-10-18T22:06:46.351Z' },
+        { startedDateTime: '2021-10-18T22:06:46.351Z' },
+        { startedDateTime: '2021-10-18T22:06:46.351Z' },
+        { startedDateTime: '2021-10-18T22:06:46.351Z' },
+        { startedDateTime: '2021-10-18T22:06:46.351Z' },
+        { startedDateTime: '2021-10-18T22:06:46.351Z' },
+        { startedDateTime: '2021-10-18T22:06:46.408Z' },
+        { startedDateTime: '2021-10-18T22:06:46.408Z' },
+        { startedDateTime: '2021-10-18T22:06:46.408Z' },
+        { startedDateTime: '2021-10-18T22:06:46.409Z' },
+        { startedDateTime: '2021-10-18T22:06:46.409Z' }
+      ],
+      sortedArray = sortEntries(entriesDateMock);
+    expect(sortedArray).to.be.an('array');
+    expect(JSON.stringify(sortedArray)).to.be.equal(JSON.stringify(expectedOrder));
   });
 });
 
