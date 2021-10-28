@@ -42,7 +42,27 @@ describe('SchemaPack convert unit test  HAR file', function() {
       expect(result.output[0].data.info.name).to.equal('queryParams.har');
       expect(result.output[0].type).to.equal('collection');
     });
+  });
 
+  it('Should convert the valid input file and add cookies', function () {
+    const options = SchemaPack.getOptions(),
+      includeCookies = options.find((option) => { return option.id === 'includeCookies'; }),
+      VALID_PATH = validHAREntriesFolder + '/multiplePost.har';
+    let schemaPack,
+      optionFromOptions = {};
+    optionFromOptions[`${includeCookies.id}`] = true;
+    schemaPack = new SchemaPack({
+      data: VALID_PATH,
+      type: 'file'
+    }, optionFromOptions);
+    schemaPack.convert((error, result) => {
+      expect(error).to.be.null;
+      expect(result).to.be.an('object');
+      expect(result.output).to.be.an('array');
+      expect(result.output[0].data).to.be.an('object');
+      expect(result.output[0].data.info.name).to.equal('queryParams.har');
+      expect(result.output[0].type).to.equal('collection');
+    });
   });
 });
 
