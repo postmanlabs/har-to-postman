@@ -23,7 +23,6 @@ describe('SchemaPack convert unit test  HAR file', function() {
         expect(result.output).to.be.an('array');
         expect(result.output[0].data).to.be.an('object');
         expect(result.output[0].type).to.equal('collection');
-        fs.writeFileSync('coll' + file + '.json', JSON.stringify(result.output[0].data));
       });
     });
   });
