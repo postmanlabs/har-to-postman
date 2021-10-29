@@ -20,11 +20,14 @@ const { expect } = require('chai'),
     getCollectionPossibleNameFromPages,
     getUrlDataFromEntries,
     getVariablesFromUrlDataList,
+    filterCookiesFromHeader,
+    getResponseCookies,
     DEFAULT_COLLECTION_NAME,
     DEFAULT_COLLECTION_DESCRIPTION,
     DEFAULT_ITEM_NAME
   } = require('../../lib/HARToPostmanCollectionMapper'),
-  validHAREntriesFolder = 'test/data/entries';
+  validHAREntriesFolder = 'test/data/entries',
+  getOptions = require('../../lib/utils/options').getOptions;
 
 
 describe('HARToPostmanCollectionMapper getCollectionPossibleNameFromPages', function () {
@@ -405,7 +408,7 @@ describe('HARToPostmanCollectionMapper generateItemRequest', function () {
     expect(itemRequest.body).to.not.be.undefined;
     expect(itemRequest.body.raw).to.equal('{\n "params": {},\n "meta": {}\n}');
     expect(itemRequest.body.options.raw.language).to.equal('json');
-    expect(itemRequest.header.length).to.equal(9);
+    expect(itemRequest.header.length).to.equal(8);
 
   });
 
@@ -455,6 +458,84 @@ describe('HARToPostmanCollectionMapper generateItemRequest', function () {
     expect(Object.keys(itemRequest).find((property) => { return property === 'header'; })).to.be.undefined;
 
   });
+
+
+  it('Should generate a simple request with only one POST element with cookies', function () {
+    const options = getOptions({ usage: ['CONVERSION'] }),
+      includeCookies = options.find((option) => { return option.id === 'includeCookies'; }),
+      variables = [
+        {
+          key: '0BaseUrl',
+          value: 'http://localhost:3000',
+          urlData: {
+            index: 0,
+            url: 'http://localhost:3000/some?param1=2&param2=3'
+          }
+        }
+      ],
+      request = {
+        method: 'POST',
+        url: 'http://localhost:3000/api/categories/queries/getCategories',
+        httpVersion: 'HTTP/1.1',
+        headers: [
+          {
+            name: 'Host',
+            value: 'localhost:3000'
+          },
+          {
+            name: 'Connection',
+            value: 'keep-alive'
+          },
+          {
+            name: 'Content-Length',
+            value: '23'
+          },
+          {
+            name: 'Sec-Fetch-Mode',
+            value: 'cors'
+          },
+          {
+            name: 'Sec-Fetch-Dest',
+            value: 'empty'
+          },
+          {
+            name: 'Cookie',
+            value: 'express:sess.sig=uL8C4WneWd3LfQhDurtnQwAyDfc'
+          }
+        ],
+        queryString: [],
+        cookies: [
+          {
+            name: 'proposalHunt_sSessionToken',
+            value: '%3D',
+            path: '/',
+            domain: 'localhost',
+            expires: '2021-11-17T22:06:19.927Z',
+            httpOnly: true,
+            secure: false,
+            sameSite: 'Lax'
+          }
+        ],
+        headersSize: 1330,
+        bodySize: 23,
+        postData: {
+          mimeType: 'application/json',
+          text: '{"params":{},"meta":{}}'
+        }
+      },
+      optionFromOptions = {};
+    optionFromOptions[`${includeCookies.id}`] = true;
+    let itemRequest = generateItemRequest(request, variables, optionFromOptions);
+    expect(itemRequest).to.not.be.undefined;
+    expect(itemRequest.url).to.equal('{{0BaseUrl}}/api/categories/queries/getCategories');
+    expect(itemRequest.method).to.equal('POST');
+    expect(itemRequest.body).to.not.be.undefined;
+    expect(itemRequest.body.raw).to.equal('{\n "params": {},\n "meta": {}\n}');
+    expect(itemRequest.body.options.raw.language).to.equal('json');
+    expect(itemRequest.header.length).to.equal(6);
+    expect(itemRequest.header.find((header) => { return header.key === 'Cookie'; })).to.not.be.undefined;
+  });
+
 });
 
 describe('HARToPostmanCollectionMapper responseCodeToString', function () {
@@ -676,6 +757,86 @@ describe('HARToPostmanCollectionMapper generateItemResponse', function () {
     expect(itemResponse[0].headers.members.length).to.equal(4);
 
   });
+
+  it('Should generate a simple response with only one Post element include cookies', function () {
+    const options = getOptions({ usage: ['CONVERSION'] }),
+      includeCookies = options.find((option) => { return option.id === 'includeCookies'; }),
+      responsePayload = '{"result":[{"name":"Business Enabler"},{"name":"Experiment"},' +
+    '{"name":"Strategic Differentiator"},{"name":"Value Creator"}],"error":null,"meta":{}}',
+      formatedPayload = '{\n \"result\": [\n  {\n   \"name\": \"Business Enabler\"\n  },\n  {\n ' +
+    '  \"name\": \"Experiment\"\n  },\n  {\n   \"name\": \"Strategic Differentiator\"\n  },\n  {\n' +
+    '   \"name\": \"Value Creator\"\n  }\n ],\n \"error\": null,\n \"meta\": {}\n}',
+      harResponse = {
+        status: 200,
+        statusText: 'OK',
+        httpVersion: 'HTTP/1.1',
+        headers: [
+          {
+            name: 'Content-Type',
+            value: 'application/json; charset=utf-8'
+          }
+        ],
+        cookies: [{
+          name: 'proposalHunt_sAntiCsrfToken',
+          value: 'bMBNEsvnocdYBmF8YVzA9-tCXHyvHhpq',
+          path: '/',
+          domain: 'localhost',
+          expires: '2021-11-17T22:06:19.927Z',
+          httpOnly: false,
+          secure: false,
+          sameSite: 'Lax'
+        }],
+        content: {
+          size: 146,
+          mimeType: 'application/json',
+          compression: 0,
+          text: responsePayload
+        },
+        redirectURL: '',
+        headersSize: 234,
+        bodySize: 146,
+        _transferSize: 380,
+        _error: null
+      };
+    let itemResponse,
+      optionFromOptions = {};
+    optionFromOptions[`${includeCookies.id}`] = true;
+    itemResponse = generateItemResponse(harResponse, {
+      name: 'item name',
+      request: {
+        description: '""',
+        method: 'POST',
+        url: '{{0BaseUrl}}/api/categories/queries/getCategories',
+        header: [
+          {
+            key: 'Host',
+            value: 'localhost:3000'
+          },
+          {
+            key: 'Connection',
+            value: 'keep-alive'
+          }
+        ],
+        body: {
+          mode: 'raw',
+          raw: '{"params":{},"meta":{}}',
+          options: {
+            raw: {
+              language: 'json'
+            }
+          }
+        }
+      }
+    }, optionFromOptions);
+    expect(itemResponse[0]).to.not.be.undefined;
+    expect(itemResponse[0].name).to.equal('successfully / 200');
+    expect(itemResponse[0].status).to.equal('OK');
+    expect(itemResponse[0]._postman_previewlanguage).to.equal('json');
+    expect(itemResponse[0].body).to.equal(formatedPayload);
+    expect(itemResponse[0].headers.members.length).to.equal(1);
+    expect(itemResponse[0].cookies.members.length).to.equal(1);
+
+  });
 });
 
 
@@ -843,7 +1004,7 @@ describe('HARToPostmanCollectionMapper getVariablesFromUrlDataList', function ()
       variables = getVariablesFromUrlDataList(urlData);
     expect(variables).to.not.be.undefined;
     expect(variables.length).to.equal(1);
-    expect(variables[0].key).to.equal('baseUrl 0');
+    expect(variables[0].key).to.equal('baseUrl0');
     expect(variables[0].value).to.equal('http://localhost:3000');
   });
 
@@ -870,9 +1031,9 @@ describe('HARToPostmanCollectionMapper getVariablesFromUrlDataList', function ()
       variables = getVariablesFromUrlDataList(urlData);
     expect(variables).to.not.be.undefined;
     expect(variables.length).to.equal(2);
-    expect(variables[0].key).to.equal('baseUrl 0');
+    expect(variables[0].key).to.equal('baseUrl0');
     expect(variables[0].value).to.equal('http://localhost:3000');
-    expect(variables[1].key).to.equal('baseUrl 1');
+    expect(variables[1].key).to.equal('baseUrl1');
     expect(variables[1].value).to.equal('http://localhost:5000');
   });
 
@@ -886,6 +1047,195 @@ describe('HARToPostmanCollectionMapper getVariablesFromUrlDataList', function ()
     const variables = getVariablesFromUrlDataList();
     expect(variables).to.not.be.undefined;
     expect(variables.length).to.equal(0);
+  });
+
+});
+
+describe('HARToPostmanCollectionMapper filterCookiesFromHeader', function () {
+
+  it('should return a valid header with one cookie', function () {
+    const options = getOptions({ usage: ['CONVERSION'] }),
+      includeCookies = options.find((option) => { return option.id === 'includeCookies'; });
+    let header = {},
+      optionFromOptions = {};
+    optionFromOptions[`${includeCookies.id}`] = true;
+    header = filterCookiesFromHeader([{
+      name: 'Cookie',
+      value: 'proposalHunt_sAntiCsrfToken=bMBNEsvnocdYBmF8YVzA9-tCXHyvHhpq'
+    }], optionFromOptions);
+    expect(header).to.not.be.undefined;
+    expect(header[0].name).to.equal('Cookie');
+    expect(header[0].value).to.equal('proposalHunt_sAntiCsrfToken=bMBNEsvnocdYBmF8YVzA9-tCXHyvHhpq');
+
+  });
+
+  it('should return a valid header with 2 cookies', function () {
+    const options = getOptions({ usage: ['CONVERSION'] }),
+      includeCookies = options.find((option) => { return option.id === 'includeCookies'; });
+    let header = {},
+      optionFromOptions = {};
+    optionFromOptions[`${includeCookies.id}`] = true;
+    header = filterCookiesFromHeader([{
+      name: 'Cookie',
+      value: 'proposalHunt_sAntiCsrfToken=bMBNEsvnocdYBmF8YVzA9-tCXHyvHhpq; ' +
+        'express:sess.sig=uL8C4WneWd3LfQhDurtnQwAyDfc'
+    }], optionFromOptions);
+    expect(header).to.not.be.undefined;
+    expect(header[0].name).to.equal('Cookie');
+    expect(header[0].value)
+      .to.equal('proposalHunt_sAntiCsrfToken=bMBNEsvnocdYBmF8YVzA9-tCXHyvHhpq;' +
+      ' express:sess.sig=uL8C4WneWd3LfQhDurtnQwAyDfc');
+
+  });
+
+  it('should return undefined when there is no options', function () {
+    let header = {};
+    header = filterCookiesFromHeader([{
+      name: 'Cookie',
+      value: 'proposalHunt_sAntiCsrfToken=bMBNEsvnocdYBmF8YVzA9-tCXHyvHhpq'
+    }]);
+    expect(header.length).to.equal(0);
+  });
+
+  it('should return undefined when there is no option for include cookies', function () {
+    let header = {};
+    header = filterCookiesFromHeader([{
+      name: 'Cookie',
+      value: 'proposalHunt_sAntiCsrfToken=bMBNEsvnocdYBmF8YVzA9-tCXHyvHhpq'
+    }], {});
+    expect(header).to.be.empty;
+
+  });
+
+  it('should return undefined when include cookies options is set to false', function () {
+    const options = getOptions({ usage: ['CONVERSION'] }),
+      includeCookies = options.find((option) => { return option.id === 'includeCookies'; });
+    let header = {},
+      optionFromOptions = {};
+    optionFromOptions[`${includeCookies.id}`] = false;
+
+    header = filterCookiesFromHeader([{
+      name: 'Cookie',
+      value: 'proposalHunt_sAntiCsrfToken=bMBNEsvnocdYBmF8YVzA9-tCXHyvHhpq'
+    }], optionFromOptions);
+    expect(header).to.be.empty;
+
+  });
+
+});
+
+describe('HARToPostmanCollectionMapper getResponseCookies', function () {
+
+  it('should return a valid header array with one cookie', function () {
+    const options = getOptions({ usage: ['CONVERSION'] }),
+      includeCookies = options.find((option) => { return option.id === 'includeCookies'; });
+    let cookies = [],
+      optionFromOptions = {};
+    optionFromOptions[`${includeCookies.id}`] = true;
+    cookies = getResponseCookies({
+      cookies: [{
+        name: 'proposalHunt_sAntiCsrfToken',
+        value: 'bMBNEsvnocdYBmF8YVzA9-tCXHyvHhpq',
+        path: '/',
+        domain: 'localhost',
+        expires: '2021-11-17T22:06:19.927Z',
+        httpOnly: false,
+        secure: false,
+        sameSite: 'Lax'
+      }]
+    }, optionFromOptions);
+    expect(cookies).to.not.be.undefined;
+    expect(cookies.length).to.equal(1);
+    expect(cookies[0].name).to.equal('proposalHunt_sAntiCsrfToken');
+    expect(cookies[0].domain).to.equal('localhost');
+    expect(cookies[0].path).to.equal('/');
+    expect(cookies[0].secure).to.equal(false);
+    expect(cookies[0].value).to.equal('bMBNEsvnocdYBmF8YVzA9-tCXHyvHhpq');
+  });
+
+  it('should return a valid header with 2 cookies', function () {
+    const options = getOptions({ usage: ['CONVERSION'] }),
+      includeCookies = options.find((option) => { return option.id === 'includeCookies'; });
+    let cookies = [],
+      optionFromOptions = {};
+    optionFromOptions[`${includeCookies.id}`] = true;
+    cookies = getResponseCookies({ cookies: [{
+      name: 'proposalHunt_sAntiCsrfToken',
+      value: 'bMBNEsvnocdYBmF8YVzA9-tCXHyvHhpq',
+      path: '/',
+      domain: 'localhost',
+      expires: '2021-11-17T22:06:19.927Z',
+      httpOnly: false,
+      secure: false,
+      sameSite: 'Lax'
+    },
+    {
+      name: 'other_cookie',
+      value: 'other_value',
+      path: '/',
+      domain: 'localhost',
+      expires: '2021-11-17T22:06:19.927Z',
+      httpOnly: false,
+      secure: false,
+      sameSite: 'Lax'
+    }] }, optionFromOptions);
+    expect(cookies).to.not.be.undefined;
+    expect(cookies.length).to.equal(2);
+  });
+
+  it('should return undefined array when there is no options', function () {
+    let cookies = [];
+    cookies = getResponseCookies({
+      cookies: [{
+        name: 'proposalHunt_sAntiCsrfToken',
+        value: 'bMBNEsvnocdYBmF8YVzA9-tCXHyvHhpq',
+        path: '/',
+        domain: 'localhost',
+        expires: '2021-11-17T22:06:19.927Z',
+        httpOnly: false,
+        secure: false,
+        sameSite: 'Lax'
+      }]
+    });
+    expect(cookies).to.be.undefined;
+
+  });
+
+  it('should return undefined when there is no option for include cookies', function () {
+    let header = {};
+    header = getResponseCookies({ cookies: [{
+      name: 'proposalHunt_sAntiCsrfToken',
+      value: 'bMBNEsvnocdYBmF8YVzA9-tCXHyvHhpq',
+      path: '/',
+      domain: 'localhost',
+      expires: '2021-11-17T22:06:19.927Z',
+      httpOnly: false,
+      secure: false,
+      sameSite: 'Lax'
+    }] }, {});
+    expect(header).to.be.undefined;
+
+  });
+
+  it('should return undefined when include cookies options is set to false', function () {
+    const options = getOptions({ usage: ['CONVERSION'] }),
+      includeCookies = options.find((option) => { return option.id === 'includeCookies'; });
+    let header = {},
+      optionFromOptions = {};
+    optionFromOptions[`${includeCookies.id}`] = false;
+
+    header = getResponseCookies({ cookies: [{
+      name: 'proposalHunt_sAntiCsrfToken',
+      value: 'bMBNEsvnocdYBmF8YVzA9-tCXHyvHhpq',
+      path: '/',
+      domain: 'localhost',
+      expires: '2021-11-17T22:06:19.927Z',
+      httpOnly: false,
+      secure: false,
+      sameSite: 'Lax'
+    }] }, optionFromOptions);
+    expect(header).to.be.undefined;
+
   });
 
 });
