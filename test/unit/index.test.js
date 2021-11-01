@@ -29,6 +29,22 @@ describe('convert', function() {
       expect(result.output[0].type).to.equal('collection');
     });
   });
+
+  it('Should conver a har file into a PM Collection with tab indentation character', function () {
+    const
+      VALID_WSDL_PATH = validHAREntriesFolder + '/multiplePost.har';
+    convert({
+      type: 'file',
+      data: VALID_WSDL_PATH
+    }, { indentCharacter: 'tab' }, (error, result) => {
+      expect(error).to.be.null;
+      expect(result).to.be.an('object');
+      expect(result.output).to.be.an('array');
+      expect(result.output[0].data).to.be.an('object');
+      expect(result.output[0].type).to.equal('collection');
+      expect(result.output[0].data.item[0].request.body.raw).to.equal('{\n\t"params": null,\n\t"meta": {}\n}');
+    });
+  });
 });
 
 describe('getMetadata', function() {
