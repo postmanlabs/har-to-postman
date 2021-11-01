@@ -42,10 +42,75 @@ describe('SchemaPack convert unit test  HAR file', function() {
       expect(result.output[0].data.info.name).to.equal('queryParams.har');
       expect(result.output[0].type).to.equal('collection');
     });
-
   });
-});
 
+  it('Should convert the valid input file and add cookies in request', function () {
+    const options = SchemaPack.getOptions(),
+      includeCookies = options.find((option) => { return option.id === 'includeCookies'; }),
+      VALID_PATH = validHAREntriesFolder + '/multiplePost.har';
+    let schemaPack,
+      optionFromOptions = {};
+    optionFromOptions[`${includeCookies.id}`] = true;
+    schemaPack = new SchemaPack({
+      data: VALID_PATH,
+      type: 'file'
+    }, optionFromOptions);
+    schemaPack.convert((error, result) => {
+      expect(error).to.be.null;
+      expect(result).to.be.an('object');
+      expect(result.output).to.be.an('array');
+      expect(result.output[0].data).to.be.an('object');
+      expect(result.output[0].data.info.name).to.equal('localhost:3000/projects');
+      expect(result.output[0].type).to.equal('collection');
+      expect(result.output[0].data.item[0].request.header[17].key).to.equal('Cookie');
+    });
+  });
+
+  it('Should convert the valid input file and add cookies in response', function () {
+    const options = SchemaPack.getOptions(),
+      includeCookies = options.find((option) => { return option.id === 'includeCookies'; }),
+      VALID_PATH = validHAREntriesFolder + '/simpleImageRequestCookieResponse.har';
+    let schemaPack,
+      optionFromOptions = {};
+    optionFromOptions[`${includeCookies.id}`] = true;
+    schemaPack = new SchemaPack({
+      data: VALID_PATH,
+      type: 'file'
+    }, optionFromOptions);
+    schemaPack.convert((error, result) => {
+      expect(error).to.be.null;
+      expect(result).to.be.an('object');
+      expect(result.output).to.be.an('array');
+      expect(result.output[0].data).to.be.an('object');
+      expect(result.output[0].data.info.name).to.equal('i.ytimg.com/vi/nmXMgqjQzls/mqdefault.jpg');
+      expect(result.output[0].type).to.equal('collection');
+      expect(result.output[0].data.item[0].response[0].cookie[0].name).to.equal('proposalHunt_sAntiCsrfToken');
+    });
+  });
+
+  it('Should convert the valid input file and exclude explicitly cookies from request', function () {
+    const options = SchemaPack.getOptions(),
+      includeCookies = options.find((option) => { return option.id === 'includeCookies'; }),
+      VALID_PATH = validHAREntriesFolder + '/multiplePost.har';
+    let schemaPack,
+      optionFromOptions = {};
+    optionFromOptions[`${includeCookies.id}`] = false;
+    schemaPack = new SchemaPack({
+      data: VALID_PATH,
+      type: 'file'
+    }, optionFromOptions);
+    schemaPack.convert((error, result) => {
+      expect(error).to.be.null;
+      expect(result).to.be.an('object');
+      expect(result.output).to.be.an('array');
+      expect(result.output[0].data).to.be.an('object');
+      expect(result.output[0].data.info.name).to.equal('localhost:3000/projects');
+      expect(result.output[0].type).to.equal('collection');
+      expect(result.output[0].data.item[0].request.header.length).to.equal(17);
+    });
+  });
+
+});
 
 describe('SchemaPack get metadata unit test  HAR file', function() {
   it('Should get the metadata from a valid input file and take the name from the file', function () {
@@ -96,3 +161,10 @@ describe('SchemaPack validate invalid HAR file', function() {
   });
 });
 
+
+describe('SchemaPack get options  ', function () {
+  it('Should get options statically', function () {
+    const options = SchemaPack.getOptions();
+    expect(Object.keys(options).length > 0).to.equal(true);
+  });
+});
