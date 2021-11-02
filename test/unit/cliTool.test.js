@@ -32,7 +32,7 @@ describe('har2postman ', function () {
     exec('./bin/har2postman.js -t', function (err, stdout) {
       expect(err).to.be.null;
       expect(stdout).to.include('testing conversion...');
-      expect(stdout).to.include('localhost:3000/projects');
+      expect(stdout).to.include('localhost:3000');
       done();
     });
   });
@@ -43,7 +43,7 @@ describe('har2postman ', function () {
         expect(err).to.be.null;
         fs.readFile(tempOutputFile, 'utf8', (err, data) => {
           let collection = JSON.parse(data);
-          expect(collection.info.name).to.equal('localhost:3000/projects');
+          expect(collection.info.name).to.equal('localhost:3000');
           expect(collection.item.length).to.equal(1);
           done();
         });
@@ -57,7 +57,7 @@ describe('har2postman ', function () {
       expect(err).to.be.null;
       fs.readFile(tempOutputFile, 'utf8', (err, data) => {
         let collection = JSON.parse(data);
-        expect(collection.info.name).to.equal('localhost:3000/projects');
+        expect(collection.info.name).to.equal('localhost:3000');
         expect(collection.item.length).to.equal(22);
         done();
       });

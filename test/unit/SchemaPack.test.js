@@ -60,7 +60,7 @@ describe('SchemaPack convert unit test  HAR file', function() {
       expect(result).to.be.an('object');
       expect(result.output).to.be.an('array');
       expect(result.output[0].data).to.be.an('object');
-      expect(result.output[0].data.info.name).to.equal('localhost:3000/projects');
+      expect(result.output[0].data.info.name).to.equal('localhost:3000');
       expect(result.output[0].type).to.equal('collection');
       expect(result.output[0].data.item[0].request.header[17].key).to.equal('Cookie');
     });
@@ -82,7 +82,7 @@ describe('SchemaPack convert unit test  HAR file', function() {
       expect(result).to.be.an('object');
       expect(result.output).to.be.an('array');
       expect(result.output[0].data).to.be.an('object');
-      expect(result.output[0].data.info.name).to.equal('i.ytimg.com/vi/nmXMgqjQzls/mqdefault.jpg');
+      expect(result.output[0].data.info.name).to.equal('i.ytimg.com');
       expect(result.output[0].type).to.equal('collection');
       expect(result.output[0].data.item[0].response[0].cookie[0].name).to.equal('proposalHunt_sAntiCsrfToken');
     });
@@ -104,7 +104,7 @@ describe('SchemaPack convert unit test  HAR file', function() {
       expect(result).to.be.an('object');
       expect(result.output).to.be.an('array');
       expect(result.output[0].data).to.be.an('object');
-      expect(result.output[0].data.info.name).to.equal('localhost:3000/projects');
+      expect(result.output[0].data.info.name).to.equal('localhost:3000');
       expect(result.output[0].type).to.equal('collection');
       expect(result.output[0].data.item[0].request.header.length).to.equal(17);
     });
@@ -126,7 +126,7 @@ describe('SchemaPack convert unit test  HAR file', function() {
       expect(result).to.be.an('object');
       expect(result.output).to.be.an('array');
       expect(result.output[0].data).to.be.an('object');
-      expect(result.output[0].data.info.name).to.equal('localhost:3000/projects');
+      expect(result.output[0].data.info.name).to.equal('localhost:3000');
       expect(result.output[0].type).to.equal('collection');
       result.output[0].data.item.forEach((item) => {
         expect(item.response).to.be.an('array');
@@ -151,7 +151,7 @@ describe('SchemaPack convert unit test  HAR file', function() {
       expect(result).to.be.an('object');
       expect(result.output).to.be.an('array');
       expect(result.output[0].data).to.be.an('object');
-      expect(result.output[0].data.info.name).to.equal('localhost:3000/projects');
+      expect(result.output[0].data.info.name).to.equal('localhost:3000');
       expect(result.output[0].type).to.equal('collection');
       result.output[0].data.item.forEach((item) => {
         expect(item.response).to.be.an('array');
@@ -162,7 +162,7 @@ describe('SchemaPack convert unit test  HAR file', function() {
 
 });
 
-describe('SchemaPack get metadata unit test  HAR file', function() {
+describe('SchemaPack get metadata unit test HAR file', function() {
   it('Should get the metadata from a valid input file and take the name from the file', function () {
     const
       VALID_PATH = validHAREntriesFolder + '/queryParams.har',
@@ -189,8 +189,8 @@ describe('SchemaPack get metadata unit test  HAR file', function() {
     schemaPack.getMetaData((error, result) => {
       expect(error).to.be.null;
       expect(result).to.be.an('object');
-      expect(result.name).to.equal('localhost:3000/projects');
-      expect(result.output[0].name).to.equal('localhost:3000/projects');
+      expect(result.name).to.equal('localhost:3000');
+      expect(result.output[0].name).to.equal('localhost:3000');
       expect(result.output[0].type).to.equal('collection');
     });
   });

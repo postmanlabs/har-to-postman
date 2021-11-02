@@ -36,7 +36,7 @@ describe('HARToPostmanCollectionMapper getCollectionPossibleNameFromPages', func
     const fileContent = fs.readFileSync(validHAREntriesFolder + '/multipleCorrectEntries.json', 'utf8'),
       logEntry = JSON.parse(fileContent),
       result = getCollectionPossibleNameFromPages(logEntry);
-    expect(result).to.equal('localhost:3000/projects');
+    expect(result).to.equal('localhost:3000');
   });
 });
 
@@ -46,14 +46,14 @@ describe('HARToPostmanCollectionMapper getCollectionName', function () {
     const fileContent = fs.readFileSync(validHAREntriesFolder + '/multipleCorrectEntries.json', 'utf8'),
       logEntry = JSON.parse(fileContent),
       result = getCollectionName(logEntry);
-    expect(result).to.equal('localhost:3000/projects');
+    expect(result).to.equal('localhost:3000');
   });
 
   it('Should get the name from first page\'s title even with provided name', function () {
     const fileContent = fs.readFileSync(validHAREntriesFolder + '/multipleCorrectEntries.json', 'utf8'),
       logEntry = JSON.parse(fileContent),
       result = getCollectionName(logEntry, 'file.har');
-    expect(result).to.equal('localhost:3000/projects');
+    expect(result).to.equal('localhost:3000');
   });
 
   it('Should return the same collection name if it is provided', function () {
@@ -176,7 +176,7 @@ describe('HARToPostmanCollectionMapper map', function () {
       mappingObj = map(logEntries, {});
     expect(mappingObj).to.not.be.undefined;
     expect(mappingObj.items.members.length).to.equal(12);
-    expect(mappingObj.name).equal('localhost:3000/projects');
+    expect(mappingObj.name).equal('localhost:3000');
     expect(mappingObj.variables.members.length).to.equal(1);
   });
 
