@@ -57,8 +57,8 @@ describe('getMetadata', function() {
     }, (error, result) => {
       expect(error).to.be.null;
       expect(result).to.be.an('object');
-      expect(result.name).to.equal('i.ytimg.com/vi/nmXMgqjQzls/mqdefault.jpg');
-      expect(result.output[0].name).to.equal('i.ytimg.com/vi/nmXMgqjQzls/mqdefault.jpg');
+      expect(result.name).to.equal('i.ytimg.com');
+      expect(result.output[0].name).to.equal('i.ytimg.com');
       expect(result.output[0].type).to.equal('collection');
     });
   });
