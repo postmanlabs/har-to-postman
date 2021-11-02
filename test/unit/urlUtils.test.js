@@ -1,6 +1,7 @@
 const { expect } = require('chai'),
   { getProtocolAndHost,
-    removeProtocolFromURL
+    removeProtocolFromURL,
+    getHost
   } = require('../../lib/utils/urlUtils');
 
 describe('getProtocolAndHost method', function () {
@@ -61,4 +62,17 @@ describe('removeProtocolFromURL method', function () {
     }
   });
 
+});
+
+describe('getHost method', function () {
+  it('should return localhost:3000 for entry "http://localhost:3000/projects"', function () {
+    const result = getHost('http://localhost:3000/projects');
+    expect(result).to.equal('localhost:3000');
+  });
+
+  it('should return en.wikipedia.org for entry "http://en.wikipedia.org/wiki/1920%E2%80%9321_Cardiff_City.json"',
+    function () {
+      const result = getHost('http://en.wikipedia.org/wiki/1920%E2%80%9321_Cardiff_City.json');
+      expect(result).to.equal('en.wikipedia.org');
+    });
 });
