@@ -839,7 +839,6 @@ describe('HARToPostmanCollectionMapper generateItemResponse', function () {
   });
 });
 
-
 describe('HARToPostmanCollectionMapper generateItem', function () {
 
   it('Should generate an item for simple entry', function () {
@@ -866,6 +865,118 @@ describe('HARToPostmanCollectionMapper generateItem', function () {
       '  \"email\": \"luis.tejeda@wizeline.com\",\n  \"role\": \"USER\"\n },\n \"error\": null,\n \"meta\": {}\n}');
     expect(item.response[0].originalRequest.body.raw).to.equal('{\n "params": null,\n "meta": {}\n}');
   });
+
+  it('Should generate an item for simple entry without response when option is false', function () {
+    const variables = [
+        {
+          key: '0BaseUrl',
+          value: 'http://localhost:3000',
+          urlData: {
+            index: 0,
+            url: 'http://localhost:3000/some?param1=2&param2=3'
+          }
+        }
+      ],
+      options = getOptions({ usage: ['CONVERSION'] }),
+      includeResponses = options.find((option) => { return option.id === 'includeResponses'; }),
+      fileContent = fs.readFileSync(validHAREntriesFolder + '/simpleCorrectEntry.json', 'utf8'),
+      logEntry = JSON.parse(fileContent);
+    let item,
+      optionToProcess = {};
+    optionToProcess[`${includeResponses.id}`] = false;
+    item = generateItem(logEntry, variables, optionToProcess);
+    expect(item).to.not.be.undefined;
+    expect(item.name).to.equal('localhost:3000/api/users/queries/getCurrentUser');
+    expect(item.request.method).to.equal('POST');
+    expect(item.request.body.raw).to.equal('{\n "params": null,\n "meta": {}\n}');
+    expect(item.response).to.be.empty;
+  });
+
+  it('Should generate an item for simple entry with response when option is true', function () {
+    const variables = [
+        {
+          key: '0BaseUrl',
+          value: 'http://localhost:3000',
+          urlData: {
+            index: 0,
+            url: 'http://localhost:3000/some?param1=2&param2=3'
+          }
+        }
+      ],
+      options = getOptions({ usage: ['CONVERSION'] }),
+      includeResponses = options.find((option) => { return option.id === 'includeResponses'; }),
+      fileContent = fs.readFileSync(validHAREntriesFolder + '/simpleCorrectEntry.json', 'utf8'),
+      logEntry = JSON.parse(fileContent);
+    let item,
+      optionToProcess = {};
+    optionToProcess[`${includeResponses.id}`] = true;
+    item = generateItem(logEntry, variables, optionToProcess);
+    expect(item).to.not.be.undefined;
+    expect(item.name).to.equal('localhost:3000/api/users/queries/getCurrentUser');
+    expect(item.request.method).to.equal('POST');
+    expect(item.request.body.raw).to.equal('{\n "params": null,\n "meta": {}\n}');
+    expect(item.response[0].name).to.equal('successfully / 200');
+    expect(item.response[0].body)
+      .to.equal('{\n \"result\": {\n  \"id\": 1,\n  \"name\": \"Luis Tejeda Sanchez\",\n' +
+      '  \"email\": \"luis.tejeda@wizeline.com\",\n  \"role\": \"USER\"\n },\n \"error\": null,\n \"meta\": {}\n}');
+    expect(item.response[0].originalRequest.body.raw).to.equal('{\n "params": null,\n "meta": {}\n}');
+  });
+
+  it('Should generate an item for simple entry with response when option for include is not present', function () {
+    const variables = [
+        {
+          key: '0BaseUrl',
+          value: 'http://localhost:3000',
+          urlData: {
+            index: 0,
+            url: 'http://localhost:3000/some?param1=2&param2=3'
+          }
+        }
+      ],
+      fileContent = fs.readFileSync(validHAREntriesFolder + '/simpleCorrectEntry.json', 'utf8'),
+      logEntry = JSON.parse(fileContent);
+    let item = generateItem(logEntry, variables, {});
+    expect(item).to.not.be.undefined;
+    expect(item.name).to.equal('localhost:3000/api/users/queries/getCurrentUser');
+    expect(item.request.method).to.equal('POST');
+    expect(item.request.body.raw).to.equal('{\n "params": null,\n "meta": {}\n}');
+    expect(item.response[0].name).to.equal('successfully / 200');
+    expect(item.response[0].body)
+      .to.equal('{\n \"result\": {\n  \"id\": 1,\n  \"name\": \"Luis Tejeda Sanchez\",\n' +
+      '  \"email\": \"luis.tejeda@wizeline.com\",\n  \"role\": \"USER\"\n },\n \"error\": null,\n \"meta\": {}\n}');
+    expect(item.response[0].originalRequest.body.raw).to.equal('{\n "params": null,\n "meta": {}\n}');
+  });
+
+  it('Should generate an item for simple entry with response when option is null', function () {
+    const variables = [
+        {
+          key: '0BaseUrl',
+          value: 'http://localhost:3000',
+          urlData: {
+            index: 0,
+            url: 'http://localhost:3000/some?param1=2&param2=3'
+          }
+        }
+      ],
+      options = getOptions({ usage: ['CONVERSION'] }),
+      includeResponses = options.find((option) => { return option.id === 'includeResponses'; }),
+      fileContent = fs.readFileSync(validHAREntriesFolder + '/simpleCorrectEntry.json', 'utf8'),
+      logEntry = JSON.parse(fileContent);
+    let item,
+      optionToProcess = {};
+    optionToProcess[`${includeResponses.id}`] = null;
+    item = generateItem(logEntry, variables, optionToProcess);
+    expect(item).to.not.be.undefined;
+    expect(item.name).to.equal('localhost:3000/api/users/queries/getCurrentUser');
+    expect(item.request.method).to.equal('POST');
+    expect(item.request.body.raw).to.equal('{\n "params": null,\n "meta": {}\n}');
+    expect(item.response[0].name).to.equal('successfully / 200');
+    expect(item.response[0].body)
+      .to.equal('{\n \"result\": {\n  \"id\": 1,\n  \"name\": \"Luis Tejeda Sanchez\",\n' +
+      '  \"email\": \"luis.tejeda@wizeline.com\",\n  \"role\": \"USER\"\n },\n \"error\": null,\n \"meta\": {}\n}');
+    expect(item.response[0].originalRequest.body.raw).to.equal('{\n "params": null,\n "meta": {}\n}');
+  });
+
 });
 
 describe('HARToPostmanCollectionMapper generateItems', function () {

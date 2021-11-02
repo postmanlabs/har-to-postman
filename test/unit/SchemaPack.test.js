@@ -110,6 +110,56 @@ describe('SchemaPack convert unit test  HAR file', function() {
     });
   });
 
+  it('Should convert the valid input file and exclude explicitly response from item', function () {
+    const options = SchemaPack.getOptions(),
+      includeResponses = options.find((option) => { return option.id === 'includeResponses'; }),
+      VALID_PATH = validHAREntriesFolder + '/multiplePost.har';
+    let schemaPack,
+      optionFromOptions = {};
+    optionFromOptions[`${includeResponses.id}`] = false;
+    schemaPack = new SchemaPack({
+      data: VALID_PATH,
+      type: 'file'
+    }, optionFromOptions);
+    schemaPack.convert((error, result) => {
+      expect(error).to.be.null;
+      expect(result).to.be.an('object');
+      expect(result.output).to.be.an('array');
+      expect(result.output[0].data).to.be.an('object');
+      expect(result.output[0].data.info.name).to.equal('localhost:3000/projects');
+      expect(result.output[0].type).to.equal('collection');
+      result.output[0].data.item.forEach((item) => {
+        expect(item.response).to.be.an('array');
+        expect(item.response).to.be.empty;
+      });
+    });
+  });
+
+  it('Should convert the valid input file and include explicitly response from item', function () {
+    const options = SchemaPack.getOptions(),
+      includeResponses = options.find((option) => { return option.id === 'includeResponses'; }),
+      VALID_PATH = validHAREntriesFolder + '/multiplePost.har';
+    let schemaPack,
+      optionFromOptions = {};
+    optionFromOptions[`${includeResponses.id}`] = true;
+    schemaPack = new SchemaPack({
+      data: VALID_PATH,
+      type: 'file'
+    }, optionFromOptions);
+    schemaPack.convert((error, result) => {
+      expect(error).to.be.null;
+      expect(result).to.be.an('object');
+      expect(result.output).to.be.an('array');
+      expect(result.output[0].data).to.be.an('object');
+      expect(result.output[0].data.info.name).to.equal('localhost:3000/projects');
+      expect(result.output[0].type).to.equal('collection');
+      result.output[0].data.item.forEach((item) => {
+        expect(item.response).to.be.an('array');
+        expect(item.response.length > 0).to.be.true;
+      });
+    });
+  });
+
 });
 
 describe('SchemaPack get metadata unit test  HAR file', function() {
