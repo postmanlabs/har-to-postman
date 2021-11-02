@@ -65,15 +65,15 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
         );
     });
 
-    it('Should have Cookies exclude by default', function () {
+    it('Should have Cookies excluded by default', function () {
         fileContent = fs.readFileSync('test/data/externalHARfile/patio.wizeline.givers.original.har', 'utf8');
         Index.convert(
             { data: fileContent, type: 'string' },
             {},
             (error, result) => {
                 expect(error).to.be.null;
-                console.log(result.output[0].data.item[9].response[0].header.length);
-                expect(result.output[0].data.item[10].response[0].cookie).to.be.empty;
+                expect(result.output[0].data.item[9].request.header.length).to.eql(16);
+                expect(result.output[0].data.item[9].response[0].cookie).to.be.empty;
             }
         );
     });
@@ -85,8 +85,8 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
             { includeCookies: true },
             (error, result) => {
                 expect(error).to.be.null;
-                console.log(result.output[0].data.item[9].response[0].header.length);
-                expect(result.output[0].data.item[10].response[0].cookie).not.to.be.empty;
+                expect(result.output[0].data.item[9].request.header.length).to.eql(17);
+                expect(result.output[0].data.item[9].response[0].cookie).not.to.be.empty;
             }
         );
     });
@@ -121,7 +121,6 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
                 expect(error).to.be.null;
                 expect(result.output[0].data.item[0].response).to.be.an('array');
                 expect(result.output[0].data.item[0].response).to.be.empty;
-                //console.log(result.output[0].data.item[0].response);
             }
         );
     });
