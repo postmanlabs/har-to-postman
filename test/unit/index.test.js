@@ -6,16 +6,16 @@ const { expect } = require('chai'),
   } = require('../../index'),
   validHAREntriesFolder = 'test/data/validHARFiles';
 
-describe('Index getOptions', function() {
-  it('Should return external options when called without parameters', function() {
+describe('Index getOptions', function () {
+  it('Should return external options when called without parameters', function () {
     const options = getOptions();
     expect(options).to.be.an('array');
     expect(options).to.not.be.empty;
   });
 });
 
-describe('convert', function() {
-  it('Should convert the valid input file', function() {
+describe('convert', function () {
+  it('Should convert the valid input file', function () {
     const
       VALID_WSDL_PATH = validHAREntriesFolder + '/simpleImageRequest.har';
     convert({
@@ -29,7 +29,6 @@ describe('convert', function() {
       expect(result.output[0].type).to.equal('collection');
     });
   });
-
 
   it('Should conver a har file into a PM Collection with tab indentation character', function () {
     const
@@ -48,8 +47,8 @@ describe('convert', function() {
   });
 });
 
-describe('getMetadata', function() {
-  it('Should convert the valid input file', function() {
+describe('getMetadata', function () {
+  it('Should convert the valid input file', function () {
     const
       VALID_WSDL_PATH = validHAREntriesFolder + '/simpleImageRequest.har';
     getMetaData({

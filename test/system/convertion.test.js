@@ -60,6 +60,33 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
                 expect(result.output[0].data.variable[3].value).to.equal('https://spf8c0usjl.execute-api.us-east-1.amazonaws.com');
                 expect(result.output[0].data.variable[4].key).to.equal('baseUrl18');
                 expect(result.output[0].data.variable[4].value).to.equal('https://avatars.slack-edge.com');
+                expect(result.output[0].data.item[10].response[0].cookie).to.be.empty;
+            }
+        );
+    });
+
+    it('Should have Cookies exclude by default', function () {
+        fileContent = fs.readFileSync('test/data/externalHARfile/patio.wizeline.givers.original.har', 'utf8');
+        Index.convert(
+            { data: fileContent, type: 'string' },
+            {},
+            (error, result) => {
+                expect(error).to.be.null;
+                console.log(result.output[0].data.item[9].response[0].header.length);
+                expect(result.output[0].data.item[10].response[0].cookie).to.be.empty;
+            }
+        );
+    });
+
+    it('Should include cookies when enabled in options', function () {
+        fileContent = fs.readFileSync('test/data/externalHARfile/patio.wizeline.givers.original.har', 'utf8');
+        Index.convert(
+            { data: fileContent, type: 'string' },
+            { includeCookies: true },
+            (error, result) => {
+                expect(error).to.be.null;
+                console.log(result.output[0].data.item[9].response[0].header.length);
+                expect(result.output[0].data.item[10].response[0].cookie).not.to.be.empty;
             }
         );
     });
@@ -81,6 +108,20 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
                 expect(result.output[0].data.item[0].request.url.query[3].value).to.equal('2021');
                 expect(result.output[0].data.item[0].request.url.query[4].key).to.equal('month');
                 expect(result.output[0].data.item[0].request.url.query[4].value).to.equal('Oct');
+            }
+        );
+    });
+
+    it('Should exlcude responses', function () {
+        fileContent = fs.readFileSync('test/data/externalHARfile/patio.wizeline.givers.har', 'utf8');
+        Index.convert(
+            { data: fileContent, type: 'string' },
+            { includeResponses: false },
+            (error, result) => {
+                expect(error).to.be.null;
+                expect(result.output[0].data.item[0].response).to.be.an('array');
+                expect(result.output[0].data.item[0].response).to.be.empty;
+                //console.log(result.output[0].data.item[0].response);
             }
         );
     });

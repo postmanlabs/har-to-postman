@@ -2,7 +2,8 @@ const expect = require('chai').expect,
   getOptions = require('../../lib/utils/options').getOptions,
   optionIds = [
     'indentCharacter',
-    'includeCookies'
+    'includeCookies',
+    'includeResponses'
   ];
 
 describe('SchemaPack getOptions', function () {
@@ -28,7 +29,7 @@ describe('SchemaPack getOptions', function () {
   it('Should return external options when called with mode = document', function () {
     const options = getOptions('document');
     expect(options).to.be.an('array');
-    expect(options.length).to.eq(2);
+    expect(options.length).to.eq(3);
   });
 
   it('Should return external options when called with mode = use', function () {
@@ -70,13 +71,13 @@ describe('SchemaPack getOptions', function () {
       usage: ['CONVERSION']
     });
     expect(options).to.be.an('array');
-    expect(options.length).to.eq(2);
+    expect(options.length).to.eq(3);
   });
 
   it('Should return external options when called with mode document and usage not an object', function () {
     const options = getOptions('document', 2);
     expect(options).to.be.an('array');
-    expect(options.length).to.eq(2);
+    expect(options.length).to.eq(3);
   });
 
   it('Should return default empty array in validationPropertiesToIgnore', function () {
