@@ -327,7 +327,7 @@
     "variable": [
         {
             "type": "any",
-            "value": "https://wizeline-patio.us.auth0.com",
+            "value": "https://authentication.auth0.com",
             "key": "baseUrl 0"
         }
     ],
