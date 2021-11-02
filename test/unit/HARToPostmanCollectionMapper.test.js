@@ -1218,6 +1218,16 @@ describe('HARToPostmanCollectionMapper filterCookiesFromHeader', function () {
 
   });
 
+  it('should return undefined when there is no option for include cookies lowercase', function () {
+    let header = {};
+    header = filterCookiesFromHeader([{
+      name: 'cookie',
+      value: 'proposalHunt_sAntiCsrfToken=bMBNEsvnocdYBmF8YVzA9-tCXHyvHhpq'
+    }], {});
+    expect(header).to.be.empty;
+
+  });
+
   it('should return undefined when include cookies options is set to false', function () {
     const options = getOptions({ usage: ['CONVERSION'] }),
       includeCookies = options.find((option) => { return option.id === 'includeCookies'; });
