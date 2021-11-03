@@ -246,6 +246,42 @@ describe('HARToPostmanCollectionMapper getItemRequestHeaders', function () {
     expect(result.length).to.equal(0);
   });
 
+  it('Should exclude pseudo headers from list', function () {
+    const harRequestHeaders = [
+        {
+          'name': 'Host',
+          'value': 'localhost:3000'
+        },
+        {
+          'name': 'Content-Length',
+          'value': '23'
+        },
+        {
+          'name': ':method',
+          'value': 'GET'
+        },
+        {
+          'name': ':authority',
+          'value': 'i.ytimg.com'
+        },
+        {
+          'name': ':scheme',
+          'value': 'https'
+        },
+        {
+          'name': ':path',
+          'value': '/vi/nmXMgqjQzls/mqdefault.jpg'
+        }
+      ],
+      result = getItemRequestHeaders(harRequestHeaders);
+    expect(result).to.not.be.undefined;
+    expect(Array.isArray(result)).to.be.true;
+    expect(result.length).to.equal(2);
+    expect(result[0].key).to.equal('Host');
+    expect(result[0].value).to.equal('localhost:3000');
+    expect(result.length).to.equal(2);
+  });
+
 });
 
 
