@@ -1,7 +1,8 @@
 const { expect } = require('chai'),
   { getProtocolAndHost,
     removeProtocolFromURL,
-    getHost
+    getHost,
+    decodeURL
   } = require('../../lib/utils/urlUtils');
 
 describe('getProtocolAndHost method', function () {
@@ -75,4 +76,23 @@ describe('getHost method', function () {
       const result = getHost('http://en.wikipedia.org/wiki/1920%E2%80%9321_Cardiff_City.json');
       expect(result).to.equal('en.wikipedia.org');
     });
+});
+
+describe('decodeURL method', function () {
+  it('should return "en.wikipedia.org/wiki/1920–21_Cardiff_City.json" for entry' +
+  ' "en.wikipedia.org%2Fwiki%2F1920%E2%80%9321_Cardiff_City.json"', function () {
+    const result = decodeURL('en.wikipedia.org%2Fwiki%2F1920%E2%80%9321_Cardiff_City.json');
+    expect(result).to.equal('en.wikipedia.org/wiki/1920–21_Cardiff_City.json');
+  });
+
+  it('should return "" for entry "" ', function () {
+    const result = decodeURL('');
+    expect(result).to.equal('');
+  });
+
+  it('should return "" for entry undefined ', function () {
+    const result = decodeURL();
+    expect(result).to.equal('');
+  });
+
 });
