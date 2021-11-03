@@ -3,7 +3,8 @@ const { expect } = require('chai'),
     mapBodyFromJson,
     mapBody,
     mapBodyFromJsonResponse,
-    mapBodyResponse
+    mapBodyResponse,
+    mapBodyFromFormData
   } = require('../../lib/HARToPostmanCollectionBodyMapper'),
   getOptions = require('./../../lib/utils/options').getOptions;
 
@@ -94,6 +95,33 @@ describe('HARToPostmanCollectionBodyMapper mapBody', function () {
     const harRequest = { bodySize: 24, postData: { text: '{"some":"value"}', mimeType: 'application/pdf' } },
       result = mapBody(harRequest);
     expect(result).to.be.undefined;
+  });
+
+  it('Should get body with form data', function () {
+    const harRequest = {
+        bodySize: 238,
+        postData:
+        {
+          mimeType: 'multipart/form-data; boundary=----WebKitFormBoundaryKUwp7Td66vN5koO0',
+          params: [
+            {
+              name: 'name',
+              value: 'John'
+            },
+            {
+              name: 'surname',
+              value: 'Smith'
+            }
+          ],
+          text: '------WebKitFormBoundaryKUwp7Td66vN5koO0\r\nContent-Disposition: form-data;' +
+            ' name=\"name\"\r\n\r\nJohn\r\n------WebKitFormBoundaryKUwp7Td66vN5koO0\r\nContent-Disposition:' +
+            ' form-data; name=\"surname\"\r\n\r\nSmith\r\n------WebKitFormBoundaryKUwp7Td66vN5koO0--\r\n'
+        }
+      },
+      result = mapBody(harRequest);
+    expect(result).to.not.be.undefined;
+    expect(result.mode).to.equal('formdata');
+    expect(result.formdata.length).to.equal(2);
   });
 
 });
@@ -208,6 +236,69 @@ describe('HARToPostmanCollectionBodyMapper mapBodyResponse', function () {
       result = mapBodyResponse(harResponse);
     expect(result.body).to.be.equal('test: {color: red}');
     expect(result.language).to.be.equal('text');
+  });
+
+});
+
+describe('mapBodyFromFormData method', function () {
+  it('should return mapped request from har to PM body', function () {
+    const harRequest = {
+        postData:
+        {
+          mimeType: 'multipart/form-data; boundary=----WebKitFormBoundaryKUwp7Td66vN5koO0',
+          params: [
+            {
+              name: 'name',
+              value: 'John'
+            },
+            {
+              name: 'surname',
+              value: 'Smith'
+            }
+          ],
+          text: '------WebKitFormBoundaryKUwp7Td66vN5koO0\r\nContent-Disposition: form-data;' +
+            ' name=\"name\"\r\n\r\nJohn\r\n------WebKitFormBoundaryKUwp7Td66vN5koO0\r\nContent-Disposition:' +
+            ' form-data; name=\"surname\"\r\n\r\nSmith\r\n------WebKitFormBoundaryKUwp7Td66vN5koO0--\r\n'
+        }
+      },
+      result = mapBodyFromFormData(harRequest);
+    expect(result).to.not.be.undefined;
+    expect(result.mode).to.equal('formdata');
+    expect(result.formdata).to.be.an('array');
+    expect(result.formdata[0].key).to.equal('name');
+    expect(result.formdata[0].value).to.equal('John');
+    expect(result.formdata[0].type).to.equal('text');
+    expect(result.formdata[1].key).to.equal('surname');
+    expect(result.formdata[1].value).to.equal('Smith');
+    expect(result.formdata[1].type).to.equal('text');
+
+  });
+
+  it('should return mapped empty body with undefined har entry', function () {
+    const
+      result = mapBodyFromFormData();
+    expect(result).to.not.be.undefined;
+    expect(result.mode).to.equal('formdata');
+    expect(result.formdata).to.be.an('array');
+    expect(result.formdata).to.be.empty;
+  });
+
+  it('should return mapped empty body with undefined post data entry', function () {
+    const
+      result = mapBodyFromFormData({});
+    expect(result).to.not.be.undefined;
+    expect(result.mode).to.equal('formdata');
+    expect(result.formdata).to.be.an('array');
+    expect(result.formdata).to.be.empty;
+  });
+
+  it('should return mapped empty body with undefined postdata params entry', function () {
+    const
+      result = mapBodyFromFormData({ postData: {} });
+    expect(result).to.not.be.undefined;
+    expect(result.mode).to.equal('formdata');
+    expect(result.formdata).to.be.an('array');
+    expect(result.formdata).to.be.empty;
   });
 
 });
