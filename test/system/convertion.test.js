@@ -95,7 +95,7 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
     );
   });
 
-  it('Should contain multiple args', function () {
+  it('Should have multiple args for Request URL', function () {
     fileContent = fs.readFileSync('test/data/externalHARfile/patio.wizeline.givers.har', 'utf8');
     Index.convert(
       { data: fileContent, type: 'string' },
@@ -116,7 +116,7 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
     );
   });
 
-  it('Should exlcude responses', function () {
+  it('Should exclude responses when options is sent as false', function () {
     fileContent = fs.readFileSync('test/data/externalHARfile/patio.wizeline.givers.har', 'utf8');
     Index.convert(
       { data: fileContent, type: 'string' },
