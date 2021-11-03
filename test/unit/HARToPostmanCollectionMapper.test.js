@@ -38,6 +38,7 @@ describe('HARToPostmanCollectionMapper getCollectionPossibleNameFromPages', func
       result = getCollectionPossibleNameFromPages(logEntry);
     expect(result).to.equal('localhost:3000');
   });
+
 });
 
 describe('HARToPostmanCollectionMapper getCollectionName', function () {
@@ -1039,7 +1040,7 @@ describe('HARToPostmanCollectionMapper generateItems', function () {
     expect(items[3].name).to.equal('localhost:3000/api/labels/queries/getLabels');
     expect(items[4].name).to.equal('localhost:3000/api/profiles/queries/searchProfiles');
     expect(items[5].name).to.equal('localhost:3000/api/projects/mutations/createProject');
-    expect(items[6].name).to.equal('localhost:3000/_next/static/chunks/pages/projects/%5BprojectId%5D.js');
+    expect(items[6].name).to.equal('localhost:3000/_next/static/chunks/pages/projects/[projectId].js');
     expect(items[7].name).to.equal('localhost:3000/_next/static/webpack/283c808214c965e442e6.hot-update.json');
     expect(items[8].name).to.equal('localhost:3000/_next/static/webpack/webpack.283c808214c965e442e6.hot-update.js');
     expect(items[9].name).to.equal('localhost:3000/api/projects/queries/getProject');
