@@ -87,6 +87,28 @@ describe('HARToPostmanCollectionMapper getCollectionName', function () {
     expect(result).to.equal('not url');
   });
 
+  it('Should get the same title but decoded', function () {
+    const result = getCollectionName(
+      {
+        log:
+        {
+          pages: [{ title: 'en.wikipedia.org%2Fwiki%2F1920%E2%80%9321_Cardiff_City.json' }]
+        }
+      }, '');
+    expect(result).to.equal('en.wikipedia.org/wiki/1920–21_Cardiff_City.json');
+  });
+
+  it('Should get the domain the same title but decoded ', function () {
+    const result = getCollectionName(
+      {
+        log:
+        {
+          pages: [{ title: 'htttp:%2F%2Fen.wikipedi%61.org%2Fwiki%2F1920%E2%80%9321_Cardiff_City.json' }]
+        }
+      }, '');
+    expect(result).to.equal('en.wikipedia.org');
+  });
+
 });
 
 describe('HARToPostmanCollectionMapper getCollectionDescription', function () {
@@ -204,6 +226,17 @@ describe('HARToPostmanCollectionMapper getItemName', function () {
     const result = getItemName({ url: 'invalid url' });
     expect(result).to.eq('invalid url');
   });
+
+  it('Should get "i.ytimg.com/vi/nmXMgqjQzls/mqdefault.jpg" decoded', function () {
+    const result = getItemName({ url: 'https:%2F%2Fi.ytimg.com/vi/nmXMgqjQzls/mqdefault.jpg' });
+    expect(result).to.eq('i.ytimg.com/vi/nmXMgqjQzls/mqdefault.jpg');
+  });
+
+  it('Should get same string when entry is not a valid url decoded', function () {
+    const result = getItemName({ url: 'inv%61lid url' });
+    expect(result).to.eq('invalid url');
+  });
+
 });
 
 describe('HARToPostmanCollectionMapper getBody', function () {
