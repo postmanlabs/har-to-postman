@@ -128,4 +128,23 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
       }
     );
   });
+
+  it('Should decode URL and title from har', function () {
+    let name = 'localhost1:3000/authorize?audience=https://spf8c0usjl.execute-api.us-east-1.amazonaws.com/prod/&' +
+    'client_id=4MwrrncB4YlTYeeBNbC1oGuHG6sFbU1A&redirect_uri=https://localhost:3000/callback&scope=openid%20' +
+    'profile%20email&response_type=code&response_mode=web_message&state=fmNMMGRFSTJGcklscDQ3bGpzVko1SVFZcTJq' +
+    'U1UyLUxrWFRSczN3T1N2UA==&nonce=N0Iwb1g1czVCN1YxdFNUOG1heHUtN0hKTTM1RFN4cGNod2ZDbXUwM1BQVw==&code_challenge' +
+    '=RzgHAZSgknVCrSqW7106E6zZIWfvvFxAfIWm6qUpR5k&code_challenge_method=S256&prompt=none&auth0Client=' +
+    'eyJuYW1lIjoiYXV0aDAtcmVhY3QiLCJ2ZXJzaW9uIjoiMS41LjAifQ==';
+    fileContent = fs.readFileSync('test/data/externalHARfile/patio.wizeline.givers.original.har', 'utf8');
+    Index.convert(
+      { data: fileContent, type: 'string' },
+      {},
+      (error, result) => {
+        expect(error).to.be.null;
+        expect(result.output[0].data.info.name).to.be.eql('localhost:3000');
+        expect(result.output[0].data.item[9].name).to.be.eql(name);
+      }
+    );
+  });
 });
