@@ -178,6 +178,24 @@ describe('SchemaPack convert unit test  HAR file', function() {
     });
   });
 
+  it('Should convert the valid input file with form data params safari', function () {
+    const VALID_PATH = validHAREntriesFolder + '/formdataParamsSafari.har',
+      schemaPack = new SchemaPack({
+        data: VALID_PATH,
+        type: 'file'
+      }, {});
+    schemaPack.convert((error, result) => {
+      expect(error).to.be.null;
+      expect(result).to.be.an('object');
+      expect(result.output).to.be.an('array');
+      expect(result.output[0].data).to.be.an('object');
+      expect(result.output[0].data.info.name).to.equal('javascript.info');
+      expect(result.output[0].type).to.equal('collection');
+      expect(result.output[0].data.item[0].request.body.mode).to.equal('formdata');
+      expect(result.output[0].data.item[0].request.body.formdata.length).to.equal(2);
+    });
+  });
+
 });
 
 describe('SchemaPack get metadata unit test HAR file', function() {
