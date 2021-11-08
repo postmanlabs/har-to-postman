@@ -8,7 +8,7 @@ describe('HARToPostmanCollectionMapper replaceVariableInUrl', function() {
 
   it('should return 1 variables for 2 equal urls', function() {
     const variables = [{
-        key: '0BaseUrl',
+        key: 'BaseUrl1',
         value: 'http://localhost:3000',
         urlData: {
           index: 0,
@@ -17,7 +17,7 @@ describe('HARToPostmanCollectionMapper replaceVariableInUrl', function() {
       }],
       replaced = replaceVariableInUrl('http://localhost:3000/api/categories/queries/getCategories', variables);
     expect(replaced).to.not.be.undefined;
-    expect(replaced).to.equal('{{0BaseUrl}}/api/categories/queries/getCategories');
+    expect(replaced).to.equal('{{BaseUrl1}}/api/categories/queries/getCategories');
 
   });
 
