@@ -1162,7 +1162,7 @@ describe('HARToPostmanCollectionMapper getUrlDataFromEntries', function () {
 
 describe('HARToPostmanCollectionMapper getVariablesFromUrlDataList', function () {
 
-  it('should return 2 variables for 2 diff urls', function () {
+  it(' should return 1 variables for 2 equal urls', function () {
     const parsedHAR = {
         log: {
           entries: [
@@ -1189,7 +1189,7 @@ describe('HARToPostmanCollectionMapper getVariablesFromUrlDataList', function ()
     expect(variables[0].value).to.equal('http://localhost:3000');
   });
 
-  it('should return 1 variables for 2 equal urls', function () {
+  it('should return 2 variables for 2 diff urls', function () {
     const parsedHAR = {
         log: {
           entries: [
