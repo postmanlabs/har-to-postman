@@ -1162,7 +1162,7 @@ describe('HARToPostmanCollectionMapper getUrlDataFromEntries', function () {
 
 describe('HARToPostmanCollectionMapper getVariablesFromUrlDataList', function () {
 
-  it('should return 2 variables for 2 diff urls', function () {
+  it(' should return 1 variables for 2 equal urls', function () {
     const parsedHAR = {
         log: {
           entries: [
@@ -1185,11 +1185,11 @@ describe('HARToPostmanCollectionMapper getVariablesFromUrlDataList', function ()
       variables = getVariablesFromUrlDataList(urlData);
     expect(variables).to.not.be.undefined;
     expect(variables.length).to.equal(1);
-    expect(variables[0].key).to.equal('baseUrl0');
+    expect(variables[0].key).to.equal('baseUrl1');
     expect(variables[0].value).to.equal('http://localhost:3000');
   });
 
-  it('should return 1 variables for 2 equal urls', function () {
+  it('should return 2 variables for 2 diff urls', function () {
     const parsedHAR = {
         log: {
           entries: [
@@ -1212,9 +1212,9 @@ describe('HARToPostmanCollectionMapper getVariablesFromUrlDataList', function ()
       variables = getVariablesFromUrlDataList(urlData);
     expect(variables).to.not.be.undefined;
     expect(variables.length).to.equal(2);
-    expect(variables[0].key).to.equal('baseUrl0');
+    expect(variables[0].key).to.equal('baseUrl1');
     expect(variables[0].value).to.equal('http://localhost:3000');
-    expect(variables[1].key).to.equal('baseUrl1');
+    expect(variables[1].key).to.equal('baseUrl2');
     expect(variables[1].value).to.equal('http://localhost:5000');
   });
 
