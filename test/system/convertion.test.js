@@ -148,19 +148,7 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
     );
   });
 
-  it('Should support text based bodies', function () {
-    fileContent = fs.readFileSync('test/data/externalHARfile/patio.wizeline.givers.original.har', 'utf8');
-    Index.convert(
-      { data: fileContent, type: 'string' },
-      {},
-      (error, result) => {
-        expect(error).to.be.null;
-        console.log(result.output[0].data.item[14]);
-      }
-    );
-  });
-
-  it('Should add a default body to non text based bodies in response', function () {
+  it('Should add a default body to non-text based bodies in response', function () {
     fileContent = fs.readFileSync('test/data/externalHARfile/patio.wizeline.givers.original.har', 'utf8');
     const expectedBodyContent = 'This content type is not supported in the response body';
     Index.convert(
@@ -168,7 +156,6 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
       {},
       (error, result) => {
         expect(error).to.be.null;
-        console.log(result.output[0].data.item[14].response[0].body);
         expect(result.output[0].data.item[14].response[0].body).to.be.equal(expectedBodyContent);
       }
     );

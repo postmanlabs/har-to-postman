@@ -156,7 +156,7 @@ describe('HARToPostmanCollectionBodyMapper mapBodyFromJsonResponse', function ()
 describe('HARToPostmanCollectionBodyMapper mapBodyResponse', function () {
 
   it('Should get body with raw and json type', function () {
-    const harResponse = { bodySize: 25, content: { text: '{"some":"value"}', mimeType: 'application/json' } },
+    const harResponse = { bodySize: -1, content: { text: '{"some":"value"}', mimeType: 'application/json', size: 25 } },
       result = mapBodyResponse(harResponse);
     expect(result).to.not.be.undefined;
     expect(result.language).to.equal('json');
@@ -170,25 +170,27 @@ describe('HARToPostmanCollectionBodyMapper mapBodyResponse', function () {
   });
 
   it('Should get not supported message when mime type is not text-based', function () {
-    const harResponse = { bodySize: 24, content: { text: '{some:value}', mimeType: 'application/pdf' } },
+    const harResponse = { bodySize: -1, content: { text: '{"some":"value"}', mimeType: 'application/pdf', size: 25 } },
       result = mapBodyResponse(harResponse),
       notSupportedMessage = 'This content type is not supported in the response body';
     expect(result.body).to.be.equal(notSupportedMessage);
   });
 
   it('Should be handled when mime type is application/javascript', function () {
-    const harResponse = { bodySize: 24, content: { text: 'text value', mimeType: 'application/javascript' } },
+    const harResponse = { bodySize: -1, content: { text: '{"some":"value"}',
+        mimeType: 'application/javascript', size: 25 } },
       result = mapBodyResponse(harResponse);
-    expect(result.body).to.be.equal('text value');
+    expect(result.body).to.be.equal('{"some":"value"}');
     expect(result.language).to.be.equal('text');
   });
 
   it('Should be handled when mime type is text/html', function () {
     const harResponse = {
-        bodySize: 24,
+        bodySize: -1,
         content: {
           text: '<html><body>Test content</body></html>',
-          mimeType: 'text/html'
+          mimeType: 'text/html',
+          size: 25
         }
       },
       result = mapBodyResponse(harResponse);
@@ -197,14 +199,16 @@ describe('HARToPostmanCollectionBodyMapper mapBodyResponse', function () {
   });
 
   it('Should be handled when mime type is application/xml', function () {
-    const harResponse = { bodySize: 24, content: { text: '<xml>test content</xml>', mimeType: 'application/xml' } },
+    const harResponse = { bodySize: -1, content: { text: '<xml>test content</xml>',
+        mimeType: 'application/xml', size: 25 } },
       result = mapBodyResponse(harResponse);
     expect(result.body).to.be.equal('<xml>test content</xml>');
     expect(result.language).to.be.equal('xml');
   });
 
   it('Should be handled when mime type is text/css', function () {
-    const harResponse = { bodySize: 24, content: { text: 'test: {color: red}', mimeType: 'text/css' } },
+    const harResponse = { bodySize: -1, content: { text: 'test: {color: red}',
+        mimeType: 'text/css', size: 25 } },
       result = mapBodyResponse(harResponse);
     expect(result.body).to.be.equal('test: {color: red}');
     expect(result.language).to.be.equal('text');
