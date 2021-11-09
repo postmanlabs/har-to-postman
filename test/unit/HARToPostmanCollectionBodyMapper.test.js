@@ -152,6 +152,23 @@ describe('HARToPostmanCollectionBodyMapper mapBody', function () {
     expect(result.mode).to.be.equal('urlencoded');
   });
 
+  it('Should be handled when mime type is application/x-www-form-urlencoded ' +
+    'and file was created in safari format', function() {
+    const harRequest = {
+        bodySize: 36,
+        postData:
+        {
+          'mimeType': '',
+          'text': 'redir=1&login=testuser&password=test',
+          'params': []
+        }
+      },
+      result = mapBody(harRequest);
+    expect(result.urlencoded).to.be.an('array');
+    expect(result.urlencoded.length).to.be.equal(3);
+    expect(result.mode).to.be.equal('urlencoded');
+  });
+
 });
 
 
