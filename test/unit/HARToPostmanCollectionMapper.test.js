@@ -844,6 +844,10 @@ describe('HARToPostmanCollectionMapper generateItemResponse', function () {
           {
             name: 'Content-Type',
             value: 'application/json; charset=utf-8'
+          },
+          {
+            name: 'Set-Cookie',
+            value: 'proposalHunt_sAntiCsrfToken=bMBNEsvnocdYBmF8YVzA9-tCXHyvHhpq'
           }
         ],
         cookies: [{
@@ -903,8 +907,95 @@ describe('HARToPostmanCollectionMapper generateItemResponse', function () {
     expect(itemResponse[0].status).to.equal('OK');
     expect(itemResponse[0]._postman_previewlanguage).to.equal('json');
     expect(itemResponse[0].body).to.equal(formatedPayload);
-    expect(itemResponse[0].headers.members.length).to.equal(1);
+    expect(itemResponse[0].headers.members.length).to.equal(2);
+    expect(itemResponse[0].headers.members[1].key).to.equal('Set-Cookie');
+    expect(itemResponse[0].headers.members[1].value)
+      .to.equal('proposalHunt_sAntiCsrfToken=bMBNEsvnocdYBmF8YVzA9-tCXHyvHhpq');
     expect(itemResponse[0].cookies.members.length).to.equal(1);
+
+  });
+
+  it('Should generate a simple response with only one Post element exclude cookies', function () {
+    const options = getOptions({ usage: ['CONVERSION'] }),
+      includeCookies = options.find((option) => { return option.id === 'includeCookies'; }),
+      responsePayload = '{"result":[{"name":"Business Enabler"},{"name":"Experiment"},' +
+    '{"name":"Strategic Differentiator"},{"name":"Value Creator"}],"error":null,"meta":{}}',
+      formatedPayload = '{\n \"result\": [\n  {\n   \"name\": \"Business Enabler\"\n  },\n  {\n ' +
+    '  \"name\": \"Experiment\"\n  },\n  {\n   \"name\": \"Strategic Differentiator\"\n  },\n  {\n' +
+    '   \"name\": \"Value Creator\"\n  }\n ],\n \"error\": null,\n \"meta\": {}\n}',
+      harResponse = {
+        status: 200,
+        statusText: 'OK',
+        httpVersion: 'HTTP/1.1',
+        headers: [
+          {
+            name: 'Content-Type',
+            value: 'application/json; charset=utf-8'
+          },
+          {
+            name: 'Set-Cookie',
+            value: 'proposalHunt_sAntiCsrfToken=bMBNEsvnocdYBmF8YVzA9-tCXHyvHhpq'
+          }
+        ],
+        cookies: [{
+          name: 'proposalHunt_sAntiCsrfToken',
+          value: 'bMBNEsvnocdYBmF8YVzA9-tCXHyvHhpq',
+          path: '/',
+          domain: 'localhost',
+          expires: '2021-11-17T22:06:19.927Z',
+          httpOnly: false,
+          secure: false,
+          sameSite: 'Lax'
+        }],
+        content: {
+          size: 146,
+          mimeType: 'application/json',
+          compression: 0,
+          text: responsePayload
+        },
+        redirectURL: '',
+        headersSize: 234,
+        bodySize: 146,
+        _transferSize: 380,
+        _error: null
+      };
+    let itemResponse,
+      optionFromOptions = {};
+    optionFromOptions[`${includeCookies.id}`] = false;
+    itemResponse = generateItemResponse(harResponse, {
+      name: 'item name',
+      request: {
+        description: '""',
+        method: 'POST',
+        url: '{{0BaseUrl}}/api/categories/queries/getCategories',
+        header: [
+          {
+            key: 'Host',
+            value: 'localhost:3000'
+          },
+          {
+            key: 'Connection',
+            value: 'keep-alive'
+          }
+        ],
+        body: {
+          mode: 'raw',
+          raw: '{"params":{},"meta":{}}',
+          options: {
+            raw: {
+              language: 'json'
+            }
+          }
+        }
+      }
+    }, optionFromOptions);
+    expect(itemResponse[0]).to.not.be.undefined;
+    expect(itemResponse[0].name).to.equal('successfully / 200');
+    expect(itemResponse[0].status).to.equal('OK');
+    expect(itemResponse[0]._postman_previewlanguage).to.equal('json');
+    expect(itemResponse[0].body).to.equal(formatedPayload);
+    expect(itemResponse[0].headers.members.length).to.equal(1);
+    expect(itemResponse[0].cookies.members.length).to.equal(0);
 
   });
 });
@@ -1243,7 +1334,7 @@ describe('HARToPostmanCollectionMapper filterCookiesFromHeader', function () {
     header = filterCookiesFromHeader([{
       name: 'Cookie',
       value: 'proposalHunt_sAntiCsrfToken=bMBNEsvnocdYBmF8YVzA9-tCXHyvHhpq'
-    }], optionFromOptions);
+    }], optionFromOptions, 'Cookie');
     expect(header).to.not.be.undefined;
     expect(header[0].name).to.equal('Cookie');
     expect(header[0].value).to.equal('proposalHunt_sAntiCsrfToken=bMBNEsvnocdYBmF8YVzA9-tCXHyvHhpq');
@@ -1260,7 +1351,7 @@ describe('HARToPostmanCollectionMapper filterCookiesFromHeader', function () {
       name: 'Cookie',
       value: 'proposalHunt_sAntiCsrfToken=bMBNEsvnocdYBmF8YVzA9-tCXHyvHhpq; ' +
         'express:sess.sig=uL8C4WneWd3LfQhDurtnQwAyDfc'
-    }], optionFromOptions);
+    }], optionFromOptions, 'Cookie');
     expect(header).to.not.be.undefined;
     expect(header[0].name).to.equal('Cookie');
     expect(header[0].value)
@@ -1274,7 +1365,7 @@ describe('HARToPostmanCollectionMapper filterCookiesFromHeader', function () {
     header = filterCookiesFromHeader([{
       name: 'Cookie',
       value: 'proposalHunt_sAntiCsrfToken=bMBNEsvnocdYBmF8YVzA9-tCXHyvHhpq'
-    }]);
+    }], undefined, 'Cookie');
     expect(header.length).to.equal(0);
   });
 
@@ -1283,7 +1374,7 @@ describe('HARToPostmanCollectionMapper filterCookiesFromHeader', function () {
     header = filterCookiesFromHeader([{
       name: 'Cookie',
       value: 'proposalHunt_sAntiCsrfToken=bMBNEsvnocdYBmF8YVzA9-tCXHyvHhpq'
-    }], {});
+    }], {}, 'Cookie');
     expect(header).to.be.empty;
 
   });
@@ -1293,7 +1384,7 @@ describe('HARToPostmanCollectionMapper filterCookiesFromHeader', function () {
     header = filterCookiesFromHeader([{
       name: 'cookie',
       value: 'proposalHunt_sAntiCsrfToken=bMBNEsvnocdYBmF8YVzA9-tCXHyvHhpq'
-    }], {});
+    }], {}, 'Cookie');
     expect(header).to.be.empty;
 
   });
@@ -1308,7 +1399,22 @@ describe('HARToPostmanCollectionMapper filterCookiesFromHeader', function () {
     header = filterCookiesFromHeader([{
       name: 'Cookie',
       value: 'proposalHunt_sAntiCsrfToken=bMBNEsvnocdYBmF8YVzA9-tCXHyvHhpq'
-    }], optionFromOptions);
+    }], optionFromOptions, 'Cookie');
+    expect(header).to.be.empty;
+
+  });
+
+  it('should return undefined when include cookies options is set to false with set-cookie header', function () {
+    const options = getOptions({ usage: ['CONVERSION'] }),
+      includeCookies = options.find((option) => { return option.id === 'includeCookies'; });
+    let header = {},
+      optionFromOptions = {};
+    optionFromOptions[`${includeCookies.id}`] = false;
+
+    header = filterCookiesFromHeader([{
+      name: 'Set-Cookie',
+      value: 'proposalHunt_sAntiCsrfToken=bMBNEsvnocdYBmF8YVzA9-tCXHyvHhpq'
+    }], optionFromOptions, 'Set-Cookie');
     expect(header).to.be.empty;
 
   });

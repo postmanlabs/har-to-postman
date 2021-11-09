@@ -84,7 +84,8 @@ describe('SchemaPack convert unit test  HAR file', function() {
       expect(result.output[0].data).to.be.an('object');
       expect(result.output[0].data.info.name).to.equal('i.ytimg.com');
       expect(result.output[0].type).to.equal('collection');
-      expect(result.output[0].data.item[0].response[0].cookie[0].name).to.equal('proposalHunt_sAntiCsrfToken');
+      expect(result.output[0].data.item[0].response[0].cookie[0].name).to.equal('__Host-GAPS');
+      expect(result.output[0].data.item[0].response[0].header[17].key).to.equal('set-cookie');
     });
   });
 
@@ -107,6 +108,29 @@ describe('SchemaPack convert unit test  HAR file', function() {
       expect(result.output[0].data.info.name).to.equal('localhost:3000');
       expect(result.output[0].type).to.equal('collection');
       expect(result.output[0].data.item[0].request.header.length).to.equal(17);
+    });
+  });
+
+  it('Should convert the valid input file and exclude explicitly cookies from response', function () {
+    const options = SchemaPack.getOptions(),
+      includeCookies = options.find((option) => { return option.id === 'includeCookies'; }),
+      VALID_PATH = validHAREntriesFolder + '/simpleImageRequestCookieResponse.har';
+    let schemaPack,
+      optionFromOptions = {};
+    optionFromOptions[`${includeCookies.id}`] = false;
+    schemaPack = new SchemaPack({
+      data: VALID_PATH,
+      type: 'file'
+    }, optionFromOptions);
+    schemaPack.convert((error, result) => {
+      expect(error).to.be.null;
+      expect(result).to.be.an('object');
+      expect(result.output).to.be.an('array');
+      expect(result.output[0].data).to.be.an('object');
+      expect(result.output[0].data.info.name).to.equal('i.ytimg.com');
+      expect(result.output[0].type).to.equal('collection');
+      expect(result.output[0].data.item[0].response[0].cookie.length).to.equal(0);
+      expect(result.output[0].data.item[0].response[0].header.length).to.equal(17);
     });
   });
 
