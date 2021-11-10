@@ -62,7 +62,7 @@ describe('SchemaPack convert unit test  HAR file', function() {
       expect(result.output[0].data).to.be.an('object');
       expect(result.output[0].data.info.name).to.equal('localhost:3000');
       expect(result.output[0].type).to.equal('collection');
-      expect(result.output[0].data.item[0].request.header[17].key).to.equal('Cookie');
+      expect(result.output[0].data.item[0].item[0].request.header[17].key).to.equal('Cookie');
     });
   });
 
@@ -84,8 +84,8 @@ describe('SchemaPack convert unit test  HAR file', function() {
       expect(result.output[0].data).to.be.an('object');
       expect(result.output[0].data.info.name).to.equal('i.ytimg.com');
       expect(result.output[0].type).to.equal('collection');
-      expect(result.output[0].data.item[0].response[0].cookie[0].name).to.equal('__Host-GAPS');
-      expect(result.output[0].data.item[0].response[0].header[17].key).to.equal('set-cookie');
+      expect(result.output[0].data.item[0].item[0].response[0].cookie[0].name).to.equal('__Host-GAPS');
+      expect(result.output[0].data.item[0].item[0].response[0].header[17].key).to.equal('set-cookie');
     });
   });
 
@@ -107,7 +107,7 @@ describe('SchemaPack convert unit test  HAR file', function() {
       expect(result.output[0].data).to.be.an('object');
       expect(result.output[0].data.info.name).to.equal('localhost:3000');
       expect(result.output[0].type).to.equal('collection');
-      expect(result.output[0].data.item[0].request.header.length).to.equal(17);
+      expect(result.output[0].data.item[0].item[0].request.header.length).to.equal(17);
     });
   });
 
@@ -129,18 +129,20 @@ describe('SchemaPack convert unit test  HAR file', function() {
       expect(result.output[0].data).to.be.an('object');
       expect(result.output[0].data.info.name).to.equal('i.ytimg.com');
       expect(result.output[0].type).to.equal('collection');
-      expect(result.output[0].data.item[0].response[0].cookie.length).to.equal(0);
-      expect(result.output[0].data.item[0].response[0].header.length).to.equal(17);
+      expect(result.output[0].data.item[0].item[0].response[0].cookie.length).to.equal(0);
+      expect(result.output[0].data.item[0].item[0].response[0].header.length).to.equal(17);
     });
   });
 
   it('Should convert the valid input file and exclude explicitly response from item', function () {
     const options = SchemaPack.getOptions(),
       includeResponses = options.find((option) => { return option.id === 'includeResponses'; }),
+      folderStrategy = options.find((option) => { return option.id === 'folderStrategy'; }),
       VALID_PATH = validHAREntriesFolder + '/multiplePost.har';
     let schemaPack,
       optionFromOptions = {};
     optionFromOptions[`${includeResponses.id}`] = false;
+    optionFromOptions[`${folderStrategy.id}`] = folderStrategy.availableOptions[0];
     schemaPack = new SchemaPack({
       data: VALID_PATH,
       type: 'file'
@@ -162,10 +164,12 @@ describe('SchemaPack convert unit test  HAR file', function() {
   it('Should convert the valid input file and include explicitly response from item', function () {
     const options = SchemaPack.getOptions(),
       includeResponses = options.find((option) => { return option.id === 'includeResponses'; }),
+      folderStrategy = options.find((option) => { return option.id === 'folderStrategy'; }),
       VALID_PATH = validHAREntriesFolder + '/multiplePost.har';
     let schemaPack,
       optionFromOptions = {};
     optionFromOptions[`${includeResponses.id}`] = true;
+    optionFromOptions[`${folderStrategy.id}`] = folderStrategy.availableOptions[0];
     schemaPack = new SchemaPack({
       data: VALID_PATH,
       type: 'file'
@@ -215,8 +219,30 @@ describe('SchemaPack convert unit test  HAR file', function() {
       expect(result.output[0].data).to.be.an('object');
       expect(result.output[0].data.info.name).to.equal('javascript.info');
       expect(result.output[0].type).to.equal('collection');
-      expect(result.output[0].data.item[0].request.body.mode).to.equal('formdata');
-      expect(result.output[0].data.item[0].request.body.formdata.length).to.equal(2);
+      expect(result.output[0].data.item[0].item[0].request.body.mode).to.equal('formdata');
+      expect(result.output[0].data.item[0].item[0].request.body.formdata.length).to.equal(2);
+    });
+  });
+
+  it('Should convert the valid input file and add folders according to pages', function () {
+    const options = SchemaPack.getOptions(),
+      folderStrategy = options.find((option) => { return option.id === 'folderStrategy'; }),
+      VALID_PATH = validHAREntriesFolder + '/simpleImageRequestManyPages.har';
+    let schemaPack,
+      optionFromOptions = {};
+    optionFromOptions[`${folderStrategy.id}`] = folderStrategy.default;
+    schemaPack = new SchemaPack({
+      data: VALID_PATH,
+      type: 'file'
+    }, optionFromOptions);
+    schemaPack.convert((error, result) => {
+      expect(error).to.be.null;
+      expect(result).to.be.an('object');
+      expect(result.output).to.be.an('array');
+      expect(result.output[0].data).to.be.an('object');
+      expect(result.output[0].data.info.name).to.equal('i.ytimg.com');
+      expect(result.output[0].type).to.equal('collection');
+      expect(result.output[0].data.item.length).to.equal(2);
     });
   });
 
