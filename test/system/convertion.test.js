@@ -14,7 +14,7 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
       {},
       (error, result) => {
         expect(error).to.be.null;
-        expect(result.output[0].data.item[0].request.body.raw).to.equal(defaultIndent);
+        expect(result.output[0].data.item[0].item[0].request.body.raw).to.equal(defaultIndent);
       }
     );
   });
@@ -28,7 +28,7 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
       { indentCharacter: 'Tab' },
       (error, result) => {
         expect(error).to.be.null;
-        expect(result.output[0].data.item[0].request.body.raw).to.equal(TabIndent);
+        expect(result.output[0].data.item[0].item[0].request.body.raw).to.equal(TabIndent);
       }
     );
   });
@@ -64,7 +64,7 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
           .to.equal('https://spf8c0usjl.execute-api.us-east-1.amazonaws.com');
         expect(result.output[0].data.variable[4].key).to.equal('baseUrl5');
         expect(result.output[0].data.variable[4].value).to.equal('https://avatars.slack-edge.com');
-        expect(result.output[0].data.item[10].response[0].cookie).to.be.empty;
+        expect(result.output[0].data.item[0].item[10].response[0].cookie).to.be.empty;
       }
     );
   });
@@ -76,8 +76,8 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
       {},
       (error, result) => {
         expect(error).to.be.null;
-        expect(result.output[0].data.item[9].request.header.length).to.eql(12);
-        expect(result.output[0].data.item[9].response[0].cookie).to.be.empty;
+        expect(result.output[0].data.item[0].item[9].request.header.length).to.eql(12);
+        expect(result.output[0].data.item[0].item[9].response[0].cookie).to.be.empty;
       }
     );
   });
@@ -89,8 +89,8 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
       { includeCookies: true },
       (error, result) => {
         expect(error).to.be.null;
-        expect(result.output[0].data.item[9].request.header.length).to.eql(13);
-        expect(result.output[0].data.item[9].response[0].cookie).not.to.be.empty;
+        expect(result.output[0].data.item[0].item[9].request.header.length).to.eql(13);
+        expect(result.output[0].data.item[0].item[9].response[0].cookie).not.to.be.empty;
       }
     );
   });
@@ -102,16 +102,16 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
       {},
       (error, result) => {
         expect(error).to.be.null;
-        expect(result.output[0].data.item[0].request.url.query[0].key).to.equal('page');
-        expect(result.output[0].data.item[0].request.url.query[0].value).to.equal('1');
-        expect(result.output[0].data.item[0].request.url.query[1].key).to.equal('limit');
-        expect(result.output[0].data.item[0].request.url.query[1].value).to.equal('20');
-        expect(result.output[0].data.item[0].request.url.query[2].key).to.equal('searchTerm');
-        expect(result.output[0].data.item[0].request.url.query[2].value).to.equal('');
-        expect(result.output[0].data.item[0].request.url.query[3].key).to.equal('year');
-        expect(result.output[0].data.item[0].request.url.query[3].value).to.equal('2021');
-        expect(result.output[0].data.item[0].request.url.query[4].key).to.equal('month');
-        expect(result.output[0].data.item[0].request.url.query[4].value).to.equal('Oct');
+        expect(result.output[0].data.item[0].item[0].request.url.query[0].key).to.equal('page');
+        expect(result.output[0].data.item[0].item[0].request.url.query[0].value).to.equal('1');
+        expect(result.output[0].data.item[0].item[0].request.url.query[1].key).to.equal('limit');
+        expect(result.output[0].data.item[0].item[0].request.url.query[1].value).to.equal('20');
+        expect(result.output[0].data.item[0].item[0].request.url.query[2].key).to.equal('searchTerm');
+        expect(result.output[0].data.item[0].item[0].request.url.query[2].value).to.equal('');
+        expect(result.output[0].data.item[0].item[0].request.url.query[3].key).to.equal('year');
+        expect(result.output[0].data.item[0].item[0].request.url.query[3].value).to.equal('2021');
+        expect(result.output[0].data.item[0].item[0].request.url.query[4].key).to.equal('month');
+        expect(result.output[0].data.item[0].item[0].request.url.query[4].value).to.equal('Oct');
       }
     );
   });
@@ -123,8 +123,8 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
       { includeResponses: false },
       (error, result) => {
         expect(error).to.be.null;
-        expect(result.output[0].data.item[0].response).to.be.an('array');
-        expect(result.output[0].data.item[0].response).to.be.empty;
+        expect(result.output[0].data.item[0].item[0].response).to.be.an('array');
+        expect(result.output[0].data.item[0].item[0].response).to.be.empty;
       }
     );
   });
@@ -143,7 +143,7 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
       (error, result) => {
         expect(error).to.be.null;
         expect(result.output[0].data.info.name).to.be.eql('localhost:3000');
-        expect(result.output[0].data.item[9].name).to.be.eql(name);
+        expect(result.output[0].data.item[0].item[9].name).to.be.eql(name);
       }
     );
   });
@@ -156,7 +156,7 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
       {},
       (error, result) => {
         expect(error).to.be.null;
-        expect(result.output[0].data.item[14].response[0].body).to.be.equal(expectedBodyContent);
+        expect(result.output[0].data.item[0].item[14].response[0].body).to.be.equal(expectedBodyContent);
       }
     );
   });

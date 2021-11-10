@@ -36,7 +36,7 @@ describe('convert', function () {
     convert({
       type: 'file',
       data: VALID_WSDL_PATH
-    }, { indentCharacter: 'tab' }, (error, result) => {
+    }, { indentCharacter: 'tab', folderStrategy: 'No folders' }, (error, result) => {
       expect(error).to.be.null;
       expect(result).to.be.an('object');
       expect(result.output).to.be.an('array');

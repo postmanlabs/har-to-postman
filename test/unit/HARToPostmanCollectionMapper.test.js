@@ -169,7 +169,7 @@ describe('HARToPostmanCollectionMapper generateMappingObject', function () {
     const
       fileContent = fs.readFileSync(validHAREntriesFolder + '/multipleCorrectEntries.json', 'utf8'),
       logEntries = JSON.parse(fileContent),
-      mappingObj = generateMappingObject(logEntries, {});
+      mappingObj = generateMappingObject(logEntries, { folderStrategy: 'No folders' });
     expect(mappingObj).to.not.be.undefined;
     expect(mappingObj.item.length).to.equal(12);
     expect(mappingObj.info).to.not.be.undefined;
@@ -198,7 +198,7 @@ describe('HARToPostmanCollectionMapper map', function () {
       logEntries = JSON.parse(fileContent),
       mappingObj = map(logEntries, {});
     expect(mappingObj).to.not.be.undefined;
-    expect(mappingObj.items.members.length).to.equal(12);
+    expect(mappingObj.items.members.length).to.equal(1);
     expect(mappingObj.name).equal('localhost:3000');
     expect(mappingObj.variables.members.length).to.equal(1);
   });
@@ -1143,7 +1143,9 @@ describe('HARToPostmanCollectionMapper generateItem', function () {
 describe('HARToPostmanCollectionMapper generateItems', function () {
 
   it('Should generate items for simple entry', function () {
-    const variables = [
+    const options = getOptions({ usage: ['CONVERSION'] }),
+      folderStrategy = options.find((option) => { return option.id === 'folderStrategy'; }),
+      variables = [
         {
           key: '0BaseUrl',
           value: 'http://localhost:3000',
@@ -1154,8 +1156,11 @@ describe('HARToPostmanCollectionMapper generateItems', function () {
         }
       ],
       fileContent = fs.readFileSync(validHAREntriesFolder + '/multipleCorrectEntries.json', 'utf8'),
-      logEntries = JSON.parse(fileContent),
-      items = generateItems(logEntries, variables);
+      logEntries = JSON.parse(fileContent);
+    let items,
+      optionToProcess = {};
+    optionToProcess[`${folderStrategy.id}`] = folderStrategy.availableOptions[0];
+    items = generateItems(logEntries, variables, optionToProcess);
     expect(items).to.not.be.undefined;
     expect(items.length).to.equal(12);
     expect(items[0].name).to.equal('localhost:3000/api/users/queries/getCurrentUser');
@@ -1212,6 +1217,7 @@ describe('HARToPostmanCollectionMapper generateItems', function () {
     expect(items[0].items.members[11].name).to.equal('localhost:3000/api/users/queries/getCurrentUser');
 
   });
+
   it('Should generate items and group by page many pages', function () {
     const options = getOptions({ usage: ['CONVERSION'] }),
       folderStrategy = options.find((option) => { return option.id === 'folderStrategy'; }),

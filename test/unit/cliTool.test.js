@@ -58,7 +58,7 @@ describe('har2postman ', function () {
       fs.readFile(tempOutputFile, 'utf8', (err, data) => {
         let collection = JSON.parse(data);
         expect(collection.info.name).to.equal('localhost:3000');
-        expect(collection.item.length).to.equal(22);
+        expect(collection.item.length).to.equal(1);
         done();
       });
     });

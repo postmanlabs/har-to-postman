@@ -360,7 +360,7 @@ describe('groupEntriesByOption method', function () {
     expect(result[2].entries.length).to.equal(1);
   });
 
-  it('should return empty groups when option is undefined', function () {
+  it('should return 3 groups when option is undefined', function () {
     const pages = [
         {
           startedDateTime: '2021-10-18T22:06:46.295Z',
@@ -422,10 +422,10 @@ describe('groupEntriesByOption method', function () {
       ],
       result = groupEntriesByOption(entries, pages);
     expect(result).to.not.be.undefined;
-    expect(result.length).to.equal(0);
+    expect(result.length).to.equal(3);
   });
 
-  it('should return empty groups when option has not folder strategy', function () {
+  it('should return 3 groups when option has not folder strategy', function () {
     const pages = [
         {
           startedDateTime: '2021-10-18T22:06:46.295Z',
@@ -487,6 +487,6 @@ describe('groupEntriesByOption method', function () {
       ],
       result = groupEntriesByOption(entries, pages, {});
     expect(result).to.not.be.undefined;
-    expect(result.length).to.equal(0);
+    expect(result.length).to.equal(3);
   });
 });
