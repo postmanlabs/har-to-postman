@@ -123,6 +123,52 @@ describe('HARToPostmanCollectionBodyMapper mapBody', function () {
     expect(result.formdata.length).to.equal(2);
   });
 
+  it('Should be handled when mime type is application/x-www-form-urlencoded', function() {
+    const harRequest = {
+        bodySize: 36,
+        postData:
+        {
+          'mimeType': 'application/x-www-form-urlencoded',
+          'text': 'redir=1&login=testuser&password=test',
+          'params': [
+            {
+              'name': 'redir',
+              'value': '1'
+            },
+            {
+              'name': 'login',
+              'value': 'testuser'
+            },
+            {
+              'name': 'password',
+              'value': 'test'
+            }
+          ]
+        }
+      },
+      result = mapBody(harRequest);
+    expect(result.urlencoded).to.be.an('array');
+    expect(result.urlencoded.length).to.be.equal(3);
+    expect(result.mode).to.be.equal('urlencoded');
+  });
+
+  it('Should be handled when mime type is application/x-www-form-urlencoded ' +
+    'and file was created in safari format', function() {
+    const harRequest = {
+        bodySize: 36,
+        postData:
+        {
+          'mimeType': '',
+          'text': 'redir=1&login=testuser&password=test',
+          'params': []
+        }
+      },
+      result = mapBody(harRequest);
+    expect(result.urlencoded).to.be.an('array');
+    expect(result.urlencoded.length).to.be.equal(3);
+    expect(result.mode).to.be.equal('urlencoded');
+  });
+
 });
 
 
@@ -191,7 +237,7 @@ describe('HARToPostmanCollectionBodyMapper mapBodyResponse', function () {
   });
 
   it('Should get undefined when body size is 0', function () {
-    const harResponse = { bodySize: 0, content: { text: '{some:value}', mimeType: 'application/json' } },
+    const harResponse = { bodySize: 0, content: { size: 0, text: '{some:value}', mimeType: 'application/json' } },
       result = mapBodyResponse(harResponse);
     expect(result).to.be.undefined;
   });
@@ -215,9 +261,9 @@ describe('HARToPostmanCollectionBodyMapper mapBodyResponse', function () {
     const harResponse = {
         bodySize: -1,
         content: {
+          size: 24,
           text: '<html><body>Test content</body></html>',
-          mimeType: 'text/html',
-          size: 25
+          mimeType: 'text/html'
         }
       },
       result = mapBodyResponse(harResponse);
@@ -240,6 +286,5 @@ describe('HARToPostmanCollectionBodyMapper mapBodyResponse', function () {
     expect(result.body).to.be.equal('test: {color: red}');
     expect(result.language).to.be.equal('text');
   });
-
 });
 
