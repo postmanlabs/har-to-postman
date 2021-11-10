@@ -2,7 +2,9 @@ const { expect } = require('chai'),
   {
     getPagesIds,
     filterEntriesByFieldAndKey,
-    groupEntriesByPage
+    groupEntriesByPage,
+    groupEntriesByOption,
+    groupEntriesByKey
   } = require('../../lib/utils/groupingHelper');
 
 describe('getPagesIds method', function () {
@@ -151,33 +153,33 @@ describe('filterEntriesByFieldAndKey method', function () {
 describe('groupEntriesByPage method', function () {
   it('should return 3 groups for 3 pages and different entries', function () {
     const pages = [
-      {
-        startedDateTime: '2021-10-18T22:06:46.295Z',
-        id: 'page_1',
-        title: 'http://localhost:3000/projects',
-        pageTimings: {
-          onContentLoad: 1208.8670000084676,
-          onLoad: 1268.7880000448786
+        {
+          startedDateTime: '2021-10-18T22:06:46.295Z',
+          id: 'page_1',
+          title: 'http://localhost:3000/projects',
+          pageTimings: {
+            onContentLoad: 1208.8670000084676,
+            onLoad: 1268.7880000448786
+          }
+        },
+        {
+          startedDateTime: '2021-10-18T22:06:46.295Z',
+          id: 'page_2',
+          title: 'http://localhost:3000/projects',
+          pageTimings: {
+            onContentLoad: 1208.8670000084676,
+            onLoad: 1268.7880000448786
+          }
+        },
+        {
+          startedDateTime: '2021-10-18T22:06:46.295Z',
+          id: 'page_3',
+          title: 'http://localhost:3000/projects',
+          pageTimings: {
+            onContentLoad: 1208.8670000084676,
+            onLoad: 1268.7880000448786
+          }
         }
-      },
-      {
-        startedDateTime: '2021-10-18T22:06:46.295Z',
-        id: 'page_2',
-        title: 'http://localhost:3000/projects',
-        pageTimings: {
-          onContentLoad: 1208.8670000084676,
-          onLoad: 1268.7880000448786
-        }
-      },
-      {
-        startedDateTime: '2021-10-18T22:06:46.295Z',
-        id: 'page_3',
-        title: 'http://localhost:3000/projects',
-        pageTimings: {
-          onContentLoad: 1208.8670000084676,
-          onLoad: 1268.7880000448786
-        }
-      }
       ],
       entries = [
         {
@@ -218,3 +220,273 @@ describe('groupEntriesByPage method', function () {
   });
 });
 
+describe('groupEntriesByKey method', function () {
+  it('should return 3 groups for 3 pages and different entries by key', function () {
+    const pages = [
+        {
+          startedDateTime: '2021-10-18T22:06:46.295Z',
+          id: 'page_1',
+          title: 'http://localhost:3000/projects',
+          pageTimings: {
+            onContentLoad: 1208.8670000084676,
+            onLoad: 1268.7880000448786
+          }
+        },
+        {
+          startedDateTime: '2021-10-18T22:06:46.295Z',
+          id: 'page_2',
+          title: 'http://localhost:3000/projects',
+          pageTimings: {
+            onContentLoad: 1208.8670000084676,
+            onLoad: 1268.7880000448786
+          }
+        },
+        {
+          startedDateTime: '2021-10-18T22:06:46.295Z',
+          id: 'page_3',
+          title: 'http://localhost:3000/projects',
+          pageTimings: {
+            onContentLoad: 1208.8670000084676,
+            onLoad: 1268.7880000448786
+          }
+        }
+      ],
+      entries = [
+        {
+          _priority: 'High',
+          _resourceType: 'fetch',
+          cache: {},
+          connection: '166037',
+          pageref: 'page_1'
+        },
+        {
+          _priority: 'High',
+          _resourceType: 'fetch',
+          cache: {},
+          connection: '166037',
+          pageref: 'page_1'
+        },
+        {
+          _priority: 'High',
+          _resourceType: 'fetch',
+          cache: {},
+          connection: '166037',
+          pageref: 'page_2'
+        },
+        {
+          _priority: 'High',
+          _resourceType: 'fetch',
+          cache: {},
+          connection: '166037',
+          pageref: 'page_3'
+        }
+      ],
+      result = groupEntriesByKey(entries, pages, 'Page');
+    expect(result).to.not.be.undefined;
+    expect(result.length).to.equal(3);
+    expect(result[0].entries.length).to.equal(2);
+    expect(result[1].entries.length).to.equal(1);
+    expect(result[2].entries.length).to.equal(1);
+  });
+});
+
+
+describe('groupEntriesByOption method', function () {
+  it('should return 3 groups for 3 pages and different entries by option', function () {
+    const pages = [
+        {
+          startedDateTime: '2021-10-18T22:06:46.295Z',
+          id: 'page_1',
+          title: 'http://localhost:3000/projects',
+          pageTimings: {
+            onContentLoad: 1208.8670000084676,
+            onLoad: 1268.7880000448786
+          }
+        },
+        {
+          startedDateTime: '2021-10-18T22:06:46.295Z',
+          id: 'page_2',
+          title: 'http://localhost:3000/projects',
+          pageTimings: {
+            onContentLoad: 1208.8670000084676,
+            onLoad: 1268.7880000448786
+          }
+        },
+        {
+          startedDateTime: '2021-10-18T22:06:46.295Z',
+          id: 'page_3',
+          title: 'http://localhost:3000/projects',
+          pageTimings: {
+            onContentLoad: 1208.8670000084676,
+            onLoad: 1268.7880000448786
+          }
+        }
+      ],
+      entries = [
+        {
+          _priority: 'High',
+          _resourceType: 'fetch',
+          cache: {},
+          connection: '166037',
+          pageref: 'page_1'
+        },
+        {
+          _priority: 'High',
+          _resourceType: 'fetch',
+          cache: {},
+          connection: '166037',
+          pageref: 'page_1'
+        },
+        {
+          _priority: 'High',
+          _resourceType: 'fetch',
+          cache: {},
+          connection: '166037',
+          pageref: 'page_2'
+        },
+        {
+          _priority: 'High',
+          _resourceType: 'fetch',
+          cache: {},
+          connection: '166037',
+          pageref: 'page_3'
+        }
+      ],
+      result = groupEntriesByOption(entries, pages, { folderStrategy: 'Page' });
+    expect(result).to.not.be.undefined;
+    expect(result.length).to.equal(3);
+    expect(result[0].entries.length).to.equal(2);
+    expect(result[1].entries.length).to.equal(1);
+    expect(result[2].entries.length).to.equal(1);
+  });
+
+  it('should return empty groups when option is undefined', function () {
+    const pages = [
+        {
+          startedDateTime: '2021-10-18T22:06:46.295Z',
+          id: 'page_1',
+          title: 'http://localhost:3000/projects',
+          pageTimings: {
+            onContentLoad: 1208.8670000084676,
+            onLoad: 1268.7880000448786
+          }
+        },
+        {
+          startedDateTime: '2021-10-18T22:06:46.295Z',
+          id: 'page_2',
+          title: 'http://localhost:3000/projects',
+          pageTimings: {
+            onContentLoad: 1208.8670000084676,
+            onLoad: 1268.7880000448786
+          }
+        },
+        {
+          startedDateTime: '2021-10-18T22:06:46.295Z',
+          id: 'page_3',
+          title: 'http://localhost:3000/projects',
+          pageTimings: {
+            onContentLoad: 1208.8670000084676,
+            onLoad: 1268.7880000448786
+          }
+        }
+      ],
+      entries = [
+        {
+          _priority: 'High',
+          _resourceType: 'fetch',
+          cache: {},
+          connection: '166037',
+          pageref: 'page_1'
+        },
+        {
+          _priority: 'High',
+          _resourceType: 'fetch',
+          cache: {},
+          connection: '166037',
+          pageref: 'page_1'
+        },
+        {
+          _priority: 'High',
+          _resourceType: 'fetch',
+          cache: {},
+          connection: '166037',
+          pageref: 'page_2'
+        },
+        {
+          _priority: 'High',
+          _resourceType: 'fetch',
+          cache: {},
+          connection: '166037',
+          pageref: 'page_3'
+        }
+      ],
+      result = groupEntriesByOption(entries, pages);
+    expect(result).to.not.be.undefined;
+    expect(result.length).to.equal(0);
+  });
+
+  it('should return empty groups when option has not folder strategy', function () {
+    const pages = [
+        {
+          startedDateTime: '2021-10-18T22:06:46.295Z',
+          id: 'page_1',
+          title: 'http://localhost:3000/projects',
+          pageTimings: {
+            onContentLoad: 1208.8670000084676,
+            onLoad: 1268.7880000448786
+          }
+        },
+        {
+          startedDateTime: '2021-10-18T22:06:46.295Z',
+          id: 'page_2',
+          title: 'http://localhost:3000/projects',
+          pageTimings: {
+            onContentLoad: 1208.8670000084676,
+            onLoad: 1268.7880000448786
+          }
+        },
+        {
+          startedDateTime: '2021-10-18T22:06:46.295Z',
+          id: 'page_3',
+          title: 'http://localhost:3000/projects',
+          pageTimings: {
+            onContentLoad: 1208.8670000084676,
+            onLoad: 1268.7880000448786
+          }
+        }
+      ],
+      entries = [
+        {
+          _priority: 'High',
+          _resourceType: 'fetch',
+          cache: {},
+          connection: '166037',
+          pageref: 'page_1'
+        },
+        {
+          _priority: 'High',
+          _resourceType: 'fetch',
+          cache: {},
+          connection: '166037',
+          pageref: 'page_1'
+        },
+        {
+          _priority: 'High',
+          _resourceType: 'fetch',
+          cache: {},
+          connection: '166037',
+          pageref: 'page_2'
+        },
+        {
+          _priority: 'High',
+          _resourceType: 'fetch',
+          cache: {},
+          connection: '166037',
+          pageref: 'page_3'
+        }
+      ],
+      result = groupEntriesByOption(entries, pages, {});
+    expect(result).to.not.be.undefined;
+    expect(result.length).to.equal(0);
+  });
+});

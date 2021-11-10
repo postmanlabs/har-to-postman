@@ -1172,6 +1172,90 @@ describe('HARToPostmanCollectionMapper generateItems', function () {
     expect(items[11].name).to.equal('localhost:3000/api/users/queries/getCurrentUser');
 
   });
+
+  it('Should generate items and group by page one page', function () {
+    const options = getOptions({ usage: ['CONVERSION'] }),
+      folderStrategy = options.find((option) => { return option.id === 'folderStrategy'; }),
+      variables = [
+        {
+          key: 'BaseUrl1',
+          value: 'http://localhost:3000',
+          urlData: {
+            index: 0,
+            url: 'http://localhost:3000/some?param1=2&param2=3'
+          }
+        }
+      ],
+      fileContent = fs.readFileSync(validHAREntriesFolder + '/multipleCorrectEntries.json', 'utf8'),
+      logEntries = JSON.parse(fileContent);
+    let items,
+      optionToProcess = {};
+    optionToProcess[`${folderStrategy.id}`] = folderStrategy.default;
+    items = generateItems(logEntries, variables, optionToProcess);
+    expect(items).to.not.be.undefined;
+    expect(items.length).to.equal(1);
+    expect(items[0].name).to.equal('page_12');
+    expect(items[0].items.members.length).to.equal(12);
+    expect(items[0].items.members[0].name).to.equal('localhost:3000/api/users/queries/getCurrentUser');
+    expect(items[0].items.members[1].name).to.equal('localhost:3000/api/categories/queries/getCategories');
+    expect(items[0].items.members[2].name).to.equal('localhost:3000/api/skills/queries/getSkills');
+    expect(items[0].items.members[3].name).to.equal('localhost:3000/api/labels/queries/getLabels');
+    expect(items[0].items.members[4].name).to.equal('localhost:3000/api/profiles/queries/searchProfiles');
+    expect(items[0].items.members[5].name).to.equal('localhost:3000/api/projects/mutations/createProject');
+    expect(items[0].items.members[6].name).to.equal('localhost:3000/_next/static/chunks/pages/projects/[projectId].js');
+    expect(items[0].items.members[7].name).to
+      .equal('localhost:3000/_next/static/webpack/283c808214c965e442e6.hot-update.json');
+    expect(items[0].items.members[8].name).to
+      .equal('localhost:3000/_next/static/webpack/webpack.283c808214c965e442e6.hot-update.js');
+    expect(items[0].items.members[9].name).to.equal('localhost:3000/api/projects/queries/getProject');
+    expect(items[0].items.members[10].name).to.equal('localhost:3000/edit.svg');
+    expect(items[0].items.members[11].name).to.equal('localhost:3000/api/users/queries/getCurrentUser');
+
+  });
+  it('Should generate items and group by page many pages', function () {
+    const options = getOptions({ usage: ['CONVERSION'] }),
+      folderStrategy = options.find((option) => { return option.id === 'folderStrategy'; }),
+      variables = [
+        {
+          key: 'BaseUrl1',
+          value: 'http://localhost:3000',
+          urlData: {
+            index: 0,
+            url: 'http://localhost:3000/some?param1=2&param2=3'
+          }
+        }
+      ],
+      fileContent = fs.readFileSync(validHAREntriesFolder + '/multipleCorrectEntriesMultipage.json', 'utf8'),
+      logEntries = JSON.parse(fileContent);
+    let items,
+      optionToProcess = {};
+    optionToProcess[`${folderStrategy.id}`] = folderStrategy.default;
+    items = generateItems(logEntries, variables, optionToProcess);
+    expect(items).to.not.be.undefined;
+    expect(items.length).to.equal(2);
+    expect(items[0].name).to.equal('page_12');
+    expect(items[1].name).to.equal('page_1');
+    expect(items[0].items.members.length).to.equal(10);
+    expect(items[1].items.members.length).to.equal(2);
+
+    expect(items[0].items.members[0].name).to.equal('localhost:3000/api/skills/queries/getSkills');
+    expect(items[0].items.members[1].name).to.equal('localhost:3000/api/labels/queries/getLabels');
+    expect(items[0].items.members[2].name).to.equal('localhost:3000/api/profiles/queries/searchProfiles');
+    expect(items[0].items.members[3].name).to.equal('localhost:3000/api/projects/mutations/createProject');
+    expect(items[0].items.members[4].name).to.equal('localhost:3000/_next/static/chunks/pages/projects/[projectId].js');
+    expect(items[0].items.members[5].name).to
+      .equal('localhost:3000/_next/static/webpack/283c808214c965e442e6.hot-update.json');
+    expect(items[0].items.members[6].name).to
+      .equal('localhost:3000/_next/static/webpack/webpack.283c808214c965e442e6.hot-update.js');
+    expect(items[0].items.members[7].name).to.equal('localhost:3000/api/projects/queries/getProject');
+    expect(items[0].items.members[8].name).to.equal('localhost:3000/edit.svg');
+    expect(items[0].items.members[9].name).to.equal('localhost:3000/api/users/queries/getCurrentUser');
+
+    expect(items[1].items.members[0].name).to.equal('localhost:3000/api/users/queries/getCurrentUser');
+    expect(items[1].items.members[1].name).to.equal('localhost:3000/api/categories/queries/getCategories');
+
+
+  });
 });
 
 

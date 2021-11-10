@@ -220,6 +220,28 @@ describe('SchemaPack convert unit test  HAR file', function() {
     });
   });
 
+  it('Should convert the valid input file and add folders according to pages', function () {
+    const options = SchemaPack.getOptions(),
+      folderStrategy = options.find((option) => { return option.id === 'folderStrategy'; }),
+      VALID_PATH = validHAREntriesFolder + '/simpleImageRequestManyPages.har';
+    let schemaPack,
+      optionFromOptions = {};
+    optionFromOptions[`${folderStrategy.id}`] = folderStrategy.default;
+    schemaPack = new SchemaPack({
+      data: VALID_PATH,
+      type: 'file'
+    }, optionFromOptions);
+    schemaPack.convert((error, result) => {
+      expect(error).to.be.null;
+      expect(result).to.be.an('object');
+      expect(result.output).to.be.an('array');
+      expect(result.output[0].data).to.be.an('object');
+      expect(result.output[0].data.info.name).to.equal('i.ytimg.com');
+      expect(result.output[0].type).to.equal('collection');
+      expect(result.output[0].data.item.length).to.equal(2);
+    });
+  });
+
 });
 
 describe('SchemaPack get metadata unit test HAR file', function() {
