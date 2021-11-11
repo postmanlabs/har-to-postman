@@ -18,7 +18,7 @@
       {
         "startedDateTime": "2021-10-18T22:06:46.295Z",
         "id": "page_1",
-        "title": "http://localhost:3000/projects",
+        "title": "http://localhost2:3000/projects",
         "pageTimings": {
           "onContentLoad": 1208.8670000084676,
           "onLoad": 1268.7880000448786

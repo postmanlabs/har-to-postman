@@ -1199,7 +1199,7 @@ describe('HARToPostmanCollectionMapper generateItems', function () {
     items = generateItems(logEntries, variables, optionToProcess);
     expect(items).to.not.be.undefined;
     expect(items.length).to.equal(1);
-    expect(items[0].name).to.equal('page_12');
+    expect(items[0].name).to.equal('localhost:3000/projects');
     expect(items[0].items.members.length).to.equal(12);
     expect(items[0].items.members[0].name).to.equal('localhost:3000/api/users/queries/getCurrentUser');
     expect(items[0].items.members[1].name).to.equal('localhost:3000/api/categories/queries/getCategories');
@@ -1239,8 +1239,8 @@ describe('HARToPostmanCollectionMapper generateItems', function () {
     items = generateItems(logEntries, variables, optionToProcess);
     expect(items).to.not.be.undefined;
     expect(items.length).to.equal(2);
-    expect(items[0].name).to.equal('page_12');
-    expect(items[1].name).to.equal('page_1');
+    expect(items[0].name).to.equal('localhost:3000/projects');
+    expect(items[1].name).to.equal('localhost2:3000/projects');
     expect(items[0].items.members.length).to.equal(10);
     expect(items[1].items.members.length).to.equal(2);
 
