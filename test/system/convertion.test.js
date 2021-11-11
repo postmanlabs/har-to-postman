@@ -160,4 +160,52 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
       }
     );
   });
+
+  it('Should handle if mime type is application/x-www-form-urlencoded ' +
+    'and file comes from Safari', function () {
+    fileContent = fs.readFileSync('test/data/validHARFiles/urlEncodedBodySafary.har');
+    Index.convert(
+      { data: fileContent, type: 'string' },
+      {},
+      (error, result) => {
+        expect(error).to.be.null;
+        expect(result.output[0].data.item[0].item[0].request.method).to.be.eql('POST');
+        expect(result.output[0].data.item[0].item[0].request.body.mode).to.be.eql('urlencoded');
+        expect(result.output[0].data.item[0].item[0].request.body.urlencoded[0].key).to.be.eql('redir');
+        expect(result.output[0].data.item[0].item[0].request.body.urlencoded[0].value).to.be.eql('1');
+        expect(result.output[0].data.item[0].item[0].request.body.urlencoded[1].key).to.be.eql('csrftoken');
+        expect(result.output[0].data.item[0].item[0].request.body.urlencoded[1].value).to.be.eql('MzI2MTY3NjA3');
+        expect(result.output[0].data.item[0].item[0].request.body.urlencoded[2].key).to.be.eql('login');
+        expect(result.output[0].data.item[0].item[0].request.body.urlencoded[2].value).to.be.eql('test');
+        expect(result.output[0].data.item[0].item[0].request.body.urlencoded[3].key).to.be.eql('password');
+        expect(result.output[0].data.item[0].item[0].request.body.urlencoded[3].value).to.be.eql('test');
+      }
+    );
+  });
+
+  it('Should convert with folderStrategy options set to Page (default)', function () {
+    fileContent = fs.readFileSync('test/data/externalHARfile/patio.wizeline.givers.original.har', 'utf8');
+    Index.convert(
+      { data: fileContent, type: 'string' },
+      { folderStrategy: 'Page' },
+      (error, result) => {
+        expect(error).to.be.null;
+        expect(result.output[0].data.item[0].name).to.be.eql('localhost:3000/leaderboard');
+        expect(result.output[0].data.item[0].item.length).to.be.eql(42);
+      }
+    );
+  });
+
+  it('Should convert with folderStrategy options set to No Folders', function () {
+    fileContent = fs.readFileSync('test/data/externalHARfile/patio.wizeline.givers.original.har', 'utf8');
+    Index.convert(
+      { data: fileContent, type: 'string' },
+      { folderStrategy: 'No folders' },
+      (error, result) => {
+        expect(error).to.be.null;
+        expect(result.output[0].data.info.name).to.be.eql('localhost:3000');
+        expect(result.output[0].data.item.length).to.be.eql(42);
+      }
+    );
+  });
 });

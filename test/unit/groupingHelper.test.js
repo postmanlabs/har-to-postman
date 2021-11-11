@@ -1,13 +1,13 @@
 const { expect } = require('chai'),
   {
-    getPagesIds,
+    getPagesInformation,
     filterEntriesByFieldAndKey,
     groupEntriesByPage,
     groupEntriesByOption,
     groupEntriesByKey
   } = require('../../lib/utils/groupingHelper');
 
-describe('getPagesIds method', function () {
+describe('getPagesInformation method', function () {
   it('should return a key for a single page', function () {
     const pages = [
         {
@@ -20,10 +20,10 @@ describe('getPagesIds method', function () {
           }
         }
       ],
-      result = getPagesIds(pages);
+      result = getPagesInformation(pages);
     expect(result).to.not.be.undefined;
     expect(result.length).to.eq(1);
-    expect(result[0]).to.eq('page_12');
+    expect(result[0].title).to.eq('http://localhost:3000/projects');
   });
 
   it('should return 3 keys for a 3 pages', function () {
@@ -31,7 +31,7 @@ describe('getPagesIds method', function () {
         {
           startedDateTime: '2021-10-18T22:06:46.295Z',
           id: 'page_12',
-          title: 'http://localhost:3000/projects',
+          title: 'http://localhost1:3000/projects',
           pageTimings: {
             onContentLoad: 1208.8670000084676,
             onLoad: 1268.7880000448786
@@ -40,7 +40,7 @@ describe('getPagesIds method', function () {
         {
           startedDateTime: '2021-10-18T22:06:46.295Z',
           id: 'page_1',
-          title: 'http://localhost:3000/projects',
+          title: 'http://localhost2:3000/projects',
           pageTimings: {
             onContentLoad: 1208.8670000084676,
             onLoad: 1268.7880000448786
@@ -49,29 +49,29 @@ describe('getPagesIds method', function () {
         {
           startedDateTime: '2021-10-18T22:06:46.295Z',
           id: 'page_2',
-          title: 'http://localhost:3000/projects',
+          title: 'http://localhost3:3000/projects',
           pageTimings: {
             onContentLoad: 1208.8670000084676,
             onLoad: 1268.7880000448786
           }
         }
       ],
-      result = getPagesIds(pages);
+      result = getPagesInformation(pages);
     expect(result).to.not.be.undefined;
     expect(result.length).to.eq(3);
-    expect(result[0]).to.eq('page_12');
-    expect(result[1]).to.eq('page_1');
-    expect(result[2]).to.eq('page_2');
+    expect(result[0].title).to.eq('http://localhost1:3000/projects');
+    expect(result[1].title).to.eq('http://localhost2:3000/projects');
+    expect(result[2].title).to.eq('http://localhost3:3000/projects');
   });
 
   it('should return 0 keys for an empty array', function () {
-    const result = getPagesIds([]);
+    const result = getPagesInformation([]);
     expect(result).to.not.be.undefined;
     expect(result.length).to.eq(0);
   });
 
   it('should return 0 keys for undefined', function () {
-    const result = getPagesIds();
+    const result = getPagesInformation();
     expect(result).to.not.be.undefined;
     expect(result.length).to.eq(0);
   });
@@ -156,7 +156,7 @@ describe('groupEntriesByPage method', function () {
         {
           startedDateTime: '2021-10-18T22:06:46.295Z',
           id: 'page_1',
-          title: 'http://localhost:3000/projects',
+          title: 'http://localhost1:3000/projects',
           pageTimings: {
             onContentLoad: 1208.8670000084676,
             onLoad: 1268.7880000448786
@@ -165,7 +165,7 @@ describe('groupEntriesByPage method', function () {
         {
           startedDateTime: '2021-10-18T22:06:46.295Z',
           id: 'page_2',
-          title: 'http://localhost:3000/projects',
+          title: 'http://localhost2:3000/projects',
           pageTimings: {
             onContentLoad: 1208.8670000084676,
             onLoad: 1268.7880000448786
@@ -174,7 +174,7 @@ describe('groupEntriesByPage method', function () {
         {
           startedDateTime: '2021-10-18T22:06:46.295Z',
           id: 'page_3',
-          title: 'http://localhost:3000/projects',
+          title: 'http://localhost3:3000/projects',
           pageTimings: {
             onContentLoad: 1208.8670000084676,
             onLoad: 1268.7880000448786
@@ -226,7 +226,7 @@ describe('groupEntriesByKey method', function () {
         {
           startedDateTime: '2021-10-18T22:06:46.295Z',
           id: 'page_1',
-          title: 'http://localhost:3000/projects',
+          title: 'http://localhost1:3000/projects',
           pageTimings: {
             onContentLoad: 1208.8670000084676,
             onLoad: 1268.7880000448786
@@ -235,7 +235,7 @@ describe('groupEntriesByKey method', function () {
         {
           startedDateTime: '2021-10-18T22:06:46.295Z',
           id: 'page_2',
-          title: 'http://localhost:3000/projects',
+          title: 'http://localhost2:3000/projects',
           pageTimings: {
             onContentLoad: 1208.8670000084676,
             onLoad: 1268.7880000448786
@@ -244,7 +244,7 @@ describe('groupEntriesByKey method', function () {
         {
           startedDateTime: '2021-10-18T22:06:46.295Z',
           id: 'page_3',
-          title: 'http://localhost:3000/projects',
+          title: 'http://localhost3:3000/projects',
           pageTimings: {
             onContentLoad: 1208.8670000084676,
             onLoad: 1268.7880000448786
@@ -297,7 +297,7 @@ describe('groupEntriesByOption method', function () {
         {
           startedDateTime: '2021-10-18T22:06:46.295Z',
           id: 'page_1',
-          title: 'http://localhost:3000/projects',
+          title: 'http://localhost1:3000/projects',
           pageTimings: {
             onContentLoad: 1208.8670000084676,
             onLoad: 1268.7880000448786
@@ -306,7 +306,7 @@ describe('groupEntriesByOption method', function () {
         {
           startedDateTime: '2021-10-18T22:06:46.295Z',
           id: 'page_2',
-          title: 'http://localhost:3000/projects',
+          title: 'http://localhost2:3000/projects',
           pageTimings: {
             onContentLoad: 1208.8670000084676,
             onLoad: 1268.7880000448786
@@ -315,7 +315,7 @@ describe('groupEntriesByOption method', function () {
         {
           startedDateTime: '2021-10-18T22:06:46.295Z',
           id: 'page_3',
-          title: 'http://localhost:3000/projects',
+          title: 'http://localhost3:3000/projects',
           pageTimings: {
             onContentLoad: 1208.8670000084676,
             onLoad: 1268.7880000448786
