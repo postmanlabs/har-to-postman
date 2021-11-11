@@ -190,6 +190,7 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
       { folderStrategy: 'Page' },
       (error, result) => {
         expect(error).to.be.null;
+        expect(result.output[0].data.item[0].name).to.be.eql('localhost:3000/leaderboard');
         expect(result.output[0].data.item[0].item.length).to.be.eql(42);
       }
     );
@@ -202,6 +203,7 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
       { folderStrategy: 'No folders' },
       (error, result) => {
         expect(error).to.be.null;
+        expect(result.output[0].data.info.name).to.be.eql('localhost:3000');
         expect(result.output[0].data.item.length).to.be.eql(42);
       }
     );
