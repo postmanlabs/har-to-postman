@@ -6,7 +6,6 @@
 node_modules
 # Prevent unit test coverage reports from being added
 .nyc_output
-.coverage
 coverage
 # - Do not allow IDE conf to be uploaded
 .vscode

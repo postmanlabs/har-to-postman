@@ -62,6 +62,11 @@ describe('HARToPostmanCollectionMapper getCollectionName', function () {
     expect(result).to.equal('Already defined');
   });
 
+  it('Should return the decoded same collection name if it is provided', function () {
+    const result = getCollectionName({}, 'en.wikipedia.org%2Fwiki%2F1920%E2%80%9321_Cardiff_City.json');
+    expect(result).to.equal('en.wikipedia.org/wiki/1920–21_Cardiff_City.json');
+  });
+
   it('Should get "Generated from HAR" when har is empty and empty name is provided', function () {
     const result = getCollectionName({}, '');
     expect(result).to.equal(DEFAULT_COLLECTION_NAME);

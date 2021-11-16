@@ -206,6 +206,20 @@ describe('SchemaPack convert unit test  HAR file', function() {
     });
   });
 
+  it('Should convert valid input file take default name (no pages and no file name)', function () {
+    let fileContent = fs.readFileSync(validHAREntriesFolder + '/formdataParams.har', 'utf8');
+    const schemaPack = new SchemaPack({
+      data: fileContent,
+      type: 'string'
+    }, {});
+    schemaPack.convert((error, result) => {
+      expect(error).to.be.null;
+      expect(result).to.be.an('object');
+      expect(result.output[0].data.info.name).to.equal('Generated from HAR');
+      expect(result.output[0].type).to.equal('collection');
+    });
+  });
+
   it('Should convert the valid input file with form data params safari', function () {
     const VALID_PATH = validHAREntriesFolder + '/formdataParamsSafari.har',
       schemaPack = new SchemaPack({
