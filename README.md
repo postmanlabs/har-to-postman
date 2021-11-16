@@ -45,7 +45,7 @@ The converter can be used as a CLI tool as well. The following [command line opt
 
 - Takes a specification (spec.har) as an input and writes to a file (collection.json) with pretty printing and using provided options
 ```terminal
-$ har2postman -s spec.har -o collection.json -p -O folderStrategy=Service
+$ har2postman -s spec.har -o collection.json -p -O folderStrategy=Page
 ```
 
 - Takes a specification (spec.har) as an input and writes to a file (collection.json) with pretty printing and using provided options via config file

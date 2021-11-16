@@ -62,22 +62,22 @@ describe('HARToPostmanCollectionMapper getCollectionName', function () {
     expect(result).to.equal('Already defined');
   });
 
-  it('Should get "HAR To Postman Generated" when har is empty and empty name is provided', function () {
+  it('Should get "Generated from HAR" when har is empty and empty name is provided', function () {
     const result = getCollectionName({}, '');
     expect(result).to.equal(DEFAULT_COLLECTION_NAME);
   });
 
-  it('Should get "HAR To Postman Generated" when har is empty and not name is provided', function () {
+  it('Should get "Generated from HAR" when har is empty and not name is provided', function () {
     const result = getCollectionName({});
     expect(result).to.equal(DEFAULT_COLLECTION_NAME);
   });
 
-  it('Should get "HAR To Postman Generated" when no har is present and not name is provided', function () {
+  it('Should get "Generated from HAR" when no har is present and not name is provided', function () {
     const result = getCollectionName();
     expect(result).to.equal(DEFAULT_COLLECTION_NAME);
   });
 
-  it('Should get "HAR To Postman Generated" when har has empty pages and empty name is provided', function () {
+  it('Should get "Generated from HAR" when har has empty pages and empty name is provided', function () {
     const result = getCollectionName({ log: { pages: [] } }, '');
     expect(result).to.equal(DEFAULT_COLLECTION_NAME);
   });

@@ -4,8 +4,9 @@
 
 # - Do not allow installed node modules to be committed. Doing `npm install -d` will bring them in root or other places.
 node_modules
-# - Do not allow nyc output folder to be commited
+# Prevent unit test coverage reports from being added
 .nyc_output
+.coverage
 # - Do not allow IDE conf to be uploaded
 .vscode
 # - Mac OS files
