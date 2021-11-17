@@ -286,5 +286,21 @@ describe('HARToPostmanCollectionBodyMapper mapBodyResponse', function () {
     expect(result.body).to.be.equal('test: {color: red}');
     expect(result.language).to.be.equal('text');
   });
+
+  it('Should be handled when mime type is text/javascript', function () {
+    const harResponse = { bodySize: -1, content: { text: 'javascript Data',
+        mimeType: 'text/javascript', size: 25 } },
+      result = mapBodyResponse(harResponse);
+    expect(result.body).to.be.equal('javascript Data');
+    expect(result.language).to.be.equal('text');
+  });
+
+  it('Should be handled when mime type is text/plain', function () {
+    const harResponse = { bodySize: -1, content: { text: 'Plain text here',
+        mimeType: 'text/plain', size: 25 } },
+      result = mapBodyResponse(harResponse);
+    expect(result.body).to.be.equal('Plain text here');
+    expect(result.language).to.be.equal('text');
+  });
 });
 

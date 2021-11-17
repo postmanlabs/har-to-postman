@@ -30,13 +30,13 @@ describe('convert', function () {
     });
   });
 
-  it('Should conver a har file into a PM Collection with tab indentation character', function () {
+  it('Should convert a har file into a PM Collection with tab indentation character', function () {
     const
       VALID_WSDL_PATH = validHAREntriesFolder + '/multiplePost.har';
     convert({
       type: 'file',
       data: VALID_WSDL_PATH
-    }, { indentCharacter: 'tab', folderStrategy: 'No folders' }, (error, result) => {
+    }, { indentCharacter: 'Tab', folderStrategy: 'None' }, (error, result) => {
       expect(error).to.be.null;
       expect(result).to.be.an('object');
       expect(result.output).to.be.an('array');
@@ -44,6 +44,42 @@ describe('convert', function () {
       expect(result.output[0].type).to.equal('collection');
       expect(result.output[0].data.item[0].request.body.raw).to.equal('{\n\t"params": null,\n\t"meta": {}\n}');
     });
+  });
+
+  it('Should throw an OptionError when indentCharacter option value is not allowed', function () {
+    const
+      VALID_WSDL_PATH = validHAREntriesFolder + '/multiplePost.har';
+    try {
+      convert({
+        type: 'file',
+        data: VALID_WSDL_PATH
+      }, { indentCharacter: 'tab', folderStrategy: 'No folders' }, (error, result) => {
+        expect(result).to.be.undefined;
+      });
+      expect.fail('Should fail');
+    }
+    catch (error) {
+      expect(error.message).to.be.equal('Value \'tab\' is not allowed by' +
+          ' \'indentCharacter\' option.\n      Allowed values are (Space, Tab).');
+    }
+  });
+
+  it('Should throw an OptionError when folderStrategy option value is not allowed', function () {
+    const
+      VALID_WSDL_PATH = validHAREntriesFolder + '/multiplePost.har';
+    try {
+      convert({
+        type: 'file',
+        data: VALID_WSDL_PATH
+      }, { indentCharacter: 'Tab', folderStrategy: 'No folders' }, (error, result) => {
+        expect(result).to.be.undefined;
+        expect.fail('Should fail');
+      });
+    }
+    catch (error) {
+      expect(error.message).to.be.equal('Value \'No folders\' is not allowed by' +
+      ' \'folderStrategy\' option.\n      Allowed values are (None, Page).');
+    }
   });
 });
 
