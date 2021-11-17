@@ -39,7 +39,7 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
       {},
       (error, result) => {
         expect(error).to.be.null;
-        expect(result.output[0].data.variable[0].key).to.equal('baseUrl1');
+        expect(result.output[0].data.variable[0].key).to.equal('baseURL1');
         expect(result.output[0].data.variable[0].value).to.equal('https://maskedURI');
       }
     );
@@ -53,16 +53,16 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
       (error, result) => {
         expect(error).to.be.null;
         expect(result.output[0].data.variable.length).to.equal(5);
-        expect(result.output[0].data.variable[0].key).to.equal('baseUrl1');
+        expect(result.output[0].data.variable[0].key).to.equal('baseURL1');
         expect(result.output[0].data.variable[0].value).to.equal('https://localhost:3000');
-        expect(result.output[0].data.variable[1].key).to.equal('baseUrl2');
+        expect(result.output[0].data.variable[1].key).to.equal('baseURL2');
         expect(result.output[0].data.variable[1].value).to.equal('https://localhost1:3000');
-        expect(result.output[0].data.variable[2].key).to.equal('baseUrl3');
+        expect(result.output[0].data.variable[2].key).to.equal('baseURL3');
         expect(result.output[0].data.variable[2].value).to.equal('https://lh3.googleusercontent.com');
-        expect(result.output[0].data.variable[3].key).to.equal('baseUrl4');
+        expect(result.output[0].data.variable[3].key).to.equal('baseURL4');
         expect(result.output[0].data.variable[3].value)
           .to.equal('https://spf8c0usjl.execute-api.us-east-1.amazonaws.com');
-        expect(result.output[0].data.variable[4].key).to.equal('baseUrl5');
+        expect(result.output[0].data.variable[4].key).to.equal('baseURL5');
         expect(result.output[0].data.variable[4].value).to.equal('https://avatars.slack-edge.com');
         expect(result.output[0].data.item[0].item[10].response[0].cookie).to.be.empty;
       }

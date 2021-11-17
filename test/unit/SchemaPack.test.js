@@ -220,6 +220,22 @@ describe('SchemaPack convert unit test  HAR file', function() {
     });
   });
 
+  it('Should convert the valid input file softwareishard.com.har', function () {
+    const VALID_PATH = validHAREntriesFolder + '/softwareishard.com.har',
+      schemaPack = new SchemaPack({
+        data: VALID_PATH,
+        type: 'file'
+      }, {});
+    schemaPack.convert((error, result) => {
+      expect(error).to.be.null;
+      expect(result).to.be.an('object');
+      expect(result.output).to.be.an('array');
+      expect(result.output[0].data).to.be.an('object');
+      expect(result.output[0].data.info.name).to.equal('softwareishard.com.har');
+      expect(result.output[0].type).to.equal('collection');
+    });
+  });
+
   it('Should convert the valid input file with form data params safari', function () {
     const VALID_PATH = validHAREntriesFolder + '/formdataParamsSafari.har',
       schemaPack = new SchemaPack({
