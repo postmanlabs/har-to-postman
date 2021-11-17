@@ -1,5 +1,7 @@
 const expect = require('chai').expect,
-  getOptions = require('../../lib/utils/options').getOptions,
+  {
+    getOptions
+  } = require('../../lib/utils/options'),
   optionIds = [
     'indentCharacter',
     'includeCookies',

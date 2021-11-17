@@ -196,16 +196,52 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
     );
   });
 
-  it('Should convert with folderStrategy options set to No Folders', function () {
+  it('Should convert with folderStrategy options set to None', function () {
     fileContent = fs.readFileSync('test/data/externalHARfile/patio.wizeline.givers.original.har', 'utf8');
     Index.convert(
       { data: fileContent, type: 'string' },
-      { folderStrategy: 'No folders' },
+      { folderStrategy: 'None' },
       (error, result) => {
         expect(error).to.be.null;
-        expect(result.output[0].data.info.name).to.be.eql('localhost:3000');
+        expect(result.output[0].data.item[0].name).to.be.eql('localhost:3000/leaderboard');
         expect(result.output[0].data.item.length).to.be.eql(42);
       }
     );
+  });
+
+  it('Should throw an OptionError when folderStrategy options set to No Folders', function () {
+    fileContent = fs.readFileSync('test/data/externalHARfile/patio.wizeline.givers.original.har', 'utf8');
+    try {
+      Index.convert(
+        { data: fileContent, type: 'string' },
+        { folderStrategy: 'No folders' },
+        (error, result) => {
+          expect(result).to.be.undefined;
+          expect.fail('Should fail');
+        }
+      );
+    }
+    catch (error) {
+      expect(error.message).to.be.equal('Value \'No folders\' is not allowed by ' +
+            '\'folderStrategy\' option.\n      Allowed values are (None, Page).');
+    }
+  });
+
+  it('Should throw an OptionError when a boolean option set to string', function () {
+    fileContent = fs.readFileSync('test/data/externalHARfile/patio.wizeline.givers.original.har', 'utf8');
+    try {
+      Index.convert(
+        { data: fileContent, type: 'string' },
+        { includeResponses: 'ShouldBeBoolean' },
+        (error, result) => {
+          expect(result).to.be.undefined;
+          expect.fail('Should fail');
+        }
+      );
+    }
+    catch (error) {
+      expect(error.message).to.be.equal('Value \'ShouldBeBoolean\' is not allowed by' +
+            ' \'includeResponses\' option.\n      Allowed values are (true, false).');
+    }
   });
 });

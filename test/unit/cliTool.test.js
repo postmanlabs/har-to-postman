@@ -52,7 +52,7 @@ describe('har2postman ', function () {
 
   it('should print to file with options', function (done) {
     exec('./bin/har2postman.js -s test/data/validHARFiles/multipleGetsPost.har -o tempOutput.json' +
-      ' -O indentCharacter=tab',
+      ' -O indentCharacter=Tab',
     function (err) {
       expect(err).to.be.null;
       fs.readFile(tempOutputFile, 'utf8', (err, data) => {
