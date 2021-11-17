@@ -196,6 +196,19 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
     );
   });
 
+  it('Should convert with folderStrategy options set to None', function () {
+    fileContent = fs.readFileSync('test/data/externalHARfile/patio.wizeline.givers.original.har', 'utf8');
+    Index.convert(
+      { data: fileContent, type: 'string' },
+      { folderStrategy: 'None' },
+      (error, result) => {
+        expect(error).to.be.null;
+        expect(result.output[0].data.item[0].name).to.be.eql('localhost:3000/leaderboard');
+        expect(result.output[0].data.item.length).to.be.eql(42);
+      }
+    );
+  });
+
   it('Should throw an OptionError when folderStrategy options set to No Folders', function () {
     fileContent = fs.readFileSync('test/data/externalHARfile/patio.wizeline.givers.original.har', 'utf8');
     try {
