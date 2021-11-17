@@ -39,7 +39,7 @@ describe('SchemaPack convert unit test  HAR file', function() {
       expect(result).to.be.an('object');
       expect(result.output).to.be.an('array');
       expect(result.output[0].data).to.be.an('object');
-      expect(result.output[0].data.info.name).to.equal('queryParams.har');
+      expect(result.output[0].data.info.name).to.equal('queryParams');
       expect(result.output[0].type).to.equal('collection');
     });
   });
@@ -199,7 +199,7 @@ describe('SchemaPack convert unit test  HAR file', function() {
       expect(result).to.be.an('object');
       expect(result.output).to.be.an('array');
       expect(result.output[0].data).to.be.an('object');
-      expect(result.output[0].data.info.name).to.equal('formdataParams.har');
+      expect(result.output[0].data.info.name).to.equal('formdataParams');
       expect(result.output[0].type).to.equal('collection');
       expect(result.output[0].data.item[0].request.body.mode).to.equal('formdata');
       expect(result.output[0].data.item[0].request.body.formdata.length).to.equal(2);
@@ -231,7 +231,7 @@ describe('SchemaPack convert unit test  HAR file', function() {
       expect(result).to.be.an('object');
       expect(result.output).to.be.an('array');
       expect(result.output[0].data).to.be.an('object');
-      expect(result.output[0].data.info.name).to.equal('softwareishard.com.har');
+      expect(result.output[0].data.info.name).to.equal('softwareishard.com');
       expect(result.output[0].type).to.equal('collection');
     });
   });
@@ -289,8 +289,8 @@ describe('SchemaPack get metadata unit test HAR file', function() {
     schemaPack.getMetaData((error, result) => {
       expect(error).to.be.null;
       expect(result).to.be.an('object');
-      expect(result.name).to.equal('queryParams.har');
-      expect(result.output[0].name).to.equal('queryParams.har');
+      expect(result.name).to.equal('queryParams');
+      expect(result.output[0].name).to.equal('queryParams');
       expect(result.output[0].type).to.equal('collection');
     });
 
