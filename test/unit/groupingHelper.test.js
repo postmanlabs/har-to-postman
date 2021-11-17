@@ -4,7 +4,8 @@ const { expect } = require('chai'),
     filterEntriesByFieldAndKey,
     groupEntriesByPage,
     groupEntriesByOption,
-    groupEntriesByKey
+    groupEntriesByKey,
+    getFolderName
   } = require('../../lib/utils/groupingHelper');
 
 describe('getPagesInformation method', function () {
@@ -288,6 +289,42 @@ describe('groupEntriesByKey method', function () {
     expect(result[1].entries.length).to.equal(1);
     expect(result[2].entries.length).to.equal(1);
   });
+
+  it('should return same entries when there is no page', function () {
+    const entries = [
+        {
+          _priority: 'High',
+          _resourceType: 'fetch',
+          cache: {},
+          connection: '166037',
+          pageref: 'page_1'
+        },
+        {
+          _priority: 'High',
+          _resourceType: 'fetch',
+          cache: {},
+          connection: '166037',
+          pageref: 'page_1'
+        },
+        {
+          _priority: 'High',
+          _resourceType: 'fetch',
+          cache: {},
+          connection: '166037',
+          pageref: 'page_2'
+        },
+        {
+          _priority: 'High',
+          _resourceType: 'fetch',
+          cache: {},
+          connection: '166037',
+          pageref: 'page_3'
+        }
+      ],
+      result = groupEntriesByKey(entries);
+    expect(result).to.not.be.undefined;
+    expect(result.length).to.equal(4);
+  });
 });
 
 
@@ -489,4 +526,17 @@ describe('groupEntriesByOption method', function () {
     expect(result).to.not.be.undefined;
     expect(result.length).to.equal(3);
   });
+});
+
+describe('getFolderName method', function () {
+  it('should return folder name without protocol and decoded', function () {
+    const result = getFolderName('http://en.wikipedia.org%2Fwiki%2F1920%E2%80%9321_Cardiff_City.json');
+    expect(result).to.equal('en.wikipedia.org/wiki/1920–21_Cardiff_City.json');
+  });
+
+  it('should return folder name decoded when is not a url', function () {
+    const result = getFolderName('.org%2Fwiki%2F1920%E2%80%9321_Cardiff_City.json');
+    expect(result).to.equal('.org/wiki/1920–21_Cardiff_City.json');
+  });
+
 });

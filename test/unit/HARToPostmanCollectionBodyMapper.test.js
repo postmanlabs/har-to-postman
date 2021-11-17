@@ -3,7 +3,10 @@ const { expect } = require('chai'),
     mapBodyFromJson,
     mapBody,
     mapBodyFromJsonResponse,
-    mapBodyResponse
+    mapBodyResponse,
+    parseAndFormat,
+    mapBodyFromUnformattedTypeRequest,
+    mapBodyFromUnformattedTypeResponse
   } = require('../../lib/HARToPostmanCollectionBodyMapper'),
   getOptions = require('./../../lib/utils/options').getOptions;
 
@@ -57,6 +60,20 @@ describe('HARToPostmanCollectionBodyMapper mapBodyFromJson', function () {
     let result,
       processOptions = {};
     processOptions[`${indentCharacter.id}`] = '   ';
+    result = mapBodyFromJson(harRequest, processOptions);
+    expect(result.raw).to.be.an('string');
+    expect(result.raw).to.equal(expectedOutput);
+  });
+
+
+  it('should get json string with indentation as spaces when entry is not string', function () {
+    const options = getOptions({ usage: ['CONVERSION'] }),
+      indentCharacter = options.find((option) => { return option.id === 'indentCharacter'; }),
+      harRequest = { postData: { text: '{"some":"value"}' } },
+      expectedOutput = '{\n\ "some": "value"\n}';
+    let result,
+      processOptions = {};
+    processOptions[`${indentCharacter.id}`] = 1;
     result = mapBodyFromJson(harRequest, processOptions);
     expect(result.raw).to.be.an('string');
     expect(result.raw).to.equal(expectedOutput);
@@ -167,6 +184,24 @@ describe('HARToPostmanCollectionBodyMapper mapBody', function () {
     expect(result.urlencoded).to.be.an('array');
     expect(result.urlencoded.length).to.be.equal(3);
     expect(result.mode).to.be.equal('urlencoded');
+  });
+
+  it('Should get body with text/javascript', function () {
+    const harRequest = { bodySize: 25, postData: { text: '{"some":"value"}', mimeType: 'text/javascript' } },
+      result = mapBody(harRequest);
+    expect(result).to.not.be.undefined;
+    expect(result.mode).to.equal('raw');
+    expect(result.options.raw.language).to.equal('text');
+    expect(result.raw).to.equal('{"some":"value"}');
+  });
+
+  it('Should get body with text/plain', function () {
+    const harRequest = { bodySize: 25, postData: { text: 'plain text message', mimeType: 'text/plain' } },
+      result = mapBody(harRequest);
+    expect(result).to.not.be.undefined;
+    expect(result.mode).to.equal('raw');
+    expect(result.options.raw.language).to.equal('text');
+    expect(result.raw).to.equal('plain text message');
   });
 
 });
@@ -304,3 +339,39 @@ describe('HARToPostmanCollectionBodyMapper mapBodyResponse', function () {
   });
 });
 
+describe('HARToPostmanCollectionBodyMapper parseAndFormat', function () {
+  it('should return empty string when input is empty', function () {
+    const result = parseAndFormat();
+    expect(result).to.equal('');
+  });
+
+  it('should return formated input string when input is present', function () {
+    const result = parseAndFormat('{"some":"value"}');
+    expect(result).to.equal('{\n\ "some": "value"\n}');
+  });
+});
+
+describe('HARToPostmanCollectionBodyMapper mapBodyFromUnformattedTypeRequest', function () {
+
+  it('should return empty same plain text when is present', function () {
+    const result = mapBodyFromUnformattedTypeRequest({ postData: { text: 'plain' } });
+    expect(result.raw).to.equal('plain');
+  });
+
+  it('should return empty string when there is no har request', function () {
+    const result = mapBodyFromUnformattedTypeRequest();
+    expect(result.raw).to.equal('');
+  });
+});
+describe('HARToPostmanCollectionBodyMapper mapBodyFromUnformattedTypeResponse', function () {
+
+  it('should return empty same plain text when is present', function () {
+    const result = mapBodyFromUnformattedTypeResponse({ content: { text: 'plain' } });
+    expect(result.body).to.equal('plain');
+  });
+
+  it('should return empty string when there is no har request', function () {
+    const result = mapBodyFromUnformattedTypeResponse();
+    expect(result.body).to.equal('');
+  });
+});

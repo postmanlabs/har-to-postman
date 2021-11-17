@@ -2,7 +2,8 @@ const { expect } = require('chai'),
   {
     getOptions,
     convert,
-    getMetaData
+    getMetaData,
+    validate
   } = require('../../index'),
   validHAREntriesFolder = 'test/data/validHARFiles';
 
@@ -97,5 +98,17 @@ describe('getMetadata', function () {
       expect(result.output[0].name).to.equal('i.ytimg.com');
       expect(result.output[0].type).to.equal('collection');
     });
+  });
+});
+
+describe('Validate', function () {
+  it('Should validate a correct input', function () {
+    const
+      VALID_WSDL_PATH = validHAREntriesFolder + '/simpleImageRequest.har',
+      result = validate({
+        type: 'file',
+        data: VALID_WSDL_PATH
+      });
+    expect(result.result).to.be.true;
   });
 });

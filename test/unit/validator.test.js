@@ -33,6 +33,17 @@ describe('Validator', function () {
       }
     });
 
+    it('Should throw required log when undefined is sent', function () {
+      const validator = new Validator();
+      try {
+        validator.validateStructure();
+      }
+      catch (error) {
+        expect(error.message).to.equal('Invalid syntax provided for HAR content');
+        expect(error.data[0].message).to.equal('must have required property \'log\'');
+      }
+    });
+
     var validHARsFolder = fs.readdirSync(validHAREntriesFolder);
     async.each(validHARsFolder, function (file) {
       it('Should validate HAR content as correct from ' + file, function () {
@@ -51,7 +62,7 @@ describe('Validator', function () {
   });
 });
 
-describe('validateStructure', function () {
+describe('formatMessageFromInputError', function () {
   it('Should format a message with the first error element', function () {
     const validator = new Validator(),
       errorMessage = validator.formatMessageFromInputError(new InputError(

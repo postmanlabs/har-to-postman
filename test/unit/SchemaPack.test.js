@@ -310,6 +310,19 @@ describe('SchemaPack get metadata unit test HAR file', function() {
       expect(result.output[0].type).to.equal('collection');
     });
   });
+
+  it('Should get error when input is not valid', function () {
+    let fileContent = 'invalid';
+    const schemaPack = new SchemaPack({
+      data: fileContent,
+      type: 'string'
+    }, {});
+    schemaPack.getMetaData((error, result) => {
+      expect(error).to.be.null;
+      expect(result.result).to.be.false;
+      expect(result.reason).to.equal('Cannot parse json object');
+    });
+  });
 });
 
 describe('SchemaPack validate invalid HAR file', function() {

@@ -64,6 +64,41 @@ describe('har2postman ', function () {
     });
   });
 
+  it('should print to file with options and prettified', function (done) {
+    exec('./bin/har2postman.js -s test/data/validHARFiles/multipleGetsPost.har -o tempOutput.json' +
+      ' -O indentCharacter=Tab -p',
+    function (err) {
+      expect(err).to.be.null;
+      fs.readFile(tempOutputFile, 'utf8', (err, data) => {
+        let collection = JSON.parse(data);
+        expect(collection.info.name).to.equal('localhost:3000');
+        expect(collection.item.length).to.equal(1);
+        expect(data.includes('\n')).to.equal(true);
+        done();
+      });
+    });
+  });
+
+  it('should print "Could not write to file" when pretty option is true', function (done) {
+    exec('./bin/har2postman.js -s test/data/validHARFiles/multipleGetsPost.har -o .' +
+      ' -O indentCharacter=Tab -p',
+    function (err, stdout) {
+      expect(err).to.be.null;
+      expect(stdout).to.include('Could not write to file');
+      done();
+    });
+  });
+
+  it('should print "Could not write to file" when pretty option is not present', function (done) {
+    exec('./bin/har2postman.js -s test/data/validHARFiles/multipleGetsPost.har -o .' +
+      ' -O indentCharacter=Tab',
+    function (err, stdout) {
+      expect(err).to.be.null;
+      expect(stdout).to.include('Could not write to file');
+      done();
+    });
+  });
+
   it('should show appropriate messages for invalid input', function (done) {
     exec('./bin/har2postman.js -s test/data/invalidHARFiles/invalidHAR.har', function (err, stdout) {
       expect(err).to.be.null;
@@ -95,4 +130,13 @@ describe('har2postman ', function () {
       done();
     });
   });
+
+  it('should print to the console help when no input nor test flag is provided', function (done) {
+    exec('./bin/har2postman.js', function (err, stdout) {
+      expect(err).to.be.null;
+      expect(stdout).to.include('Converts a given HAR specification to POSTMAN Collections v2.1.0');
+      done();
+    });
+  });
+
 });

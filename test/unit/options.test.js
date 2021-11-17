@@ -1,6 +1,7 @@
 const expect = require('chai').expect,
   {
-    getOptions
+    getOptions,
+    processUse
   } = require('../../lib/utils/options'),
   optionIds = [
     'indentCharacter',
@@ -91,4 +92,15 @@ describe('SchemaPack getOptions', function () {
     expect(Object.keys(options)).to.be.empty;
   });
 
+});
+
+describe('processUse method', function () {
+  it('should return \'\t\' when tab is default for indent character', function () {
+    let result,
+      options = getOptions(),
+      indentCharOption = options.find((option) => { return option.id === 'indentCharacter'; });
+    indentCharOption.default = 'Tab';
+    result = processUse(options);
+    expect(result.indentCharacter).to.equal('\t');
+  });
 });
