@@ -238,6 +238,11 @@ describe('HARToPostmanCollectionMapper getItemName', function () {
     expect(result).to.eq('i.ytimg.com/vi/nmXMgqjQzls/mqdefault.jpg');
   });
 
+  it('Should get "en.wikipedia.org/wiki/1920–21_Cardiff_City.json" decoded', function () {
+    const result = getItemName({ url: 'http://en.wikipedia.org%2Fwiki%2F1920%E2%80%9321_Cardiff_City.json' });
+    expect(result).to.eq('en.wikipedia.org/wiki/1920–21_Cardiff_City.json');
+  });
+
   it('Should get same string when entry is not a valid url decoded', function () {
     const result = getItemName({ url: 'inv%61lid url' });
     expect(result).to.eq('invalid url');

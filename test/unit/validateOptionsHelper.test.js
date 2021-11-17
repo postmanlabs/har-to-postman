@@ -34,4 +34,9 @@ describe('validateOptions', function() {
     }
     expect(passed).to.be.true;
   });
+
+  it('Should pass when user provides no option', function () {
+    let res = validateOptions();
+    expect(res).to.be.true;
+  });
 });
