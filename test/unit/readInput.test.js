@@ -93,6 +93,8 @@ describe('readInput utility', function () {
 
   describe('When input.type is "file"', function () {
     const mockFilePath = __dirname + '/temporal_file_mock.txt',
+      mockFilePathNoExt = __dirname + '/temporal_file_mock',
+      mockFilePathDoubleDot = __dirname + '/softwareishard.com.har',
       mockFileContent = '{ "log": {}}';
     before(function () {
       fs.writeFileSync(mockFilePath, mockFileContent, (error) => {
@@ -164,12 +166,25 @@ describe('readInput utility', function () {
     });
 
     describe('getCollectionNameFromFileOrEmpty method', function () {
-      it('Should return the provided file name', function () {
-        const fileName = 'temporal_file_mock.txt',
-          input = mockInput(mockFilePath, 'file'),
+      it('Should return the provided file name with extension', function () {
+        const input = mockInput(mockFilePath, 'file'),
           name = getCollectionNameFromFileOrEmpty(input);
         expect(name).to.be.a('string')
-          .to.equal(fileName);
+          .to.equal('temporal_file_mock');
+      });
+
+      it('Should return the provided file name without extension', function () {
+        const input = mockInput(mockFilePathNoExt, 'file'),
+          name = getCollectionNameFromFileOrEmpty(input);
+        expect(name).to.be.a('string')
+          .to.equal('temporal_file_mock');
+      });
+
+      it('Should return the provided file name with two dots', function () {
+        const input = mockInput(mockFilePathDoubleDot, 'file'),
+          name = getCollectionNameFromFileOrEmpty(input);
+        expect(name).to.be.a('string')
+          .to.equal('softwareishard.com');
       });
     });
   });
