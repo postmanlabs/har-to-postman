@@ -24,7 +24,8 @@ const { expect } = require('chai'),
     getResponseCookies,
     DEFAULT_COLLECTION_NAME,
     DEFAULT_COLLECTION_DESCRIPTION,
-    DEFAULT_ITEM_NAME
+    DEFAULT_ITEM_NAME,
+    VARIABLE_URL_PREFIX
   } = require('../../lib/HARToPostmanCollectionMapper'),
   validHAREntriesFolder = 'test/data/entries',
   getOptions = require('../../lib/utils/options').getOptions;
@@ -1371,7 +1372,7 @@ describe('HARToPostmanCollectionMapper getVariablesFromUrlDataList', function ()
       variables = getVariablesFromUrlDataList(urlData);
     expect(variables).to.not.be.undefined;
     expect(variables.length).to.equal(1);
-    expect(variables[0].key).to.equal('baseUrl1');
+    expect(variables[0].key).to.equal(`${VARIABLE_URL_PREFIX}1`);
     expect(variables[0].value).to.equal('http://localhost:3000');
   });
 
@@ -1398,9 +1399,9 @@ describe('HARToPostmanCollectionMapper getVariablesFromUrlDataList', function ()
       variables = getVariablesFromUrlDataList(urlData);
     expect(variables).to.not.be.undefined;
     expect(variables.length).to.equal(2);
-    expect(variables[0].key).to.equal('baseUrl1');
+    expect(variables[0].key).to.equal(`${VARIABLE_URL_PREFIX}1`);
     expect(variables[0].value).to.equal('http://localhost:3000');
-    expect(variables[1].key).to.equal('baseUrl2');
+    expect(variables[1].key).to.equal(`${VARIABLE_URL_PREFIX}2`);
     expect(variables[1].value).to.equal('http://localhost:5000');
   });
 

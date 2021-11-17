@@ -1,5 +1,4 @@
-# har2poscol
-
+# har-to-postman
 Enables Postman support of the HAR specification
 
 ### Options:
