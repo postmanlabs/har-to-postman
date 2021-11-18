@@ -41,7 +41,8 @@
       "oneOf": [
         { "format": "ipv4" },
         { "format": "ipv6" },
-        { "maxLength": 0 }
+        { "maxLength": 0 },
+        { "format": "ipv6brackets" }
       ]
     },
     "connection": {
