@@ -280,7 +280,7 @@ describe('HARToPostmanCollectionBodyMapper mapBodyResponse', function () {
   it('Should get not supported message when mime type is not text-based', function () {
     const harResponse = { bodySize: -1, content: { text: '{"some":"value"}', mimeType: 'application/pdf', size: 25 } },
       result = mapBodyResponse(harResponse),
-      notSupportedMessage = 'This content type is not supported in the response body';
+      notSupportedMessage = 'application/pdf content type is not supported in the response body';
     expect(result.body).to.be.equal(notSupportedMessage);
   });
 

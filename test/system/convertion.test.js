@@ -150,7 +150,7 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
 
   it('Should add a default body to non-text based bodies in response', function () {
     fileContent = fs.readFileSync('test/data/externalHARfile/patio.wizeline.givers.original.har', 'utf8');
-    const expectedBodyContent = 'This content type is not supported in the response body';
+    const expectedBodyContent = 'image/png content type is not supported in the response body';
     Index.convert(
       { data: fileContent, type: 'string' },
       {},
