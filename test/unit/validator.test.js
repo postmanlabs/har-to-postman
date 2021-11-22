@@ -72,6 +72,15 @@ describe('formatMessageFromInputError', function () {
     expect(errorMessage).to.equal('Invalid syntax provided for HAR content error message');
   });
 
+  it('Should format a message with the first error element and instance path', function () {
+    const validator = new Validator(),
+      errorMessage = validator.formatMessageFromInputError(new InputError(
+        'Invalid syntax provided for HAR content',
+        [{ message: 'error message', instancePath: 'log/version' }]
+      ));
+    expect(errorMessage).to.equal('Invalid syntax provided for HAR content "log/version" error message');
+  });
+
   it('Should format a message with no aditional data', function () {
     const validator = new Validator(),
       errorMessage = validator.formatMessageFromInputError(new InputError(
