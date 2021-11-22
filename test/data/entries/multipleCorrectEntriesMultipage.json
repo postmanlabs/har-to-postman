@@ -354,7 +354,7 @@
             "size": 120,
             "mimeType": "application/json",
             "compression": 0,
-            "text": "{\"result\":{\"id\":1,\"name\":\"Luis Tejeda Sanchez\",\"email\":\"luis.tejeda@wizeline.com\",\"role\":\"USER\"},\"error\":null,\"meta\":{}}"
+            "text": "{\"result\":{\"id\":1,\"name\":\"Luis Tejeda Sanchez\",\"email\":\"luis.tejeda@company.com\",\"role\":\"USER\"},\"error\":null,\"meta\":{}}"
           },
           "redirectURL": "",
           "headersSize": 234,
@@ -2201,7 +2201,7 @@
           "bodySize": 513,
           "postData": {
             "mimeType": "application/json",
-            "text": "{\"params\":{\"skills\":[{\"id\":\"66fc5f5f-3be4-453f-8978-8cc3334adda1\",\"name\":\"Ruby\",\"createdAt\":\"2021-10-18T22:05:04.406Z\",\"updatedAt\":\"2021-10-18T22:05:04.406Z\"}],\"labels\":[],\"projectMembers\":[{\"profileId\":\"30cf73aa-527e-4b0c-b07a-bf7b83828246\",\"name\":\"You ;-)\",\"role\":\"\",\"active\":true,\"hoursPerWeek\":null}],\"name\":\"wizeline os\",\"description\":\"problem statement value\",\"valueStatement\":\"some proposal\",\"target\":\"wizeliners\"},\"meta\":{\"params\":{\"values\":{\"skills.0.createdAt\":[\"Date\"],\"skills.0.updatedAt\":[\"Date\"]}}}}"
+            "text": "{\"params\":{\"skills\":[{\"id\":\"66fc5f5f-3be4-453f-8978-8cc3334adda1\",\"name\":\"Ruby\",\"createdAt\":\"2021-10-18T22:05:04.406Z\",\"updatedAt\":\"2021-10-18T22:05:04.406Z\"}],\"labels\":[],\"projectMembers\":[{\"profileId\":\"30cf73aa-527e-4b0c-b07a-bf7b83828246\",\"name\":\"You ;-)\",\"role\":\"\",\"active\":true,\"hoursPerWeek\":null}],\"name\":\"company os\",\"description\":\"problem statement value\",\"valueStatement\":\"some proposal\",\"target\":\"companyrs\"},\"meta\":{\"params\":{\"values\":{\"skills.0.createdAt\":[\"Date\"],\"skills.0.updatedAt\":[\"Date\"]}}}}"
           }
         },
         "response": {
@@ -2243,7 +2243,7 @@
             "size": 542,
             "mimeType": "application/json",
             "compression": 0,
-            "text": "{\"result\":{\"id\":\"1f24ef94-58f6-4c1f-a3c8-938e871eb00a\",\"ownerId\":\"30cf73aa-527e-4b0c-b07a-bf7b83828246\",\"name\":\"wizeline os\",\"logo\":null,\"description\":\"problem statement value\",\"valueStatement\":\"some proposal\",\"target\":\"wizeliners\",\"demo\":null,\"repoUrl\":null,\"isApproved\":false,\"status\":\"Draft\",\"categoryName\":\"Experiment\",\"positions\":null,\"searchSkills\":\"Ruby\",\"createdAt\":\"2021-10-18T22:08:16.350Z\",\"updatedAt\":\"2021-10-18T22:08:16.350Z\",\"votesCount\":0},\"error\":null,\"meta\":{\"result\":{\"values\":{\"createdAt\":[\"Date\"],\"updatedAt\":[\"Date\"]}}}}"
+            "text": "{\"result\":{\"id\":\"1f24ef94-58f6-4c1f-a3c8-938e871eb00a\",\"ownerId\":\"30cf73aa-527e-4b0c-b07a-bf7b83828246\",\"name\":\"company os\",\"logo\":null,\"description\":\"problem statement value\",\"valueStatement\":\"some proposal\",\"target\":\"companyrs\",\"demo\":null,\"repoUrl\":null,\"isApproved\":false,\"status\":\"Draft\",\"categoryName\":\"Experiment\",\"positions\":null,\"searchSkills\":\"Ruby\",\"createdAt\":\"2021-10-18T22:08:16.350Z\",\"updatedAt\":\"2021-10-18T22:08:16.350Z\",\"votesCount\":0},\"error\":null,\"meta\":{\"result\":{\"values\":{\"createdAt\":[\"Date\"],\"updatedAt\":[\"Date\"]}}}}"
           },
           "redirectURL": "",
           "headersSize": 235,
@@ -3907,7 +3907,7 @@
             "size": 1069,
             "mimeType": "application/json",
             "compression": 524,
-            "text": "{\"result\":{\"id\":\"1f24ef94-58f6-4c1f-a3c8-938e871eb00a\",\"ownerId\":\"30cf73aa-527e-4b0c-b07a-bf7b83828246\",\"name\":\"wizeline os\",\"logo\":null,\"description\":\"problem statement value\",\"valueStatement\":\"some proposal\",\"target\":\"wizeliners\",\"demo\":null,\"repoUrl\":null,\"isApproved\":false,\"status\":\"Draft\",\"categoryName\":\"Experiment\",\"positions\":null,\"searchSkills\":\"Ruby\",\"createdAt\":\"2021-10-18T22:08:16.350Z\",\"updatedAt\":\"2021-10-18T22:08:16.350Z\",\"votesCount\":0,\"category\":{\"name\":\"Experiment\"},\"skills\":[{\"id\":\"66fc5f5f-3be4-453f-8978-8cc3334adda1\",\"name\":\"Ruby\",\"createdAt\":\"2021-10-18T22:05:04.406Z\",\"updatedAt\":\"2021-10-18T22:05:04.406Z\"}],\"labels\":[],\"projectMembers\":[{\"id\":\"e52f5b08-5fc7-4eee-8ccf-8a6a09677ff8\",\"projectId\":\"1f24ef94-58f6-4c1f-a3c8-938e871eb00a\",\"profileId\":\"30cf73aa-527e-4b0c-b07a-bf7b83828246\",\"hoursPerWeek\":null,\"role\":\"\",\"active\":true,\"profile\":{\"firstName\":\"Luis\",\"lastName\":\"Tejeda\"}}],\"votes\":[]},\"error\":null,\"meta\":{\"result\":{\"values\":{\"createdAt\":[\"Date\"],\"updatedAt\":[\"Date\"],\"skills.0.createdAt\":[\"Date\"],\"skills.0.updatedAt\":[\"Date\"]}}}}"
+            "text": "{\"result\":{\"id\":\"1f24ef94-58f6-4c1f-a3c8-938e871eb00a\",\"ownerId\":\"30cf73aa-527e-4b0c-b07a-bf7b83828246\",\"name\":\"company os\",\"logo\":null,\"description\":\"problem statement value\",\"valueStatement\":\"some proposal\",\"target\":\"companyrs\",\"demo\":null,\"repoUrl\":null,\"isApproved\":false,\"status\":\"Draft\",\"categoryName\":\"Experiment\",\"positions\":null,\"searchSkills\":\"Ruby\",\"createdAt\":\"2021-10-18T22:08:16.350Z\",\"updatedAt\":\"2021-10-18T22:08:16.350Z\",\"votesCount\":0,\"category\":{\"name\":\"Experiment\"},\"skills\":[{\"id\":\"66fc5f5f-3be4-453f-8978-8cc3334adda1\",\"name\":\"Ruby\",\"createdAt\":\"2021-10-18T22:05:04.406Z\",\"updatedAt\":\"2021-10-18T22:05:04.406Z\"}],\"labels\":[],\"projectMembers\":[{\"id\":\"e52f5b08-5fc7-4eee-8ccf-8a6a09677ff8\",\"projectId\":\"1f24ef94-58f6-4c1f-a3c8-938e871eb00a\",\"profileId\":\"30cf73aa-527e-4b0c-b07a-bf7b83828246\",\"hoursPerWeek\":null,\"role\":\"\",\"active\":true,\"profile\":{\"firstName\":\"Luis\",\"lastName\":\"Tejeda\"}}],\"votes\":[]},\"error\":null,\"meta\":{\"result\":{\"values\":{\"createdAt\":[\"Date\"],\"updatedAt\":[\"Date\"],\"skills.0.createdAt\":[\"Date\"],\"skills.0.updatedAt\":[\"Date\"]}}}}"
           },
           "redirectURL": "",
           "headersSize": 266,
@@ -4581,7 +4581,7 @@
             "size": 120,
             "mimeType": "application/json",
             "compression": 0,
-            "text": "{\"result\":{\"id\":1,\"name\":\"Luis Tejeda Sanchez\",\"email\":\"luis.tejeda@wizeline.com\",\"role\":\"USER\"},\"error\":null,\"meta\":{}}"
+            "text": "{\"result\":{\"id\":1,\"name\":\"Luis Tejeda Sanchez\",\"email\":\"luis.tejeda@company.com\",\"role\":\"USER\"},\"error\":null,\"meta\":{}}"
           },
           "redirectURL": "",
           "headersSize": 234,

@@ -3,7 +3,7 @@ const expect = require('chai').expect,
   fs = require('fs');
 
 describe('E2E Flows convert a HAR file into a PM Collection', function () {
-  let fileContent = fs.readFileSync('test/data/externalHARfile/patio.wizeline.receivers.har', 'utf8');
+  let fileContent = fs.readFileSync('test/data/externalHARfile/patio.company.receivers.har', 'utf8');
 
   it('Should be indented with Space by default', function () {
     let defaultIndent = '{\n \"client_id\": \"4MwrrncB4YlTYeeBNbC1oGuHG6sFbU1A\",\n \"code_verifier\":' +
@@ -46,7 +46,7 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
   });
 
   it('Should have multiples variables', function () {
-    fileContent = fs.readFileSync('test/data/externalHARfile/patio.wizeline.givers.original.har', 'utf8');
+    fileContent = fs.readFileSync('test/data/externalHARfile/patio.company.givers.original.har', 'utf8');
     Index.convert(
       { data: fileContent, type: 'string' },
       {},
@@ -70,7 +70,7 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
   });
 
   it('Should have Cookies excluded by default', function () {
-    fileContent = fs.readFileSync('test/data/externalHARfile/patio.wizeline.givers.original.har', 'utf8');
+    fileContent = fs.readFileSync('test/data/externalHARfile/patio.company.givers.original.har', 'utf8');
     Index.convert(
       { data: fileContent, type: 'string' },
       {},
@@ -83,7 +83,7 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
   });
 
   it('Should include cookies when enabled in options', function () {
-    fileContent = fs.readFileSync('test/data/externalHARfile/patio.wizeline.givers.original.har', 'utf8');
+    fileContent = fs.readFileSync('test/data/externalHARfile/patio.company.givers.original.har', 'utf8');
     Index.convert(
       { data: fileContent, type: 'string' },
       { includeCookies: true },
@@ -96,7 +96,7 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
   });
 
   it('Should have multiple args for Request URL', function () {
-    fileContent = fs.readFileSync('test/data/externalHARfile/patio.wizeline.givers.har', 'utf8');
+    fileContent = fs.readFileSync('test/data/externalHARfile/patio.company.givers.har', 'utf8');
     Index.convert(
       { data: fileContent, type: 'string' },
       {},
@@ -117,7 +117,7 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
   });
 
   it('Should exclude responses when options is sent as false', function () {
-    fileContent = fs.readFileSync('test/data/externalHARfile/patio.wizeline.givers.har', 'utf8');
+    fileContent = fs.readFileSync('test/data/externalHARfile/patio.company.givers.har', 'utf8');
     Index.convert(
       { data: fileContent, type: 'string' },
       { includeResponses: false },
@@ -136,7 +136,7 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
     'U1UyLUxrWFRSczN3T1N2UA==&nonce=N0Iwb1g1czVCN1YxdFNUOG1heHUtN0hKTTM1RFN4cGNod2ZDbXUwM1BQVw==&code_challenge' +
     '=RzgHAZSgknVCrSqW7106E6zZIWfvvFxAfIWm6qUpR5k&code_challenge_method=S256&prompt=none&auth0Client=' +
     'eyJuYW1lIjoiYXV0aDAtcmVhY3QiLCJ2ZXJzaW9uIjoiMS41LjAifQ==';
-    fileContent = fs.readFileSync('test/data/externalHARfile/patio.wizeline.givers.original.har', 'utf8');
+    fileContent = fs.readFileSync('test/data/externalHARfile/patio.company.givers.original.har', 'utf8');
     Index.convert(
       { data: fileContent, type: 'string' },
       {},
@@ -149,7 +149,7 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
   });
 
   it('Should add a default body to non-text based bodies in response', function () {
-    fileContent = fs.readFileSync('test/data/externalHARfile/patio.wizeline.givers.original.har', 'utf8');
+    fileContent = fs.readFileSync('test/data/externalHARfile/patio.company.givers.original.har', 'utf8');
     const expectedBodyContent = 'image/png content type is not supported in the response body';
     Index.convert(
       { data: fileContent, type: 'string' },
@@ -184,7 +184,7 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
   });
 
   it('Should convert with folderStrategy options set to Page (default)', function () {
-    fileContent = fs.readFileSync('test/data/externalHARfile/patio.wizeline.givers.original.har', 'utf8');
+    fileContent = fs.readFileSync('test/data/externalHARfile/patio.company.givers.original.har', 'utf8');
     Index.convert(
       { data: fileContent, type: 'string' },
       { folderStrategy: 'Page' },
@@ -197,7 +197,7 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
   });
 
   it('Should convert with folderStrategy options set to None', function () {
-    fileContent = fs.readFileSync('test/data/externalHARfile/patio.wizeline.givers.original.har', 'utf8');
+    fileContent = fs.readFileSync('test/data/externalHARfile/patio.company.givers.original.har', 'utf8');
     Index.convert(
       { data: fileContent, type: 'string' },
       { folderStrategy: 'None' },
@@ -210,7 +210,7 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
   });
 
   it('Should throw an OptionError when folderStrategy options set to No Folders', function () {
-    fileContent = fs.readFileSync('test/data/externalHARfile/patio.wizeline.givers.original.har', 'utf8');
+    fileContent = fs.readFileSync('test/data/externalHARfile/patio.company.givers.original.har', 'utf8');
     try {
       Index.convert(
         { data: fileContent, type: 'string' },
@@ -228,7 +228,7 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
   });
 
   it('Should throw an OptionError when a boolean option set to string', function () {
-    fileContent = fs.readFileSync('test/data/externalHARfile/patio.wizeline.givers.original.har', 'utf8');
+    fileContent = fs.readFileSync('test/data/externalHARfile/patio.company.givers.original.har', 'utf8');
     try {
       Index.convert(
         { data: fileContent, type: 'string' },
