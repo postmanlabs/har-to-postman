@@ -1034,7 +1034,7 @@ describe('HARToPostmanCollectionMapper generateItem', function () {
     expect(item.response[0].name).to.equal('successfully / 200');
     expect(item.response[0].body)
       .to.equal('{\n \"result\": {\n  \"id\": 1,\n  \"name\": \"Luis Tejeda Sanchez\",\n' +
-      '  \"email\": \"luis.tejeda@wizeline.com\",\n  \"role\": \"USER\"\n },\n \"error\": null,\n \"meta\": {}\n}');
+      '  \"email\": \"luis.tejeda@company.com\",\n  \"role\": \"USER\"\n },\n \"error\": null,\n \"meta\": {}\n}');
     expect(item.response[0].originalRequest.body.raw).to.equal('{\n "params": null,\n "meta": {}\n}');
   });
 
@@ -1090,7 +1090,7 @@ describe('HARToPostmanCollectionMapper generateItem', function () {
     expect(item.response[0].name).to.equal('successfully / 200');
     expect(item.response[0].body)
       .to.equal('{\n \"result\": {\n  \"id\": 1,\n  \"name\": \"Luis Tejeda Sanchez\",\n' +
-      '  \"email\": \"luis.tejeda@wizeline.com\",\n  \"role\": \"USER\"\n },\n \"error\": null,\n \"meta\": {}\n}');
+      '  \"email\": \"luis.tejeda@company.com\",\n  \"role\": \"USER\"\n },\n \"error\": null,\n \"meta\": {}\n}');
     expect(item.response[0].originalRequest.body.raw).to.equal('{\n "params": null,\n "meta": {}\n}');
   });
 
@@ -1115,7 +1115,7 @@ describe('HARToPostmanCollectionMapper generateItem', function () {
     expect(item.response[0].name).to.equal('successfully / 200');
     expect(item.response[0].body)
       .to.equal('{\n \"result\": {\n  \"id\": 1,\n  \"name\": \"Luis Tejeda Sanchez\",\n' +
-      '  \"email\": \"luis.tejeda@wizeline.com\",\n  \"role\": \"USER\"\n },\n \"error\": null,\n \"meta\": {}\n}');
+      '  \"email\": \"luis.tejeda@company.com\",\n  \"role\": \"USER\"\n },\n \"error\": null,\n \"meta\": {}\n}');
     expect(item.response[0].originalRequest.body.raw).to.equal('{\n "params": null,\n "meta": {}\n}');
   });
 
@@ -1145,7 +1145,7 @@ describe('HARToPostmanCollectionMapper generateItem', function () {
     expect(item.response[0].name).to.equal('successfully / 200');
     expect(item.response[0].body)
       .to.equal('{\n \"result\": {\n  \"id\": 1,\n  \"name\": \"Luis Tejeda Sanchez\",\n' +
-      '  \"email\": \"luis.tejeda@wizeline.com\",\n  \"role\": \"USER\"\n },\n \"error\": null,\n \"meta\": {}\n}');
+      '  \"email\": \"luis.tejeda@company.com\",\n  \"role\": \"USER\"\n },\n \"error\": null,\n \"meta\": {}\n}');
     expect(item.response[0].originalRequest.body.raw).to.equal('{\n "params": null,\n "meta": {}\n}');
   });
 
