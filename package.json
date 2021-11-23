@@ -22,7 +22,7 @@
     "postman"
   ],
   "author": "Postman Labs <help@getpostman.com>",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/postmanlabs/har-to-postman/issues"
   },
