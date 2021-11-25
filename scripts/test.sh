@@ -32,4 +32,4 @@ npm run lint
 npm run system-tests
 
 # run test coverage
-npm run coverage
+npm run unit-tests

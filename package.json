@@ -9,7 +9,7 @@
   "scripts": {
     "test": "./scripts/test.sh",
     "lint": "eslint ./lib/** ./test/**/*.js",
-    "unit-tests": "./node_modules/mocha/bin/mocha \"test/unit/**/**.test.js\"",
+    "unit-tests": "nyc --reporter=text ./node_modules/mocha/bin/mocha \"test/unit/**/**.test.js\"",
     "coverage": "nyc --reporter=html npm run unit-tests",
     "system-tests": "./node_modules/mocha/bin/mocha test/system/**.test.js --timeout 5000"
   },
