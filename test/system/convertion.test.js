@@ -5,8 +5,8 @@ const expect = require('chai').expect,
   async = require('async'),
   Ajv = require('ajv'),
   COLLECTION_SCHEMAS = require('../data/collection/v2.1.js').schemas,
-  META_SCHEMA = require('ajv/lib/refs/json-schema-draft-07.json'),
   VALID_HAR_FOLDER = '../data/validHARFiles',
+  META_SCHEMA = require('ajv/lib/refs/json-schema-draft-07.json'),
   folderPath = path.join(__dirname, VALID_HAR_FOLDER);
 
 describe('E2E Flows convert a HAR file into a PM Collection', function () {
@@ -264,9 +264,9 @@ describe('Verify generated collections using JSON schema validator', function ()
         expect(error).to.be.null;
         expect(result.result).to.equal(true);
         validator = new Ajv({
-          schemaId: '$id',
           meta: false,
-          allErrors: true
+          allErrors: true,
+          strict: false
         });
         validator.addMetaSchema(META_SCHEMA);
         validate = validator.compile(COLLECTION_SCHEMAS.collection['2.1.0']);
@@ -281,5 +281,25 @@ describe('Verify generated collections using JSON schema validator', function ()
         }
       });
     });
+  });
+});
+
+
+describe('Validation incorrect input', function () {
+  it('Should throw validation error', function () {
+    let validator = new Ajv({
+        allErrors: true,
+        strict: false
+      }),
+      validate = validator.compile(COLLECTION_SCHEMAS.collection['2.1.0']);
+    if (!validate({})) {
+      let errorMessages = validate.errors.map((error) => { return error.message; });
+      expect(errorMessages[0]).to.equal('must have required property \'info\'');
+      expect(errorMessages[1]).to.equal('must have required property \'item\'');
+    }
+    else {
+      expect.fail(null, null, errorMessage);
+    }
+
   });
 });
