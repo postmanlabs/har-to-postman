@@ -13,6 +13,12 @@
     "coverage": "nyc --reporter=html npm run unit-tests",
     "system-tests": "./node_modules/mocha/bin/mocha test/system/**.test.js --timeout 5000"
   },
+  "com_postman_plugin": {
+    "plugin_type": "importer",
+    "name": "HAR",
+    "source_format": "HAR",
+    "source_format_name": "HAR"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/postmanlabs/har-to-postman.git"
