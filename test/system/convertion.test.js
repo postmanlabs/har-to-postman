@@ -1,6 +1,13 @@
 const expect = require('chai').expect,
   Index = require('../../index.js'),
-  fs = require('fs');
+  fs = require('fs'),
+  path = require('path'),
+  async = require('async'),
+  Ajv = require('ajv'),
+  COLLECTION_SCHEMAS = require('../data/collection/v2.1.js').schemas,
+  VALID_HAR_FOLDER = '../data/validHARFiles',
+  META_SCHEMA = require('ajv/lib/refs/json-schema-draft-07.json'),
+  folderPath = path.join(__dirname, VALID_HAR_FOLDER);
 
 describe('E2E Flows convert a HAR file into a PM Collection', function () {
   let fileContent = fs.readFileSync('test/data/externalHARfile/patio.company.receivers.har', 'utf8');
@@ -237,5 +244,56 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
             ' \'includeResponses\' option.\n      Allowed values are (true, false).');
       }
     );
+  });
+});
+
+describe('Verify generated collections using JSON schema validator', function () {
+  var validator, validate,
+    validHARFolder = fs.readdirSync(folderPath);
+  let fileContent;
+  async.each(validHARFolder, function (file, cb) {
+    it('Should generate a valid collection ' + file, function () {
+      fileContent = fs.readFileSync(path.join(__dirname, VALID_HAR_FOLDER + '/' + file), 'utf8');
+      Index.convert({ data: fileContent, type: 'string' }, {}, (error, result) => {
+        expect(error).to.be.null;
+        expect(result.result).to.equal(true);
+        validator = new Ajv({
+          meta: false,
+          allErrors: true,
+          strict: false
+        });
+        validator.addMetaSchema(META_SCHEMA);
+        validate = validator.compile(COLLECTION_SCHEMAS.collection['2.1.0']);
+        if (!validate(result.output[0].data)) {
+          let errorMessages = validate.errors.map((error) => { return error.message; }),
+            errorMessage = `Found ${validate.errors.length} errors with the supplied ` +
+              `collection.\n${errorMessages.join('\n')}`;
+          expect.fail(null, null, errorMessage);
+        }
+        else {
+          return cb(null);
+        }
+      });
+    });
+  });
+});
+
+
+describe('Validation incorrect input', function () {
+  it('Should throw validation error', function () {
+    let validator = new Ajv({
+        allErrors: true,
+        strict: false
+      }),
+      validate = validator.compile(COLLECTION_SCHEMAS.collection['2.1.0']);
+    if (!validate({})) {
+      let errorMessages = validate.errors.map((error) => { return error.message; });
+      expect(errorMessages[0]).to.equal('must have required property \'info\'');
+      expect(errorMessages[1]).to.equal('must have required property \'item\'');
+    }
+    else {
+      expect.fail(null, null, errorMessage);
+    }
+
   });
 });
