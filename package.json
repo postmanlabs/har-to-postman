@@ -9,9 +9,240 @@
   "scripts": {
     "test": "./scripts/test.sh",
     "lint": "eslint ./lib/** ./test/**/*.js",
-    "unit-tests": "./node_modules/mocha/bin/mocha \"test/unit/**/**.test.js\"",
+    "unit-tests": "nyc --reporter=text ./node_modules/mocha/bin/mocha \"test/unit/**/**.test.js\"",
     "coverage": "nyc --reporter=html npm run unit-tests",
     "system-tests": "./node_modules/mocha/bin/mocha test/system/**.test.js --timeout 5000"
+  },
+  "com_postman_plugin": {
+    "plugin_type": "importer",
+    "name": "HAR",
+    "source_format": "HAR",
+    "source_format_name": "HAR",
+    "sample_input": {
+      "log": {
+        "version": "1.2",
+        "creator": {
+          "name": "WebInspector",
+          "version": "537.36"
+        },
+        "pages": [
+          {
+            "startedDateTime": "2021-12-03T07:23:32.588Z",
+            "id": "page_1",
+            "title": "http://postman-echo.com/bytes/1/kb?type=json",
+            "pageTimings": {
+              "onContentLoad": 791.9309999997495,
+              "onLoad": 852.4420000030659
+            }
+          }
+        ],
+        "entries": [
+          {
+            "_initiator": {
+              "type": "other"
+            },
+            "_priority": "VeryHigh",
+            "_resourceType": "document",
+            "cache": {},
+            "connection": "360684",
+            "pageref": "page_1",
+            "request": {
+              "method": "GET",
+              "url": "http://postman-echo.com/bytes/1/kb?type=json",
+              "httpVersion": "HTTP/1.1",
+              "headers": [
+                {
+                  "name": "Host",
+                  "value": "postman-echo.com"
+                },
+                {
+                  "name": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "name": "Upgrade-Insecure-Requests",
+                  "value": "1"
+                },
+                {
+                  "name": "User-Agent",
+                  "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.55 Safari/537.36"
+                },
+                {
+                  "name": "Accept",
+                  "value": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
+                },
+                {
+                  "name": "Accept-Encoding",
+                  "value": "gzip, deflate"
+                },
+                {
+                  "name": "Accept-Language",
+                  "value": "en-GB,en-US;q=0.9,en;q=0.8"
+                }
+              ],
+              "queryString": [
+                {
+                  "name": "type",
+                  "value": "json"
+                }
+              ],
+              "cookies": [],
+              "headersSize": 470,
+              "bodySize": 0
+            },
+            "response": {
+              "status": 200,
+              "statusText": "OK",
+              "httpVersion": "HTTP/1.1",
+              "headers": [
+                {
+                  "name": "Date",
+                  "value": "Fri, 03 Dec 2021 07:23:41 GMT"
+                },
+                {
+                  "name": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "name": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "name": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "name": "Vary",
+                  "value": "Accept-Encoding"
+                },
+                {
+                  "name": "Content-Encoding",
+                  "value": "gzip"
+                }
+              ],
+              "cookies": [],
+              "content": {
+                "size": 1034,
+                "mimeType": "application/json",
+                "compression": 344,
+                "text": "{\"0\":\"vueivkrdbiozgsiridhgyfacgtpwiqixpvumcyahsicxjewxyucwqfssqwzkxtrdixqzpwqvjsjyauxazjdogxdjmfphhwkcfshmjqtzqsfttbboihsfudsufefhihutjqrawloqdhwjwutquolqvnwnpvbxytygjqzhtzzsfnzfendqcmdkkosawydzyrsjthbejriktgqxzbetmftknkqvhbwqqzxzayjigsntnhhfzfqfndfmbhcguwpcathbdfhxynwpojiawgfhoqetcxojrqsbawvyvuxedzspeswxitrgbmxhhxtqdujswzklohphjtmdderjayekmipogambpsgcxwtquhhixrmebvfyvbrvbuftfaewssgecjoibhmvbvwvusrmwdqjbeiczveqlqenyvuxwplvrcoeiasccxvbxgnufjqhtosgpjzoozqbkesrnhohehvbsvpfdhqeysjmepkyvxhbnnszrbzrumtioxhxyhevpexabyliaszsosshzotpxxlpeextwymlbmtosgvelqhcctehigxhkzfaslehhyjlhnmujsgjklaenzajnfotpepgiiocgoturhfijuqtitpxcrenafhksimthbphahhnwwxingoezykdhpblpycprljbhjisffhfiwvnwemlxxnhwkwhrhykafaxmuaxzrhoxatikgbfqseoagnlsbpphjrurvtkqtajdjkdddyinlodtlaillkhzvjgjkgfpbhllmqmfeegkpdaqwgdksqhuqcnpkaynvniolufsegybgcknllkajpblpmhpzdzxmrredqifggbpxnidqmunnwxjnjtsesharzytwfgbnriubyelxgmpydaulwbvkikjbdstnsuayvkelnjfdyybrjoxgnkvjayeloybyfmdctsqbxokgwincyinycohgcemeqbovtsdzwsgqqpyexbbiyohifozojhyclupdeivoyhtjcdtzhpyoxpbgfyjjpsujh\",\"1\":\"end\" }"
+              },
+              "redirectURL": "",
+              "headersSize": 313,
+              "bodySize": 690,
+              "_transferSize": 1003,
+              "_error": null
+            },
+            "serverIPAddress": "54.87.123.222",
+            "startedDateTime": "2021-12-03T07:23:32.583Z",
+            "time": 738.4689999967367,
+            "timings": {
+              "blocked": 5.742999994844198,
+              "dns": 75.523,
+              "ssl": -1,
+              "connect": 362.26800000000003,
+              "send": 0.2259999999999991,
+              "wait": 293.02799999306256,
+              "receive": 1.6810000088298693,
+              "_blocked_queueing": 5.013999994844198
+            }
+          },
+          {
+            "_initiator": {
+              "type": "other"
+            },
+            "_priority": "High",
+            "_resourceType": "other",
+            "cache": {},
+            "connection": "360684",
+            "pageref": "page_1",
+            "request": {
+              "method": "GET",
+              "url": "http://postman-echo.com/favicon.ico",
+              "httpVersion": "HTTP/1.1",
+              "headers": [
+                {
+                  "name": "Host",
+                  "value": "postman-echo.com"
+                },
+                {
+                  "name": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "name": "User-Agent",
+                  "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.55 Safari/537.36"
+                },
+                {
+                  "name": "Accept",
+                  "value": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8"
+                },
+                {
+                  "name": "Referer",
+                  "value": "http://postman-echo.com/bytes/1/kb?type=json"
+                },
+                {
+                  "name": "Accept-Encoding",
+                  "value": "gzip, deflate"
+                },
+                {
+                  "name": "Accept-Language",
+                  "value": "en-GB,en-US;q=0.9,en;q=0.8"
+                }
+              ],
+              "queryString": [],
+              "cookies": [],
+              "headersSize": 519,
+              "bodySize": 0
+            },
+            "response": {
+              "status": 404,
+              "statusText": "Not Found",
+              "httpVersion": "HTTP/1.1",
+              "headers": [
+                {
+                  "name": "Date",
+                  "value": "Fri, 03 Dec 2021 07:23:41 GMT"
+                },
+                {
+                  "name": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "name": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookies": [],
+              "content": {
+                "size": 0,
+                "mimeType": "text/plain",
+                "compression": -5,
+                "text": ""
+              },
+              "redirectURL": "",
+              "headersSize": 115,
+              "bodySize": 5,
+              "_transferSize": 120,
+              "_error": null
+            },
+            "serverIPAddress": "54.87.123.222",
+            "startedDateTime": "2021-12-03T07:23:33.450Z",
+            "time": 396.8579999927897,
+            "timings": {
+              "blocked": 4.435999994564801,
+              "dns": -1,
+              "ssl": -1,
+              "connect": -1,
+              "send": 0.09500000000000003,
+              "wait": 391.40599999929964,
+              "receive": 0.9209999989252537,
+              "_blocked_queueing": 4.0889999945648015
+            }
+          }
+        ]
+      }
+    }
   },
   "repository": {
     "type": "git",
@@ -22,7 +253,7 @@
     "postman"
   ],
   "author": "Postman Labs <help@getpostman.com>",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/postmanlabs/har-to-postman/issues"
   },

@@ -47,40 +47,34 @@ describe('convert', function () {
     });
   });
 
-  it('Should throw an OptionError when indentCharacter option value is not allowed', function () {
+  it('Should return an error when indentCharacter option value is not allowed', function () {
     const
       VALID_WSDL_PATH = validHAREntriesFolder + '/multiplePost.har';
-    try {
-      convert({
-        type: 'file',
-        data: VALID_WSDL_PATH
-      }, { indentCharacter: 'tab', folderStrategy: 'No folders' }, (error, result) => {
-        expect(result).to.be.undefined;
-      });
-      expect.fail('Should fail');
-    }
-    catch (error) {
-      expect(error.message).to.be.equal('Value \'tab\' is not allowed by' +
-          ' \'indentCharacter\' option.\n      Allowed values are (Space, Tab).');
-    }
+
+    convert({
+      type: 'file',
+      data: VALID_WSDL_PATH
+    }, { indentCharacter: 'tab', folderStrategy: 'No folders' }, (error, result) => {
+      expect(result).to.be.undefined;
+      expect(error).to.be.an('object');
+      expect(error.message).to.equal('Value \'tab\' is not allowed by' +
+        ' \'indentCharacter\' option.\n      Allowed values are (Space, Tab).');
+    });
   });
 
-  it('Should throw an OptionError when folderStrategy option value is not allowed', function () {
+  it('Should return an error when folderStrategy option value is not allowed', function () {
     const
       VALID_WSDL_PATH = validHAREntriesFolder + '/multiplePost.har';
-    try {
-      convert({
-        type: 'file',
-        data: VALID_WSDL_PATH
-      }, { indentCharacter: 'Tab', folderStrategy: 'No folders' }, (error, result) => {
-        expect(result).to.be.undefined;
-        expect.fail('Should fail');
-      });
-    }
-    catch (error) {
+
+    convert({
+      type: 'file',
+      data: VALID_WSDL_PATH
+    }, { indentCharacter: 'Tab', folderStrategy: 'No folders' }, (error, result) => {
+      expect(result).to.be.undefined;
+      expect(error).to.be.an('object');
       expect(error.message).to.be.equal('Value \'No folders\' is not allowed by' +
       ' \'folderStrategy\' option.\n      Allowed values are (None, Page).');
-    }
+    });
   });
 });
 

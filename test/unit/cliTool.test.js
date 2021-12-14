@@ -110,7 +110,8 @@ describe('har2postman ', function () {
   it('should show appropriate messages for input with no entries', function (done) {
     exec('./bin/har2postman.js -s test/data/invalidHARFiles/noEntries.har', function (err, stdout) {
       expect(err).to.be.null;
-      expect(stdout).to.include('Invalid syntax provided for HAR content must have required property \'entries\'');
+      expect(stdout)
+        .to.include('Invalid syntax provided for HAR content "/log" must have required property \'entries\'');
       done();
     });
   });
@@ -126,7 +127,8 @@ describe('har2postman ', function () {
   it('should show appropriate messages for input with no request', function (done) {
     exec('./bin/har2postman.js -s test/data/invalidHARFiles/noRequest.har', function (err, stdout) {
       expect(err).to.be.null;
-      expect(stdout).to.include('Invalid syntax provided for HAR content must have required property \'request\'');
+      expect(stdout)
+        .to.include('Invalid syntax provided for HAR content "/log/entries/0" must have required property \'request\'');
       done();
     });
   });

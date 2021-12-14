@@ -1135,4 +1135,4 @@ module.exports.schemas = {
             }
         }
     }
-};
+}
