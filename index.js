@@ -6,7 +6,14 @@ const {
 
 module.exports = {
   convert: function (input, options, cb) {
-    const schema = new SchemaPack(input, options);
+    let schema;
+    try {
+      schema = new SchemaPack(input, options);
+    }
+    catch (error) {
+      return cb(error);
+    }
+
     if (schema.validationResult.result) {
       return schema.convert(cb);
     }

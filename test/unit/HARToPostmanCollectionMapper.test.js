@@ -291,7 +291,7 @@ describe('HARToPostmanCollectionMapper getItemRequestHeaders', function () {
     expect(result.length).to.equal(0);
   });
 
-  it('Should exclude pseudo headers from list', function () {
+  it('Should disable pseudo headers from list', function () {
     const harRequestHeaders = [
         {
           'name': 'Host',
@@ -321,12 +321,16 @@ describe('HARToPostmanCollectionMapper getItemRequestHeaders', function () {
       result = getItemRequestHeaders(harRequestHeaders);
     expect(result).to.not.be.undefined;
     expect(Array.isArray(result)).to.be.true;
-    expect(result.length).to.equal(2);
     expect(result[0].key).to.equal('Host');
     expect(result[0].value).to.equal('localhost:3000');
-    expect(result.length).to.equal(2);
-  });
+    expect(result.length).to.equal(6);
 
+    result.forEach((header) => {
+      if ([':method', ':scheme', ':authority', ':path'].includes(header.name)) {
+        expect(header.disabled).to.equal(true);
+      }
+    });
+  });
 });
 
 
