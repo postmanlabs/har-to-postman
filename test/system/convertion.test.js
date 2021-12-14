@@ -170,25 +170,25 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
 
   it('Should handle if mime type is application/x-www-form-urlencoded ' +
     'and file comes from Safari', function () {
-      fileContent = fs.readFileSync('test/data/validHARFiles/urlEncodedBodySafary.har');
-      Index.convert(
-        { data: fileContent, type: 'string' },
-        {},
-        (error, result) => {
-          expect(error).to.be.null;
-          expect(result.output[0].data.item[0].item[0].request.method).to.be.eql('POST');
-          expect(result.output[0].data.item[0].item[0].request.body.mode).to.be.eql('urlencoded');
-          expect(result.output[0].data.item[0].item[0].request.body.urlencoded[0].key).to.be.eql('redir');
-          expect(result.output[0].data.item[0].item[0].request.body.urlencoded[0].value).to.be.eql('1');
-          expect(result.output[0].data.item[0].item[0].request.body.urlencoded[1].key).to.be.eql('csrftoken');
-          expect(result.output[0].data.item[0].item[0].request.body.urlencoded[1].value).to.be.eql('MzI2MTY3NjA3');
-          expect(result.output[0].data.item[0].item[0].request.body.urlencoded[2].key).to.be.eql('login');
-          expect(result.output[0].data.item[0].item[0].request.body.urlencoded[2].value).to.be.eql('test');
-          expect(result.output[0].data.item[0].item[0].request.body.urlencoded[3].key).to.be.eql('password');
-          expect(result.output[0].data.item[0].item[0].request.body.urlencoded[3].value).to.be.eql('test');
-        }
-      );
-    });
+    fileContent = fs.readFileSync('test/data/validHARFiles/urlEncodedBodySafary.har');
+    Index.convert(
+      { data: fileContent, type: 'string' },
+      {},
+      (error, result) => {
+        expect(error).to.be.null;
+        expect(result.output[0].data.item[0].item[0].request.method).to.be.eql('POST');
+        expect(result.output[0].data.item[0].item[0].request.body.mode).to.be.eql('urlencoded');
+        expect(result.output[0].data.item[0].item[0].request.body.urlencoded[0].key).to.be.eql('redir');
+        expect(result.output[0].data.item[0].item[0].request.body.urlencoded[0].value).to.be.eql('1');
+        expect(result.output[0].data.item[0].item[0].request.body.urlencoded[1].key).to.be.eql('csrftoken');
+        expect(result.output[0].data.item[0].item[0].request.body.urlencoded[1].value).to.be.eql('MzI2MTY3NjA3');
+        expect(result.output[0].data.item[0].item[0].request.body.urlencoded[2].key).to.be.eql('login');
+        expect(result.output[0].data.item[0].item[0].request.body.urlencoded[2].value).to.be.eql('test');
+        expect(result.output[0].data.item[0].item[0].request.body.urlencoded[3].key).to.be.eql('password');
+        expect(result.output[0].data.item[0].item[0].request.body.urlencoded[3].value).to.be.eql('test');
+      }
+    );
+  });
 
   it('Should convert with folderStrategy options set to Page (default)', function () {
     fileContent = fs.readFileSync('test/data/externalHARfile/patio.company.givers.original.har', 'utf8');
@@ -287,9 +287,9 @@ describe('Verify generated collections using JSON schema validator', function ()
 describe('Validation incorrect input', function () {
   it('Should throw validation error', function () {
     let validator = new Ajv({
-      allErrors: true,
-      strict: false
-    }),
+        allErrors: true,
+        strict: false
+      }),
       validate = validator.compile(COLLECTION_SCHEMAS.collection['2.1.0']);
     if (!validate({})) {
       let errorMessages = validate.errors.map((error) => { return error.message; });
