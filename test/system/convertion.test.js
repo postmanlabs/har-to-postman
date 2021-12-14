@@ -14,8 +14,8 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
 
   it('Should be indented with Space by default', function () {
     let defaultIndent = '{\n \"client_id\": \"4MwrrncB4YlTYeeBNbC1oGuHG6sFbU1A\",\n \"code_verifier\":' +
-    ' \"jfwEN9xGWcB7MzcPA3feyHrtDV_Gmwk8zvsV16G_4bh\",\n \"code\": \"Cb_-eFX3fqQCRDZ1\",\n \"grant_type\":' +
-    ' \"authorization_code\",\n \"redirect_uri\": \"http://localhost:3000/callback\"\n}';
+      ' \"jfwEN9xGWcB7MzcPA3feyHrtDV_Gmwk8zvsV16G_4bh\",\n \"code\": \"Cb_-eFX3fqQCRDZ1\",\n \"grant_type\":' +
+      ' \"authorization_code\",\n \"redirect_uri\": \"http://localhost:3000/callback\"\n}';
     Index.convert(
       { data: fileContent, type: 'string' },
       {},
@@ -28,8 +28,8 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
 
   it('Should be indented with Tab', function () {
     let TabIndent = '{\n\t\"client_id\": \"4MwrrncB4YlTYeeBNbC1oGuHG6sFbU1A\",\n\t\"code_verifier\": ' +
-    '\"jfwEN9xGWcB7MzcPA3feyHrtDV_Gmwk8zvsV16G_4bh\",\n\t\"code\": \"Cb_-eFX3fqQCRDZ1\",\n\t\"grant_type\":' +
-    ' \"authorization_code\",\n\t\"redirect_uri\": \"http://localhost:3000/callback\"\n}';
+      '\"jfwEN9xGWcB7MzcPA3feyHrtDV_Gmwk8zvsV16G_4bh\",\n\t\"code\": \"Cb_-eFX3fqQCRDZ1\",\n\t\"grant_type\":' +
+      ' \"authorization_code\",\n\t\"redirect_uri\": \"http://localhost:3000/callback\"\n}';
     Index.convert(
       { data: fileContent, type: 'string' },
       { indentCharacter: 'Tab' },
@@ -138,11 +138,11 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
 
   it('Should decode URL and title from har', function () {
     let name = 'localhost1:3000/authorize?audience=https://spf8c0usjl.execute-api.us-east-1.amazonaws.com/prod/&' +
-    'client_id=4MwrrncB4YlTYeeBNbC1oGuHG6sFbU1A&redirect_uri=https://localhost:3000/callback&scope=openid ' +
-    'profile email&response_type=code&response_mode=web_message&state=fmNMMGRFSTJGcklscDQ3bGpzVko1SVFZcTJq' +
-    'U1UyLUxrWFRSczN3T1N2UA==&nonce=N0Iwb1g1czVCN1YxdFNUOG1heHUtN0hKTTM1RFN4cGNod2ZDbXUwM1BQVw==&code_challenge' +
-    '=RzgHAZSgknVCrSqW7106E6zZIWfvvFxAfIWm6qUpR5k&code_challenge_method=S256&prompt=none&auth0Client=' +
-    'eyJuYW1lIjoiYXV0aDAtcmVhY3QiLCJ2ZXJzaW9uIjoiMS41LjAifQ==';
+      'client_id=4MwrrncB4YlTYeeBNbC1oGuHG6sFbU1A&redirect_uri=https://localhost:3000/callback&scope=openid ' +
+      'profile email&response_type=code&response_mode=web_message&state=fmNMMGRFSTJGcklscDQ3bGpzVko1SVFZcTJq' +
+      'U1UyLUxrWFRSczN3T1N2UA==&nonce=N0Iwb1g1czVCN1YxdFNUOG1heHUtN0hKTTM1RFN4cGNod2ZDbXUwM1BQVw==&code_challenge' +
+      '=RzgHAZSgknVCrSqW7106E6zZIWfvvFxAfIWm6qUpR5k&code_challenge_method=S256&prompt=none&auth0Client=' +
+      'eyJuYW1lIjoiYXV0aDAtcmVhY3QiLCJ2ZXJzaW9uIjoiMS41LjAifQ==';
     fileContent = fs.readFileSync('test/data/externalHARfile/patio.company.givers.original.har', 'utf8');
     Index.convert(
       { data: fileContent, type: 'string' },
@@ -216,34 +216,38 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
     );
   });
 
-  it('Should return an error when folderStrategy options set to No Folders', function () {
+  it('Should throw an OptionError when folderStrategy options set to No Folders', function () {
     fileContent = fs.readFileSync('test/data/externalHARfile/patio.company.givers.original.har', 'utf8');
-
-    Index.convert(
-      { data: fileContent, type: 'string' },
-      { folderStrategy: 'No folders' },
-      (error, result) => {
-        expect(result).to.be.undefined;
-        expect(error).to.be.an('object');
-        expect(error.message).to.be.equal('Value \'No folders\' is not allowed by ' +
-            '\'folderStrategy\' option.\n      Allowed values are (None, Page).');
-      }
-    );
+    try {
+      Index.convert(
+        { data: fileContent, type: 'string' },
+        { folderStrategy: 'No folders' },
+        (error, result) => {
+          expect(result).to.be.undefined;
+        }
+      );
+    }
+    catch (error) {
+      expect(error.message).to.be.equal('Value \'No folders\' is not allowed by ' +
+        '\'folderStrategy\' option.\n      Allowed values are (None, Page).');
+    }
   });
 
   it('Should throw an OptionError when a boolean option set to string', function () {
     fileContent = fs.readFileSync('test/data/externalHARfile/patio.company.givers.original.har', 'utf8');
-
-    Index.convert(
-      { data: fileContent, type: 'string' },
-      { includeResponses: 'ShouldBeBoolean' },
-      (error, result) => {
-        expect(result).to.be.undefined;
-        expect(error).to.be.an('object');
-        expect(error.message).to.be.equal('Value \'ShouldBeBoolean\' is not allowed by' +
-            ' \'includeResponses\' option.\n      Allowed values are (true, false).');
-      }
-    );
+    try {
+      Index.convert(
+        { data: fileContent, type: 'string' },
+        { includeResponses: 'ShouldBeBoolean' },
+        (error, result) => {
+          expect(result).to.be.undefined;
+        }
+      );
+    }
+    catch (error) {
+      expect(error.message).to.be.equal('Value \'ShouldBeBoolean\' is not allowed by' +
+        ' \'includeResponses\' option.\n      Allowed values are (true, false).');
+    }
   });
 });
 
@@ -277,7 +281,6 @@ describe('Verify generated collections using JSON schema validator', function ()
     });
   });
 });
-
 
 describe('Validation incorrect input', function () {
   it('Should throw validation error', function () {
