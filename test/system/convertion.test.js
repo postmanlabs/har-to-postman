@@ -83,7 +83,7 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
       {},
       (error, result) => {
         expect(error).to.be.null;
-        expect(result.output[0].data.item[0].item[9].request.header.length).to.eql(12);
+        expect(result.output[0].data.item[0].item[9].request.header.length).to.eql(16);
         expect(result.output[0].data.item[0].item[9].response[0].cookie).to.be.empty;
       }
     );
@@ -96,7 +96,7 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
       { includeCookies: true },
       (error, result) => {
         expect(error).to.be.null;
-        expect(result.output[0].data.item[0].item[9].request.header.length).to.eql(13);
+        expect(result.output[0].data.item[0].item[9].request.header.length).to.eql(17);
         expect(result.output[0].data.item[0].item[9].response[0].cookie).not.to.be.empty;
       }
     );
@@ -224,7 +224,6 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
         { folderStrategy: 'No folders' },
         (error, result) => {
           expect(result).to.be.undefined;
-          expect.fail('Should fail');
         }
       );
     }
@@ -242,7 +241,6 @@ describe('E2E Flows convert a HAR file into a PM Collection', function () {
         { includeResponses: 'ShouldBeBoolean' },
         (error, result) => {
           expect(result).to.be.undefined;
-          expect.fail('Should fail');
         }
       );
     }
