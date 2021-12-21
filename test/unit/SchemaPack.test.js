@@ -276,6 +276,24 @@ describe('SchemaPack convert unit test  HAR file', function() {
     });
   });
 
+  it('should convert input file with optional fields having null values', function () {
+    const
+      VALID_PATH = validHAREntriesFolder + '/optionalNumberFieldsNullValues.har',
+      schemaPack = new SchemaPack({
+        data: VALID_PATH,
+        type: 'file'
+      }, {});
+    schemaPack.convert((error, result) => {
+      expect(error).to.be.null;
+      expect(result).to.be.an('object');
+      expect(result.result).to.equal(true);
+      expect(result.output).to.be.an('array');
+      expect(result.output[0].data).to.be.an('object');
+      expect(result.output[0].data.info.name).to.equal('en.wikipedia.org');
+      expect(result.output[0].type).to.equal('collection');
+    });
+  });
+
 });
 
 describe('SchemaPack get metadata unit test HAR file', function() {

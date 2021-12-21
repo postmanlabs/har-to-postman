@@ -7,15 +7,7 @@
     "receive"
   ],
   "properties": {
-    "dns": {
-      "type": "number",
-      "min": -1
-    },
     "connect": {
-      "type": "number",
-      "min": -1
-    },
-    "blocked": {
       "type": "number",
       "min": -1
     },
@@ -28,10 +20,6 @@
       "min": -1
     },
     "receive": {
-      "type": "number",
-      "min": -1
-    },
-    "ssl": {
       "type": "number",
       "min": -1
     },

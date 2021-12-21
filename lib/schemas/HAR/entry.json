@@ -36,18 +36,6 @@
     "timings": {
       "$ref": "timings.json#"
     },
-    "serverIPAddress": {
-      "type": "string",
-      "oneOf": [
-        { "format": "ipv4" },
-        { "format": "ipv6" },
-        { "maxLength": 0 },
-        { "format": "ipv6brackets" }
-      ]
-    },
-    "connection": {
-      "type": "string"
-    },
     "comment": {
       "type": "string"
     }

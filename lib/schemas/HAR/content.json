@@ -10,16 +10,10 @@
     "size": {
       "type": "integer"
     },
-    "compression": {
-      "type": "integer"
-    },
     "mimeType": {
       "type": "string"
     },
     "text": {
-      "type": "string"
-    },
-    "encoding": {
       "type": "string"
     },
     "comment": {
