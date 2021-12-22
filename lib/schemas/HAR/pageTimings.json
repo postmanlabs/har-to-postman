@@ -4,7 +4,7 @@
   "type": "object",
   "properties": {
     "comment": {
-      "type": "string"
+      "type": ["string", "null"]
     }
   }
 }

@@ -14,10 +14,10 @@
       "type": "string"
     },
     "text": {
-      "type": "string"
+      "type": ["string", "null"]
     },
     "comment": {
-      "type": "string"
+      "type": ["string", "null"]
     }
   }
 }

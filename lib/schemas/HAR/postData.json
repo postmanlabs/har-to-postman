@@ -1,7 +1,7 @@
 {
   "$id": "postData.json#",
   "$schema": "http://json-schema.org/draft-06/schema#",
-  "type": "object",
+  "type": ["object", "null"],
   "optional": true,
   "required": [
     "mimeType"
@@ -23,15 +23,15 @@
           "type": "string"
         },
         "value": {
-          "type": "string"
+          "type": ["string", "null"]
         },
         "comment": {
-          "type": "string"
+          "type": ["string", "null"]
         }
       }
     },
     "comment": {
-      "type": "string"
+      "type": ["string", "null"]
     }
   }
 }

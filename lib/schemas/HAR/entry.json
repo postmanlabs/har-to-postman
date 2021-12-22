@@ -13,7 +13,7 @@
   ],
   "properties": {
     "pageref": {
-      "type": "string"
+      "type": ["string", "null"]
     },
     "startedDateTime": {
       "type": "string",
@@ -37,7 +37,7 @@
       "$ref": "timings.json#"
     },
     "comment": {
-      "type": "string"
+      "type": ["string", "null"]
     }
   }
 }
