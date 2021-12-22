@@ -9,10 +9,6 @@
     "hitCount"
   ],
   "properties": {
-    "expires": {
-      "type": "string",
-      "pattern": "^(\\d{4})(-)?(\\d\\d)(-)?(\\d\\d)(T)?(\\d\\d)(:)?(\\d\\d)(:)?(\\d\\d)(\\.\\d+)?(Z|([+-])(\\d\\d)(:)?(\\d\\d))?"
-    },
     "lastAccess": {
       "type": "string",
       "pattern": "^(\\d{4})(-)?(\\d\\d)(-)?(\\d\\d)(T)?(\\d\\d)(:)?(\\d\\d)(:)?(\\d\\d)(\\.\\d+)?(Z|([+-])(\\d\\d)(:)?(\\d\\d))?"
@@ -24,7 +20,7 @@
       "type": "integer"
     },
     "comment": {
-      "type": "string"
+      "type": ["string", "null"]
     }
   }
 }
