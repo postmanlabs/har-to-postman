@@ -14,23 +14,23 @@
       "type": "string"
     },
     "path": {
-      "type": "string"
+      "type": ["string", "null"]
     },
     "domain": {
-      "type": "string"
+      "type": ["string", "null"]
     },
     "expires": {
       "type": ["string", "null"],
       "format": "date-time"
     },
     "httpOnly": {
-      "type": "boolean"
+      "type": ["boolean", "null"]
     },
     "secure": {
-      "type": "boolean"
+      "type": ["boolean", "null"]
     },
     "comment": {
-      "type": "string"
+      "type": ["string", "null"]
     }
   }
 }

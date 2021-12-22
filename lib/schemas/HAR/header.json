@@ -14,7 +14,7 @@
       "type": "string"
     },
     "comment": {
-      "type": "string"
+      "type": ["string", "null"]
     }
   }
 }

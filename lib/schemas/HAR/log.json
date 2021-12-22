@@ -14,11 +14,8 @@
     "creator": {
       "$ref": "creator.json#"
     },
-    "browser": {
-      "$ref": "browser.json#"
-    },
     "pages": {
-      "type": "array",
+      "type": ["array", "null"],
       "items": {
         "$ref": "page.json#"
       }
@@ -30,7 +27,7 @@
       }
     },
     "comment": {
-      "type": "string"
+      "type": ["string", "null"]
     }
   }
 }
