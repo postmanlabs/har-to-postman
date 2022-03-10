@@ -18,7 +18,7 @@
       "type": "integer"
     },
     "statusText": {
-      "type": "string"
+      "type": ["string", "null"]
     },
     "httpVersion": {
       "type": "string"
@@ -39,7 +39,7 @@
       "$ref": "content.json#"
     },
     "redirectURL": {
-      "type": "string"
+      "type": ["string", "null"]
     },
     "headersSize": {
       "type": "integer"

@@ -39,7 +39,26 @@ describe('SchemaPack convert unit test  HAR file', function() {
       expect(result).to.be.an('object');
       expect(result.output).to.be.an('array');
       expect(result.output[0].data).to.be.an('object');
+      expect(result.output[0].data.item.length).to.equal(3);
       expect(result.output[0].data.info.name).to.equal('queryParams');
+      expect(result.output[0].type).to.equal('collection');
+    });
+  });
+
+  it('Should convert the valid input file and take the name from the file status text redirectURL null', function () {
+    const
+      VALID_PATH = validHAREntriesFolder + '/example.har',
+      schemaPack = new SchemaPack({
+        data: VALID_PATH,
+        type: 'file'
+      }, {});
+    schemaPack.convert((error, result) => {
+      expect(error).to.be.null;
+      expect(result).to.be.an('object');
+      expect(result.output).to.be.an('array');
+      expect(result.output[0].data).to.be.an('object');
+      expect(result.output[0].data.info.name).to.equal('example');
+      expect(result.output[0].data.item.length).to.equal(6);
       expect(result.output[0].type).to.equal('collection');
     });
   });
@@ -62,6 +81,7 @@ describe('SchemaPack convert unit test  HAR file', function() {
       expect(result.output[0].data).to.be.an('object');
       expect(result.output[0].data.info.name).to.equal('localhost:3000');
       expect(result.output[0].type).to.equal('collection');
+      expect(result.output[0].data.item.length).to.equal(1);
       expect(result.output[0].data.item[0].item[0].request.header[17].key).to.equal('Cookie');
     });
   });
@@ -84,6 +104,7 @@ describe('SchemaPack convert unit test  HAR file', function() {
       expect(result.output[0].data).to.be.an('object');
       expect(result.output[0].data.info.name).to.equal('i.ytimg.com');
       expect(result.output[0].type).to.equal('collection');
+      expect(result.output[0].data.item.length).to.equal(1);
       expect(result.output[0].data.item[0].item[0].response[0].cookie[0].name).to.equal('__Host-GAPS');
       expect(result.output[0].data.item[0].item[0].response[0].header[17].key).to.equal('set-cookie');
     });
@@ -107,6 +128,7 @@ describe('SchemaPack convert unit test  HAR file', function() {
       expect(result.output[0].data).to.be.an('object');
       expect(result.output[0].data.info.name).to.equal('localhost:3000');
       expect(result.output[0].type).to.equal('collection');
+      expect(result.output[0].data.item.length).to.equal(1);
       expect(result.output[0].data.item[0].item[0].request.header.length).to.equal(17);
     });
   });
@@ -129,6 +151,7 @@ describe('SchemaPack convert unit test  HAR file', function() {
       expect(result.output[0].data).to.be.an('object');
       expect(result.output[0].data.info.name).to.equal('i.ytimg.com');
       expect(result.output[0].type).to.equal('collection');
+      expect(result.output[0].data.item.length).to.equal(1);
       expect(result.output[0].data.item[0].item[0].response[0].cookie.length).to.equal(0);
       expect(result.output[0].data.item[0].item[0].response[0].header.length).to.equal(17);
     });
@@ -152,6 +175,7 @@ describe('SchemaPack convert unit test  HAR file', function() {
       expect(result).to.be.an('object');
       expect(result.output).to.be.an('array');
       expect(result.output[0].data).to.be.an('object');
+      expect(result.output[0].data.item.length).to.equal(12);
       expect(result.output[0].data.info.name).to.equal('localhost:3000');
       expect(result.output[0].type).to.equal('collection');
       result.output[0].data.item.forEach((item) => {
@@ -181,6 +205,7 @@ describe('SchemaPack convert unit test  HAR file', function() {
       expect(result.output[0].data).to.be.an('object');
       expect(result.output[0].data.info.name).to.equal('localhost:3000');
       expect(result.output[0].type).to.equal('collection');
+      expect(result.output[0].data.item.length).to.equal(12);
       result.output[0].data.item.forEach((item) => {
         expect(item.response).to.be.an('array');
         expect(item.response.length > 0).to.be.true;
@@ -201,6 +226,7 @@ describe('SchemaPack convert unit test  HAR file', function() {
       expect(result.output[0].data).to.be.an('object');
       expect(result.output[0].data.info.name).to.equal('formdataParams');
       expect(result.output[0].type).to.equal('collection');
+      expect(result.output[0].data.item.length).to.equal(1);
       expect(result.output[0].data.item[0].request.body.mode).to.equal('formdata');
       expect(result.output[0].data.item[0].request.body.formdata.length).to.equal(2);
     });
@@ -249,6 +275,7 @@ describe('SchemaPack convert unit test  HAR file', function() {
       expect(result.output[0].data).to.be.an('object');
       expect(result.output[0].data.info.name).to.equal('javascript.info');
       expect(result.output[0].type).to.equal('collection');
+      expect(result.output[0].data.item.length).to.equal(1);
       expect(result.output[0].data.item[0].item[0].request.body.mode).to.equal('formdata');
       expect(result.output[0].data.item[0].item[0].request.body.formdata.length).to.equal(2);
     });
@@ -291,6 +318,7 @@ describe('SchemaPack convert unit test  HAR file', function() {
       expect(result.output[0].data).to.be.an('object');
       expect(result.output[0].data.info.name).to.equal('en.wikipedia.org');
       expect(result.output[0].type).to.equal('collection');
+      expect(result.output[0].data.item.length).to.equal(1);
     });
   });
 
