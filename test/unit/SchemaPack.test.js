@@ -27,6 +27,24 @@ describe('SchemaPack convert unit test  HAR file', function() {
     });
   });
 
+  it('Should convert the valid input file a ', function () {
+    const
+      VALID_PATH = validHAREntriesFolder + '/googleWebIns.har',
+      schemaPack = new SchemaPack({
+        data: VALID_PATH,
+        type: 'file'
+      }, {});
+    schemaPack.convert((error, result) => {
+      expect(error).to.be.null;
+      expect(result).to.be.an('object');
+      expect(result.output).to.be.an('array');
+      expect(result.output[0].data).to.be.an('object');
+      expect(result.output[0].data.item.length).to.equal(1);
+      expect(result.output[0].data.info.name).to.equal('google.com');
+      expect(result.output[0].type).to.equal('collection');
+    });
+  });
+
   it('Should convert the valid input file and take the name from the file', function () {
     const
       VALID_PATH = validHAREntriesFolder + '/queryParams.har',
