@@ -31,6 +31,21 @@ describe('convert', function () {
     });
   });
 
+  it('Should convert the valid input file null status text and redirectURL', function () {
+    const
+      VALID_WSDL_PATH = validHAREntriesFolder + '/example.har';
+    convert({
+      type: 'file',
+      data: VALID_WSDL_PATH
+    }, {}, (error, result) => {
+      expect(error).to.be.null;
+      expect(result).to.be.an('object');
+      expect(result.output).to.be.an('array');
+      expect(result.output[0].data).to.be.an('object');
+      expect(result.output[0].type).to.equal('collection');
+    });
+  });
+
   it('Should convert a har file into a PM Collection with tab indentation character', function () {
     const
       VALID_WSDL_PATH = validHAREntriesFolder + '/multiplePost.har';

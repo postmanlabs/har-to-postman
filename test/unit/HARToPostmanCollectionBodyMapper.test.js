@@ -79,6 +79,19 @@ describe('HARToPostmanCollectionBodyMapper mapBodyFromJson', function () {
     expect(result.raw).to.equal(expectedOutput);
   });
 
+  it('should get json string with indentation as spaces when entry is the string Space', function () {
+    const options = getOptions({ usage: ['CONVERSION'] }),
+      indentCharacter = options.find((option) => { return option.id === 'indentCharacter'; }),
+      harRequest = { postData: { text: '{"some":"value"}' } },
+      expectedOutput = '{\n\ "some": "value"\n}';
+    let result,
+      processOptions = {};
+    processOptions[`${indentCharacter.id}`] = 'Space';
+    result = mapBodyFromJson(harRequest, processOptions);
+    expect(result.raw).to.be.an('string');
+    expect(result.raw).to.equal(expectedOutput);
+  });
+
 });
 
 describe('HARToPostmanCollectionBodyMapper mapBody', function () {

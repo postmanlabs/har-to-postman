@@ -59,7 +59,7 @@ describe('removeProtocolFromURL method', function () {
       assert.fail('we expected an error');
     }
     catch (inputError) {
-      expect(inputError.message).to.equal('Invalid URL: not url');
+      expect(inputError.message).to.include('Invalid URL');
     }
   });
 
