@@ -1,3 +1,11 @@
+# HAR to Postman Changelog
+
+## [Unreleased]
+
+### Fixed
+
+-   Fixed few of frequent type errors.
+
 #### v1.0.2 (March 16, 2022)
 * Fix explicit usage of Space as an indendation type leading to `Space` word in the converted collection
 * Loosen HAR validations on statusText and redirectURL fields to support null value
