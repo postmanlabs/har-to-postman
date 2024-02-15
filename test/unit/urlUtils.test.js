@@ -95,4 +95,8 @@ describe('decodeURL method', function () {
     expect(result).to.equal('');
   });
 
+  it('should return provided URL as is if we fail to decode url', function () {
+    const result = decodeURL('%E0%A4%A');
+    expect(result).to.equal('%E0%A4%A');
+  });
 });
