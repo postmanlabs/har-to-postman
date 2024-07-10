@@ -96,6 +96,12 @@ describe('HARToPostmanCollectionBodyMapper mapBodyFromJson', function () {
 
 describe('HARToPostmanCollectionBodyMapper mapBody', function () {
 
+  it('Should not throw type error if postData is undefined', function () {
+    const harRequest = { bodySize: 25 },
+      result = mapBody(harRequest);
+    expect(result).to.be.undefined;
+  });
+
   it('Should get body with raw and json type', function () {
     const harRequest = { bodySize: 25, postData: { text: '{"some":"value"}', mimeType: 'application/json' } },
       result = mapBody(harRequest);
@@ -199,6 +205,21 @@ describe('HARToPostmanCollectionBodyMapper mapBody', function () {
     expect(result.mode).to.be.equal('urlencoded');
   });
 
+  it('Should correctly handle null params when mime type is application/x-www-form-urlencoded', function() {
+    const harRequest = {
+        bodySize: 36,
+        postData:
+        {
+          'mimeType': 'unknown',
+          'text': 'redir=1&login=testuser&password=test',
+          'params': null
+        }
+      },
+      result = mapBody(harRequest);
+
+    expect(result).to.be.undefined;
+  });
+
   it('Should get body with text/javascript', function () {
     const harRequest = { bodySize: 25, postData: { text: '{"some":"value"}', mimeType: 'text/javascript' } },
       result = mapBody(harRequest);
@@ -275,6 +296,13 @@ describe('HARToPostmanCollectionBodyMapper mapBodyFromJsonResponse', function ()
 
 
 describe('HARToPostmanCollectionBodyMapper mapBodyResponse', function () {
+
+  it('Should not throw type error if postData is undefined', function () {
+    const harRequest = { bodySize: 25 },
+      result = mapBodyResponse(harRequest);
+    expect(result).to.be.undefined;
+  });
+
 
   it('Should get body with raw and json type', function () {
     const harResponse = { bodySize: -1, content: { text: '{"some":"value"}', mimeType: 'application/json', size: 25 } },
