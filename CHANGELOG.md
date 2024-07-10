@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [v1.1.0] - 2024-07-10
+
 ## [v1.0.3] - 2024-02-15
 
 ### Fixed
@@ -22,6 +24,8 @@
 
 -   Base release
 
-[Unreleased]: https://github.com/postmanlabs/har-to-postman/compare/v1.0.3...HEAD
+[Unreleased]: https://github.com/postmanlabs/har-to-postman/compare/v1.1.0...HEAD
+
+[v1.1.0]: https://github.com/postmanlabs/har-to-postman/compare/v1.0.3...v1.1.0
 
 [v1.0.3]: https://github.com/postmanlabs/har-to-postman/compare/03ce42a1fd66ba053850cbfb3c75f3d3fab62c0f...v1.0.3

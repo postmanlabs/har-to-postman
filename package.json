@@ -1,6 +1,6 @@
 {
   "name": "@postman/har-to-postman",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Convert a har specification file (1.2) to a Postman Collection",
   "main": "index.js",
   "bin": {
