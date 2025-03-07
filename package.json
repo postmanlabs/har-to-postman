@@ -1,6 +1,6 @@
 {
   "name": "@postman/har-to-postman",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Convert a har specification file (1.2) to a Postman Collection",
   "main": "index.js",
   "bin": {
@@ -269,13 +269,13 @@
     "async": "3.2.0"
   },
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   },
   "dependencies": {
     "ajv": "8.1.0",
     "ajv-formats": "2.1.1",
     "commander": "8.3.0",
     "parse-multipart-data": "1.2.1",
-    "postman-collection": "^4.4.0"
+    "postman-collection": "^5.0.0"
   }
 }
