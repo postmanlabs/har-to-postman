@@ -4,6 +4,8 @@
 
 ## [v2.1.0] - 2025-09-24
 
+-   Unlock dependency versions in package.json.
+
 ## [v2.0.0] - 2025-03-07
 
 ### Breaking Changes
