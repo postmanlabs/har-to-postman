@@ -2,11 +2,13 @@
 
 ## [Unreleased]
 
+## [v2.1.0] - 2025-09-24
+
 ## [v2.0.0] - 2025-03-07
 
 ### Breaking Changes
 
-- Drop support for node < v18.
+-   Drop support for node &lt; v18.
 
 ## [v1.1.0] - 2024-07-10
 
@@ -34,7 +36,9 @@
 
 -   Base release
 
-[Unreleased]: https://github.com/postmanlabs/har-to-postman/compare/v2.0.0...HEAD
+[Unreleased]: https://github.com/postmanlabs/har-to-postman/compare/v2.1.0...HEAD
+
+[v2.1.0]: https://github.com/postmanlabs/har-to-postman/compare/v2.0.0...v2.1.0
 
 [v2.0.0]: https://github.com/postmanlabs/har-to-postman/compare/v1.1.0...v2.0.0
 
